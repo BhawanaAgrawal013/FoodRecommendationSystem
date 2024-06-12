@@ -1,0 +1,89 @@
+﻿using Microsoft.EntityFrameworkCore.Design;
+
+namespace DataAcessLayer;
+
+public partial class FoodRecommendationContext : DbContext
+{
+    public FoodRecommendationContext(DbContextOptions<FoodRecommendationContext> options) : base(options)
+    {
+    }
+
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Rating> Ratings { get; set; }
+    public DbSet<Food> Foods { get; set; }
+    public DbSet<MealPlan> MealPlans { get; set; }
+    public DbSet<SummaryRating> SummaryRatings { get; set; }
+    public DbSet<Quantity> Quantities { get; set; }
+    public DbSet<Quality> Qualities { get; set; }
+    public DbSet<Appearance> Agreements { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Reviews)
+            .WithOne(r => r.User)
+            .HasForeignKey(r => r.UserId);
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Ratings)
+            .WithOne(r => r.User)
+            .HasForeignKey(r => r.UserId);
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users)
+            .HasForeignKey(u => u.RoleId);
+
+        modelBuilder.Entity<Food>()
+            .HasMany(f => f.Reviews)
+            .WithOne(r => r.Food)
+            .HasForeignKey(r => r.FoodId);
+
+        modelBuilder.Entity<Food>()
+            .HasMany(f => f.Ratings)
+            .WithOne(r => r.Food)
+            .HasForeignKey(r => r.FoodId);
+
+        modelBuilder.Entity<Food>()
+            .HasMany(f => f.MealPlans)
+            .WithOne(mp => mp.Food)
+            .HasForeignKey(mp => mp.FoodId);
+
+        modelBuilder.Entity<Food>()
+            .HasOne(f => f.SummaryRating)
+            .WithOne(sr => sr.Food)
+            .HasForeignKey<SummaryRating>(sr => sr.FoodId);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Quantity)
+            .WithMany(q => q.Reviews)
+            .HasForeignKey(r => r.QuantityId);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Quality)
+            .WithMany(q => q.Reviews)
+            .HasForeignKey(r => r.QualityId);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.Appearance)
+            .WithMany(a => a.Reviews)
+            .HasForeignKey(r => r.AppearanceId);
+
+        OnModelCreatingPartial(modelBuilder);
+    }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
+
+public class FoodRecommendationContextFactory : IDesignTimeDbContextFactory<FoodRecommendationContext>
+{
+    public FoodRecommendationContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<FoodRecommendationContext>();
+        optionsBuilder.UseSqlServer(@"Server=.;Database=FoodRecommendationSystem;Trusted_Connection=True;");
+
+        return new FoodRecommendationContext(optionsBuilder.Options);
+    }
+}
