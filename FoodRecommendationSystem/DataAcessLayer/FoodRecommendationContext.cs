@@ -13,11 +13,11 @@ public partial class FoodRecommendationContext : DbContext
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Rating> Ratings { get; set; }
     public DbSet<Food> Foods { get; set; }
-    public DbSet<MealPlan> MealPlans { get; set; }
+    public DbSet<Meal> Meals { get; set; }
     public DbSet<SummaryRating> SummaryRatings { get; set; }
-    public DbSet<Quantity> Quantities { get; set; }
-    public DbSet<Quality> Qualities { get; set; }
-    public DbSet<Appearance> Agreements { get; set; }
+    public DbSet<MealMenu> MealMenus { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<MealName> MealNames { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,20 +56,18 @@ public partial class FoodRecommendationContext : DbContext
             .WithOne(sr => sr.Food)
             .HasForeignKey<SummaryRating>(sr => sr.FoodId);
 
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.Quantity)
-            .WithMany(q => q.Reviews)
-            .HasForeignKey(r => r.QuantityId);
+        modelBuilder.Entity<UserNotification>()
+            .HasKey(un => new { un.UserId, un.NotificationId });
 
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.Quality)
-            .WithMany(q => q.Reviews)
-            .HasForeignKey(r => r.QualityId);
+        modelBuilder.Entity<UserNotification>()
+            .HasOne(un => un.User)
+            .WithMany(u => u.UserNotifications)
+            .HasForeignKey(un => un.UserId);
 
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.Appearance)
-            .WithMany(a => a.Reviews)
-            .HasForeignKey(r => r.AppearanceId);
+        modelBuilder.Entity<UserNotification>()
+            .HasOne(un => un.Notification)
+            .WithMany(n => n.UserNotifications)
+            .HasForeignKey(un => un.NotificationId);
 
         OnModelCreatingPartial(modelBuilder);
     }

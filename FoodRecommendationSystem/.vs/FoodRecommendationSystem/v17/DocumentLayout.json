@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\Migrations\\20240612063937_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DataAcessLayer\\Migrations\\20240612063937_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3597F35-5D4F-4B50-BE72-B3745EE21937}|DataAcessLayer\\DataAcessLayer.csproj|f:\\bhawana\\food recommendation system\\foodrecommendationsystem\\dataacesslayer\\foodrecommendationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3597F35-5D4F-4B50-BE72-B3745EE21937}|DataAcessLayer\\DataAcessLayer.csproj|solutionrelative:dataacesslayer\\foodrecommendationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3597F35-5D4F-4B50-BE72-B3745EE21937}|DataAcessLayer\\DataAcessLayer.csproj|f:\\bhawana\\food recommendation system\\foodrecommendationsystem\\dataacesslayer\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3597F35-5D4F-4B50-BE72-B3745EE21937}|DataAcessLayer\\DataAcessLayer.csproj|solutionrelative:dataacesslayer\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -75,45 +62,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20240612063937_init.cs",
-              "DocumentMoniker": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\Migrations\\20240612063937_init.cs",
-              "RelativeDocumentMoniker": "DataAcessLayer\\Migrations\\20240612063937_init.cs",
-              "ToolTip": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\Migrations\\20240612063937_init.cs",
-              "RelativeToolTip": "DataAcessLayer\\Migrations\\20240612063937_init.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-12T06:39:37.546Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GlobalUsings.cs",
-              "DocumentMoniker": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\GlobalUsings.cs",
-              "RelativeDocumentMoniker": "DataAcessLayer\\GlobalUsings.cs",
-              "ToolTip": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\GlobalUsings.cs",
-              "RelativeToolTip": "DataAcessLayer\\GlobalUsings.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-12T06:36:01.768Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FoodRecommendationContext.cs",
-              "DocumentMoniker": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\FoodRecommendationContext.cs",
-              "RelativeDocumentMoniker": "DataAcessLayer\\FoodRecommendationContext.cs",
-              "ToolTip": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\FoodRecommendationContext.cs",
-              "RelativeToolTip": "DataAcessLayer\\FoodRecommendationContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-12T05:49:05.819Z",
-              "EditorCaption": ""
             }
           ]
         }

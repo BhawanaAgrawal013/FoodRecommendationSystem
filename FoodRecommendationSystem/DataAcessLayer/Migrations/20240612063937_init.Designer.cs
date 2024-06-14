@@ -75,7 +75,7 @@ namespace DataAcessLayer.Migrations
                     b.ToTable("Foods");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.MealPlan", b =>
+            modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,7 +287,7 @@ namespace DataAcessLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.MealPlan", b =>
+            modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
                 {
                     b.HasOne("DataAcessLayer.Entity.Food", "Food")
                         .WithMany("MealPlans")

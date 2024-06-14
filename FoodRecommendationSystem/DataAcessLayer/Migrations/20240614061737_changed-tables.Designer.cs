@@ -4,6 +4,7 @@ using DataAcessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayer.Migrations
 {
     [DbContext(typeof(FoodRecommendationContext))]
-    partial class FoodRecommendationContextModelSnapshot : ModelSnapshot
+    [Migration("20240614061737_changed-tables")]
+    partial class changedtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,29 +54,6 @@ namespace DataAcessLayer.Migrations
                     b.ToTable("Foods");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MealNameId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId");
-
-                    b.HasIndex("MealNameId");
-
-                    b.ToTable("Meals");
-                });
-
             modelBuilder.Entity("DataAcessLayer.Entity.MealMenu", b =>
                 {
                     b.Property<int>("Id")
@@ -87,7 +66,7 @@ namespace DataAcessLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("MealNameId")
+                    b.Property<int>("MealPlanId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfVotes")
@@ -98,12 +77,12 @@ namespace DataAcessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MealNameId");
+                    b.HasIndex("MealPlanId");
 
                     b.ToTable("MealMenus");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.MealName", b =>
+            modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,17 +90,22 @@ namespace DataAcessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("MealType")
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MealName")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("MealType")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MealNames");
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("MealPlans");
                 });
 
             modelBuilder.Entity("DataAcessLayer.Entity.Notification", b =>
@@ -338,6 +322,17 @@ namespace DataAcessLayer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DataAcessLayer.Entity.MealMenu", b =>
+                {
+                    b.HasOne("DataAcessLayer.Entity.Meal", "Meal")
+                        .WithMany("MealMenus")
+                        .HasForeignKey("MealPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Meal");
+                });
+
             modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
                 {
                     b.HasOne("DataAcessLayer.Entity.Food", "Food")
@@ -346,26 +341,7 @@ namespace DataAcessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAcessLayer.Entity.MealName", "MealName")
-                        .WithMany("Meals")
-                        .HasForeignKey("MealNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Food");
-
-                    b.Navigation("MealName");
-                });
-
-            modelBuilder.Entity("DataAcessLayer.Entity.MealMenu", b =>
-                {
-                    b.HasOne("DataAcessLayer.Entity.MealName", "MealName")
-                        .WithMany()
-                        .HasForeignKey("MealNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MealName");
                 });
 
             modelBuilder.Entity("DataAcessLayer.Entity.Rating", b =>
@@ -458,9 +434,9 @@ namespace DataAcessLayer.Migrations
                     b.Navigation("SummaryRating");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.MealName", b =>
+            modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
                 {
-                    b.Navigation("Meals");
+                    b.Navigation("MealMenus");
                 });
 
             modelBuilder.Entity("DataAcessLayer.Entity.Notification", b =>
