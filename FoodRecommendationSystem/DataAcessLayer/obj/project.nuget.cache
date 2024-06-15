@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bfQW8k5YXELeqeqoiFync8sk82EKzvuZ1oJoTLKnXws2BwpkiuV/RcB7usj7IEQdUtB5E7sHy3os13UP5Qe39w==",
+  "dgSpecHash": "jMx/8hygtgEQ69vPcM8o+ujadoFp4F8BPS6QB1HE58eEoI6x92CnA06LWibqGFJiacgvE7TUexIRuHi8hqlDdw==",
   "success": true,
   "projectFilePath": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\DataAcessLayer\\DataAcessLayer.csproj",
   "expectedPackageFiles": [
@@ -33,6 +33,7 @@
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",

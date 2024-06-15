@@ -1,7 +1,4 @@
-﻿using DataAcessLayer.Entity;
-using System.Diagnostics.CodeAnalysis;
-
-namespace DataAcessLayer;
+﻿namespace DataAcessLayer;
 public class User
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefApp", "ChefApp\ChefApp.csproj", "{9D64C2C7-DB61-4D51-9FB4-BEF75D539454}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChefApp", "ChefApp\ChefApp.csproj", "{9D64C2C7-DB61-4D51-9FB4-BEF75D539454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApp", "AdminApp\AdminApp.csproj", "{F25D0F62-A9E0-472C-9B92-AEC1BE631F3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApp", "AdminApp\AdminApp.csproj", "{F25D0F62-A9E0-472C-9B92-AEC1BE631F3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeApp", "EmployeeApp\EmployeeApp.csproj", "{B8831B6A-1434-421F-9B77-2A8EF4156575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeApp", "EmployeeApp\EmployeeApp.csproj", "{B8831B6A-1434-421F-9B77-2A8EF4156575}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcessLayer", "DataAcessLayer\DataAcessLayer.csproj", "{D3597F35-5D4F-4B50-BE72-B3745EE21937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcessLayer", "DataAcessLayer\DataAcessLayer.csproj", "{D3597F35-5D4F-4B50-BE72-B3745EE21937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{642F234D-381C-4301-A248-67B142C10C4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D3597F35-5D4F-4B50-BE72-B3745EE21937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3597F35-5D4F-4B50-BE72-B3745EE21937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3597F35-5D4F-4B50-BE72-B3745EE21937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{642F234D-381C-4301-A248-67B142C10C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{642F234D-381C-4301-A248-67B142C10C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{642F234D-381C-4301-A248-67B142C10C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{642F234D-381C-4301-A248-67B142C10C4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
