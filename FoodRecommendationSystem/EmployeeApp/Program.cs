@@ -1,40 +1,41 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using System.Text;
+﻿using Server;
 
 class Program
 {
-    private static TcpListener _listener;
     static void Main(string[] args)
     {
-        Console.WriteLine("Employee App started...");
+        // Wait for a short period to ensure the server has time to start
+        System.Threading.Thread.Sleep(2000);
 
-        _listener = new TcpListener(IPAddress.Any, 9000);
-        _listener.Start();
-        Console.WriteLine("Notification Server started...");
+        var client = new SocketClient("127.0.0.1", 5000);
 
-        while (true)
+        Console.WriteLine("Employee Console");
+        Console.WriteLine("1. View Menu");
+        Console.WriteLine("2. Give Feedback");
+        Console.Write("Select an option: ");
+        var option = Console.ReadLine();
+
+        switch (option)
         {
-            TcpClient client = _listener.AcceptTcpClient();
-            Thread thread = new Thread(HandleClient);
-            thread.Start(client);
+            case "1":
+                // View Menu Logic
+                client.SendMessage("GET_MENU");
+                break;
+            case "2":
+                // Give Feedback Logic
+                Console.Write("Enter Menu Item ID: ");
+                var menuItemId = Console.ReadLine();
+                Console.Write("Enter Comment: ");
+                var comment = Console.ReadLine();
+                Console.Write("Enter Rating: ");
+                var rating = Console.ReadLine();
+                client.SendMessage($"ADD_FEEDBACK|{menuItemId}|{comment}|{rating}");
+                break;
+            default:
+                Console.WriteLine("Invalid option.");
+                break;
         }
-    }
 
-    private static void HandleClient(object obj)
-    {
-        TcpClient client = (TcpClient)obj;
-        NetworkStream stream = client.GetStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead = stream.Read(buffer, 0, buffer.Length);
-        string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-
-        Console.WriteLine($"Notification received: {message}");
-
-        byte[] response = Encoding.ASCII.GetBytes("Notification sent to employees");
-        stream.Write(response, 0, response.Length);
-
-        client.Close();
+        Console.ReadLine();
     }
 }
-
