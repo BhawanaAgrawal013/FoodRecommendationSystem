@@ -1,33 +1,41 @@
-﻿using System.Net.Sockets;
-using System.Text;
+﻿using Server;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Admin App started...");
-        while (true)
+        // Wait for a short period to ensure the server has time to start
+        System.Threading.Thread.Sleep(2000);
+
+        var client = new SocketClient("127.0.0.1", 5000);
+
+        Console.WriteLine("Admin Console");
+        Console.WriteLine("1. View Menu");
+        Console.WriteLine("2. Give Feedback");
+        Console.Write("Select an option: ");
+        var option = Console.ReadLine();
+
+        switch (option)
         {
-            Console.Write("Enter notification message: ");
-            string message = Console.ReadLine();
-
-            SendNotification(message);
+            case "1":
+                // View Menu Logic
+                client.SendMessage("GET_MENU");
+                break;
+            case "2":
+                // Give Feedback Logic
+                Console.Write("Enter Menu Item ID: ");
+                var menuItemId = Console.ReadLine();
+                Console.Write("Enter Comment: ");
+                var comment = Console.ReadLine();
+                Console.Write("Enter Rating: ");
+                var rating = Console.ReadLine();
+                client.SendMessage($"ADD_FEEDBACK|{menuItemId}|{comment}|{rating}");
+                break;
+            default:
+                Console.WriteLine("Invalid option.");
+                break;
         }
-    }
 
-    static void SendNotification(string message)
-    {
-        TcpClient client = new TcpClient("127.0.0.1", 9000);
-        NetworkStream stream = client.GetStream();
-
-        byte[] buffer = Encoding.ASCII.GetBytes(message);
-        stream.Write(buffer, 0, buffer.Length);
-
-        buffer = new byte[1024];
-        int bytesRead = stream.Read(buffer, 0, buffer.Length);
-        string response = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-        Console.WriteLine(response);
-
-        client.Close();
+        Console.ReadLine();
     }
 }
