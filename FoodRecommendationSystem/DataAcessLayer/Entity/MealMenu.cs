@@ -15,6 +15,8 @@
         [MaxLength(50)]
         public string Classification { get; set; }
 
+        public DateTime CreationDate { get; set; }
+
         public MealName MealName { get; set; }
     }
 }
