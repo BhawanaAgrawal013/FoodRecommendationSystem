@@ -2,8 +2,12 @@
 {
     public interface IMealNameService
     {
-        string AddMealName(MealNameDTO mealNameDTO);
+        void AddMealName(MealNameDTO mealNameDTO);
 
         List<MealNameDTO> GetAllMeals();
+
+        MealNameDTO GetMealName(int id);
+
+        void UpdateMealName(MealNameDTO mealNameDTO);
     }
 }

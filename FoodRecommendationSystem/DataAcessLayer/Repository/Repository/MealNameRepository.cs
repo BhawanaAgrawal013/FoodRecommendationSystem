@@ -1,33 +1,45 @@
-﻿using DataAcessLayer.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Sockets;
-
-namespace DataAcessLayer.Repository.Repository
+﻿namespace DataAcessLayer.Repository.Repository
 {
-    public class MealNameRepository : IMealNameRepository
+    public class MealNameRepository : IRepository<MealName>
     {
-        private readonly FoodRecommendationContext _dbContext;
-        public MealNameRepository(FoodRecommendationContext dbContext)
+        private readonly FoodRecommendationContext _context;
+        public MealNameRepository(FoodRecommendationContext context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
-        public string AddMealName(MealNameDTO mealNameDTO)
+        public IEnumerable<MealName> GetAll()
         {
-            _dbContext.MealNames.Add(mealNameDTO);
-
-            return "Added Meals";
+            return _context.MealNames.ToList();
         }
 
-        public List<MealNameDTO> GetAllMeals()
+        public MealName GetById(int id)
         {
-            var mealNames = _dbContext.MealNames.ToList();
-            return mealNames.Select(mealName => (MealNameDTO)mealName).ToList();
+            return _context.MealNames.Find(id);
+        }
+
+        public void Insert(MealName entity)
+        {
+            _context.MealNames.Add(entity);
+        }
+
+        public void Update(MealName entity)
+        {
+            _context.MealNames.Update(entity);
+        }
+
+        public void Delete(int id)
+        {
+            var mealName = _context.MealNames.Find(id);
+            if (mealName != null)
+            {
+                _context.MealNames.Remove(mealName);
+            }
         }
 
         public void Save()
         {
-            _dbContext.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

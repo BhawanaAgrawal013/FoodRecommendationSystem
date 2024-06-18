@@ -18,6 +18,7 @@ public partial class FoodRecommendationContext : DbContext
     public DbSet<MealMenu> MealMenus { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<MealName> MealNames { get; set; }
+    public DbSet<UserNotification> UserNotifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
