@@ -1,6 +1,7 @@
 ﻿using DataAcessLayer.ModelDTOs;
 using DataAcessLayer.Service.IService;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Server.RequestHandlers
 {
@@ -34,9 +35,15 @@ namespace Server.RequestHandlers
 
         private string HandleGetMenuRequest(string request)
         {
-            var mealName = _mealNameService.GetAllMeals();  
-            string meals = string.Join(' ', mealName.Select(x => x.MealName));
-            return meals;
+            var mealNames = _mealNameService.GetAllMeals();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var mealName in mealNames)
+            {
+                sb.AppendLine($"Name: {mealName.MealName,-20} Type: {mealName.MealType}");
+            }
+
+            return sb.ToString();
         }
 
         private string HandleAddMenuNameRequest(string request)

@@ -15,20 +15,26 @@ public class SocketServer
     private readonly LoginRequestHandler _loginRequestHandler;
     private readonly NotificationRequestHandler _notificationHandler;
     private readonly INotificationHelper _notificationHelper;
+    private readonly IChefHelper _chefHelper;
+    private readonly IEmployeeHelper _employeeHelper;
 
     private TcpListener _listener;
 
     public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, 
-                        ILoginService loginService, INotificationHelper notificationHelper)
+                        ILoginService loginService, INotificationHelper notificationHelper, IChefHelper chefHelper, 
+                        IEmployeeHelper employeeHelper)
     {
         _mealNameService = mealNameService;
         _service = service;
         _loginService = loginService;
         _notificationHelper = notificationHelper;
+        _chefHelper = chefHelper;
+        _employeeHelper = employeeHelper;
         _notificationHandler = new NotificationRequestHandler(_notificationHelper);
         _menuRequestHandler = new MenuRequestHandler(_mealNameService);
-        _mealMenuRequestHandler = new MealMenuRequestHandler(_service);
-        _loginRequestHandler = new LoginRequestHandler(_loginService);
+        _mealMenuRequestHandler = new MealMenuRequestHandler(_service, _chefHelper, _employeeHelper);
+        _loginRequestHandler = new LoginRequestHandler(_loginService);        _employeeHelper = employeeHelper;
+
     }
 
     public void Start()

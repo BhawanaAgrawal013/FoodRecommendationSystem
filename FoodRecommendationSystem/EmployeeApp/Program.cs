@@ -15,12 +15,14 @@ class Program
         Console.WriteLine("Employee Console");
         Console.WriteLine("1. View Menu");
         Console.WriteLine("2. Recieve Notification");
+        Console.WriteLine("3. Vote for Meal Options");
         Console.WriteLine("5. To Exit");
 
         var menuActions = new Dictionary<string, Action>
         {
             { "1", () => ViewMenu(client) },
             { "2", () => GetNotification(client)},
+            { "3", () => VoteMealOptions(client)},
             { "5", () => ExitProgram() }
         };
 
@@ -58,6 +60,22 @@ class Program
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
+    }
+
+    static void VoteMealOptions(SocketClient client)
+    {
+        Console.Write("Enter Classification: ");
+        string classification = Console.ReadLine();
+
+        client.SendMessage($"MEAL_GETOPTIONS|{classification}");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        Console.Write("Enter the choosen meal: ");
+        string id = Console.ReadLine();
+
+        client.SendMessage($"MEAL_VOTE|{id}");
     }
 
     static void ExitProgram()

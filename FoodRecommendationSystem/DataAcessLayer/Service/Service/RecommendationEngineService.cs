@@ -121,7 +121,7 @@
 
             var date = DateTime.Now.AddDays(-7).Date;
 
-            var previousMealMenu = _mealMenuService.GetAllMealMenus().Where(x => x.CreationDate >= (DateTime.Now.AddDays(-7).Date)).Select(x => x.MealName.MealNameId);
+            var previousMealMenu = _mealMenuService.GetAllMealMenus().Where(x => x.CreationDate >= (DateTime.Now.AddDays(-7).Date) && !x.WasPrepared).Select(x => x.MealName.MealNameId);
 
             recommendedMeals = recommendedMeals.Where(id => !previousMealMenu.Contains(id.MealName.MealNameId)).ToList();
 

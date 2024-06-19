@@ -14,7 +14,7 @@ class Program
 
         Console.WriteLine("Chef Console");
         Console.WriteLine("1. View Menu");
-        Console.WriteLine("2. Get Recommended Dishes");
+        Console.WriteLine("2. Select Meal Option");
         Console.WriteLine("3. Send Notification");
         Console.WriteLine("5. To Exit");
 
@@ -61,6 +61,28 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
+        Console.WriteLine("\n\nThis is the full meanu:");
+
+        client.SendMessage("MENU_GET");
+
+        response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        List<string> meals = new List<string>();
+
+        Console.WriteLine("Enter 3 the meal names you want to add as an option:");
+        for(int i = 1; i <= 3; i++)
+        {
+            Console.Write(i + " ");
+            meals.Add(Console.ReadLine());        
+        }
+
+        var meal = JsonConvert.SerializeObject(meals);
+
+        client.SendMessage($"MEAL_OPTION|{classification}|{meal}");
+
+        response = client.RecieveMessage();
+        Console.WriteLine(response);
     }
 
     static void SendNotification(SocketClient client)

@@ -37,11 +37,12 @@
             }
         }
 
-        public MealMenuDTO VoteForNextDayMeal(int mealMenuId)
+        public MealMenuDTO VoteForNextDayMeal(int mealNameId, DateTime dateTime)
         {
             try
             {
-                var mealMenu = _mealMenuRepository.GetById(mealMenuId);
+                var mealMenu = _mealMenuRepository.GetAll().Where(x => x.MealNameId == mealNameId && x.CreationDate == dateTime).FirstOrDefault();
+                
                 mealMenu.NumberOfVotes += 1;
 
                 _mealMenuRepository.Update(mealMenu);

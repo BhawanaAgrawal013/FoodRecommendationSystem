@@ -1,3 +1,9 @@
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.csproj.AssemblyReference.cache
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.GeneratedMSBuildEditorConfig.editorconfig
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.AssemblyInfoInputs.cache
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.AssemblyInfo.cs
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.csproj.CoreCompileInputs.cache
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.sourcelink.json
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Server.deps.json
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Server.runtimeconfig.json
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Server.exe
@@ -78,12 +84,6 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\D
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Server.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Server.pdb
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\DataAcessLayer.pdb
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.csproj.AssemblyReference.cache
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.GeneratedMSBuildEditorConfig.editorconfig
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.AssemblyInfoInputs.cache
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.AssemblyInfo.cs
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.csproj.CoreCompileInputs.cache
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.sourcelink.json
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\Employee.2905E044.Up2Date
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\refint\EmployeeApp.dll
