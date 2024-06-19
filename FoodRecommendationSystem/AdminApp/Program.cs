@@ -15,16 +15,12 @@ class Program
         Console.WriteLine("Admin Console");
         Console.WriteLine("1. View Menu");
         Console.WriteLine("2. Add Menu Item");
-        Console.WriteLine("3. Update Menu Item");
-        Console.WriteLine("4. Delete Menu Item");
         Console.WriteLine("5. To Exit");
 
         var menuActions = new Dictionary<string, Action>
         {
             { "1", () => ViewMenu(client) },
             { "2", () => AddMenuItem(client) },
-            { "3", () => UpdateMenuItem(client) },
-            { "4", () => DeleteMenuItem(client) },
             { "5", () => ExitProgram() }
         };
 
@@ -47,6 +43,10 @@ class Program
     static void ViewMenu(SocketClient client)
     {
         client.SendMessage("MENU_GET");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
     }
 
     static void AddMenuItem(SocketClient client)
@@ -59,16 +59,10 @@ class Program
         
         string jsonMealName = JsonConvert.SerializeObject(mealName);
         client.SendMessage($"MENU_ADD|{jsonMealName}");
-    }
 
-    static void UpdateMenuItem(SocketClient client)
-    {
-        Console.WriteLine("Update Menu Item function placeholder.");
-    }
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
 
-    static void DeleteMenuItem(SocketClient client)
-    {
-        Console.WriteLine("Delete Menu Item function placeholder.");
     }
 
     static void ExitProgram()
@@ -88,5 +82,15 @@ class Program
 
         string json = JsonConvert.SerializeObject(user);
         client.SendMessage($"LOGIN|{json}");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        if (response == "Login Sucessfull")
+        {
+            return;
+        }
+
+        AdminLogin(client);
     }
 }
