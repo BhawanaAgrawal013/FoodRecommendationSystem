@@ -1,4 +1,4 @@
-﻿namespace DataAcessLayer.ModelDTOs
+﻿namespace DataAcessLayer.Common
 {
     public class FullMenu
     {

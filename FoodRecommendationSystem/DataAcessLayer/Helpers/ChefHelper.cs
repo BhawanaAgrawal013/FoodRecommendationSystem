@@ -1,8 +1,4 @@
-﻿using DataAcessLayer.Entity;
-using DataAcessLayer.Helpers.IHelpers;
-using DataAcessLayer.Service.IService;
-
-namespace DataAcessLayer.Helpers
+﻿namespace DataAcessLayer.Helpers
 {
     public class ChefHelper : IChefHelper
     {

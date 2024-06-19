@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Helpers.IHelpers
+﻿using DataAcessLayer.Common;
+
+namespace DataAcessLayer.Helpers.IHelpers
 {
     public interface IAdminHelper
     {

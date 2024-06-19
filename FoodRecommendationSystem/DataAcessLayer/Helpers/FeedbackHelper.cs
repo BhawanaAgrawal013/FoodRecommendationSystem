@@ -1,10 +1,6 @@
-﻿using DataAcessLayer.Entity;
-using DataAcessLayer.ModelDTOs;
-using DataAcessLayer.Service.IService;
-
-namespace DataAcessLayer.Helpers
+﻿namespace DataAcessLayer.Helpers
 {
-    public class FeedbackHelper
+    public class FeedbackHelper : IFeedbackHelper
     {
         private readonly IReviewService _reviewService;
         private readonly IRatingService _ratingService;
@@ -27,12 +23,20 @@ namespace DataAcessLayer.Helpers
             {
                 _reviewService.AddReview(reviewDTO);
             }
+            else
+            {
+                _reviewService.UpdateReview(reviewDTO);
+            }
             
             var rating = _ratingService.GetFoodRatingByUser(ratingDTO.User.Id, ratingDTO.Food.Id);
 
             if(rating == null)
             {
                 _ratingService.AddRating(ratingDTO);
+            }
+            else
+            {
+                _ratingService.UpdateRating(ratingDTO);
             }
 
             var summaryRatingDTO = SetSummaryRating(reviewDTO, ratingDTO);
@@ -52,7 +56,8 @@ namespace DataAcessLayer.Helpers
             }
             else
             {
-                existingSummaryRatingDTO.ReviewSummary = "";  //to be added a function
+                var newScore = AnalyzeSentiment(reviewDTO.ReviewText);
+                existingSummaryRatingDTO.SentimentScore = CalcualteAverage(existingSummaryRatingDTO.SentimentScore, existingSummaryRatingDTO.NumberOfPeople, newScore);
                 existingSummaryRatingDTO.TotalQuantityRating = CalcualteAverage(existingSummaryRatingDTO.TotalQuantityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QuantityRating);
                 existingSummaryRatingDTO.AverageRating = CalcualteAverage(existingSummaryRatingDTO.AverageRating, existingSummaryRatingDTO.NumberOfPeople, ratingDTO.RatingValue);
                 existingSummaryRatingDTO.TotalAppearanceRating = CalcualteAverage(existingSummaryRatingDTO.TotalAppearanceRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.AppearanceRating); ;
@@ -68,7 +73,7 @@ namespace DataAcessLayer.Helpers
         {
             SummaryRatingDTO summaryRating = new SummaryRatingDTO
             {
-                ReviewSummary = "",  //to be added a function
+                SentimentScore = AnalyzeSentiment(reviewDTO.ReviewText), 
                 AverageRating = ratingDTO.RatingValue,
                 TotalAppearanceRating = reviewDTO.AppearanceRating,
                 TotalQualityRating = reviewDTO.QualityRating,
@@ -83,6 +88,77 @@ namespace DataAcessLayer.Helpers
         private double CalcualteAverage(double sum, double numberOfPeople, double newRating)
         {
             return ( (sum * numberOfPeople) + newRating ) / (numberOfPeople + 1);
+        }
+
+        private static string RemoveUnwantedWords(string text)
+        {
+            string normalizedText = new string(text.ToLower().Where(c => !char.IsPunctuation(c)).ToArray());
+            string[] words = normalizedText.Split(' ');
+
+            var filteredWords = words.Where(word => !WordsDictionary.Stopwords.Contains(word)).ToArray();
+
+            return string.Join(" ", filteredWords);
+        }
+
+        static double AnalyzeSentiment(string text)
+        {
+            text = RemoveUnwantedWords(text);
+            string[] sentences = text.Split(new[] { '.', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+
+            double totalSentimentScore = 0;
+
+            foreach (string sentence in sentences)
+            {
+                string[] words = sentence.Split(' ');
+
+                int sentenceScore = 0;
+                bool negate = false;
+                int intensify = 1;
+                bool conjunctionFound = false;
+
+                foreach (string word in words)
+                {
+                    if (WordsDictionary.Negations.Contains(word))
+                    {
+                        negate = true;
+                    }
+                    else if (WordsDictionary.Intensifiers.Contains(word))
+                    {
+                        intensify = 2;
+                    }
+                    else if (WordsDictionary.Conjunctions.Contains(word))
+                    {
+                        conjunctionFound = true;
+                    }
+                    else if (WordsDictionary.SentimentWords.ContainsKey(word))
+                    {
+                        int score = WordsDictionary.SentimentWords[word];
+                        if (negate)
+                        {
+                            score = -score;
+                            negate = false;
+                        }
+                        score *= intensify;
+                        intensify = 1;
+                        sentenceScore += score;
+                    }
+                    else
+                    {
+                        negate = false;
+                    }
+                }
+
+                if (conjunctionFound)
+                {
+                    totalSentimentScore += sentenceScore / 2;
+                }
+                else
+                {
+                    totalSentimentScore += sentenceScore;
+                }
+            }
+
+            return totalSentimentScore;
         }
     }
 }

@@ -8,10 +8,7 @@ public class SummaryRating
     [ForeignKey("Food")]
     public int FoodId { get; set; }
 
-    [MaxLength(100)]
-    [Column(TypeName = "varchar(100)")]
-    [Required]
-    public string ReviewSummary { get; set; }
+    public double SentimentScore { get; set; }
 
     public double AverageRating { get; set; }
 

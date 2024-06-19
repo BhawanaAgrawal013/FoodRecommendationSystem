@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string ReviewSummary { get; set; }
+        public double SentimentScore { get; set; }
 
         public double AverageRating { get; set; }
 
@@ -27,7 +27,7 @@
             return new SummaryRatingDTO()
             {
                 Id = summaryRating.Id,
-                ReviewSummary = summaryRating.ReviewSummary,
+                SentimentScore = summaryRating.SentimentScore,
                 AverageRating = summaryRating.AverageRating,
                 TotalAppearanceRating = summaryRating.TotalAppearanceRating,
                 TotalQualityRating = summaryRating.TotalQualityRating,
@@ -45,7 +45,7 @@
             return new SummaryRating()
             {
                 Id = summaryRatingDTO.Id,
-                ReviewSummary = summaryRatingDTO.ReviewSummary,
+                SentimentScore = summaryRatingDTO.SentimentScore,
                 AverageRating = summaryRatingDTO.AverageRating,
                 TotalAppearanceRating = summaryRatingDTO.TotalAppearanceRating,
                 TotalQualityRating = summaryRatingDTO.TotalQualityRating,

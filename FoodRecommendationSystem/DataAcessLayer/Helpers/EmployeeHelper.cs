@@ -1,6 +1,4 @@
-﻿using DataAcessLayer.Helpers.IHelpers;
-
-namespace DataAcessLayer.Helpers
+﻿namespace DataAcessLayer.Helpers
 {
     public class EmployeeHelper : IEmployeeHelper
     {

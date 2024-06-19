@@ -1,5 +1,4 @@
-﻿using DataAcessLayer.Helpers.IHelpers;
-using DataAcessLayer.Service.IService;
+﻿using DataAcessLayer.Common;
 
 namespace DataAcessLayer.Helpers
 {
@@ -59,6 +58,53 @@ namespace DataAcessLayer.Helpers
             _mealService.AddMeal(mealDTO);
 
             return mealDTO;
+        }
+
+        public MealDTO UpdateMenuItem(MealDTO mealDTO)
+        {
+            var existingFood = _foodService.GetAllFoods().Where(x => x.Name == mealDTO.Food.Name).FirstOrDefault();
+
+            if (existingFood == null)
+            {
+                _foodService.AddFood(mealDTO.Food);
+            }
+            else
+            {
+                _foodService.UpdateFood(mealDTO.Food);
+            }
+
+            var existingMealName = _mealNameService.GetAllMeals().Where(x => x.MealName == mealDTO.MealName.MealName).FirstOrDefault();
+
+            if (existingMealName == null)
+            {
+                _mealNameService.AddMealName(mealDTO.MealName);
+            }
+            else
+            {
+                _mealNameService.UpdateMealName(mealDTO.MealName);
+            }
+
+            var existingMeal = _mealService.GetAllMeals().Where(x => x.Id == mealDTO.Id).FirstOrDefault();
+
+            _mealService.UpdateMeal(existingMeal);
+
+            return mealDTO;
+        }
+
+        public string DeleteMenuItem(MealDTO mealDTO)
+        {
+            var existingMeal = _mealService.GetAllMeals().Where(x => x.Id == mealDTO.Id).FirstOrDefault();
+
+            if(existingMeal == null)
+            {
+                return "Meal does not exist";
+            }
+            else
+            {
+                _mealService.DeleteMeal(mealDTO.Id);
+
+                return "Meal deleted sucessfully";
+            }
         }
     }
 }
