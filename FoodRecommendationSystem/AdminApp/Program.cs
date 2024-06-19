@@ -1,41 +1,92 @@
-﻿using Server;
+﻿using DataAcessLayer.ModelDTOs;
+using Newtonsoft.Json;
+using Server;
 
 class Program
 {
     static void Main(string[] args)
     {
-        // Wait for a short period to ensure the server has time to start
-        System.Threading.Thread.Sleep(2000);
+        System.Threading.Thread.Sleep(4000);
 
         var client = new SocketClient("127.0.0.1", 5000);
 
+        AdminLogin(client);
+
         Console.WriteLine("Admin Console");
         Console.WriteLine("1. View Menu");
-        Console.WriteLine("2. Give Feedback");
-        Console.Write("Select an option: ");
-        var option = Console.ReadLine();
+        Console.WriteLine("2. Add Menu Item");
+        Console.WriteLine("3. Update Menu Item");
+        Console.WriteLine("4. Delete Menu Item");
+        Console.WriteLine("5. To Exit");
 
-        switch (option)
+        var menuActions = new Dictionary<string, Action>
         {
-            case "1":
-                // View Menu Logic
-                client.SendMessage("GET_MENU");
-                break;
-            case "2":
-                // Give Feedback Logic
-                Console.Write("Enter Menu Item ID: ");
-                var menuItemId = Console.ReadLine();
-                Console.Write("Enter Comment: ");
-                var comment = Console.ReadLine();
-                Console.Write("Enter Rating: ");
-                var rating = Console.ReadLine();
-                client.SendMessage($"ADD_FEEDBACK|{menuItemId}|{comment}|{rating}");
-                break;
-            default:
-                Console.WriteLine("Invalid option.");
-                break;
-        }
+            { "1", () => ViewMenu(client) },
+            { "2", () => AddMenuItem(client) },
+            { "3", () => UpdateMenuItem(client) },
+            { "4", () => DeleteMenuItem(client) },
+            { "5", () => ExitProgram() }
+        };
 
-        Console.ReadLine();
+        while (true)
+        {
+            Console.Write("Select an option: ");
+            var option = Console.ReadLine();
+
+            if (menuActions.TryGetValue(option, out var action))
+            {
+                action(); 
+            }
+            else
+            {
+                Console.WriteLine("Invalid option.");
+            }
+        }
+    }
+
+    static void ViewMenu(SocketClient client)
+    {
+        client.SendMessage("MENU_GET");
+    }
+
+    static void AddMenuItem(SocketClient client)
+    {
+        MealNameDTO mealName = new MealNameDTO();
+        Console.Write("Enter Name: ");
+        mealName.MealName = Console.ReadLine();
+        Console.Write("Enter Type: ");
+        mealName.MealType = Console.ReadLine(); 
+        
+        string jsonMealName = JsonConvert.SerializeObject(mealName);
+        client.SendMessage($"MENU_ADD|{jsonMealName}");
+    }
+
+    static void UpdateMenuItem(SocketClient client)
+    {
+        Console.WriteLine("Update Menu Item function placeholder.");
+    }
+
+    static void DeleteMenuItem(SocketClient client)
+    {
+        Console.WriteLine("Delete Menu Item function placeholder.");
+    }
+
+    static void ExitProgram()
+    {
+        Environment.Exit(0);
+    }
+
+    static void AdminLogin(SocketClient client)
+    {
+        UserDTO user = new UserDTO();
+
+        Console.WriteLine("Login as Admin");
+        Console.WriteLine("Enter Email: ");
+        user.Email = Console.ReadLine();
+        Console.WriteLine("Enter Password: ");
+        user.Password = Console.ReadLine();
+
+        string json = JsonConvert.SerializeObject(user);
+        client.SendMessage($"LOGIN|{json}");
     }
 }
