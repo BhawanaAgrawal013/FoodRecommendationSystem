@@ -28,12 +28,9 @@
 
             return new UserNotification()
             {
-                Id = userNotificationDTO.Id,
                 IsRead = userNotificationDTO.IsRead,
                 UserId = userNotificationDTO.User.Id,
-                NotificationId = userNotificationDTO.Notification.Id,
-                Notification = (Notification)userNotificationDTO.Notification,
-                User = (User)userNotificationDTO.User
+                NotificationId = userNotificationDTO.Notification.Id
             };
         }
     }

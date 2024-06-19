@@ -13,14 +13,11 @@
         {
             IEnumerable<User> users = _userRepository.GetAll();
 
-            var user = users.Where(x => x.Email == userDTO.Email);
+            var user = users.SingleOrDefault(u => u.Email == userDTO.Email && u.Password == userDTO.Password);
 
             if (user != null)
             {
-                if (user.Select(x => x.Password).ToString() == userDTO.Password)
-                {
-                    return "Logged in Sucessfully";
-                }
+                return "Login Sucessfull";
             }
 
             return "Invalid Email and Password";

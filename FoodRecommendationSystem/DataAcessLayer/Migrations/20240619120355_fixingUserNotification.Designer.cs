@@ -4,6 +4,7 @@ using DataAcessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayer.Migrations
 {
     [DbContext(typeof(FoodRecommendationContext))]
-    partial class FoodRecommendationContextModelSnapshot : ModelSnapshot
+    [Migration("20240619120355_fixingUserNotification")]
+    partial class fixingUserNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,6 +281,12 @@ namespace DataAcessLayer.Migrations
 
             modelBuilder.Entity("DataAcessLayer.Entity.UserNotification", b =>
                 {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotificationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
@@ -288,17 +296,9 @@ namespace DataAcessLayer.Migrations
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NotificationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "NotificationId");
 
                     b.HasIndex("NotificationId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserNotifications");
                 });

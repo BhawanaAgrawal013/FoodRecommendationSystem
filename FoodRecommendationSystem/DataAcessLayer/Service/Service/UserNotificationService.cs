@@ -62,6 +62,7 @@ namespace DataAcessLayer.Service.Service
                     userNotification.IsRead = true;
 
                     _userNotificationRepository.Update(userNotification);
+                    _userNotificationRepository.Save();
                 }
             }
             catch (Exception ex)

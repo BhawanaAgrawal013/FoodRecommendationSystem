@@ -58,9 +58,6 @@ public partial class FoodRecommendationContext : DbContext
             .HasForeignKey<SummaryRating>(sr => sr.FoodId);
 
         modelBuilder.Entity<UserNotification>()
-            .HasKey(un => new { un.UserId, un.NotificationId });
-
-        modelBuilder.Entity<UserNotification>()
             .HasOne(un => un.User)
             .WithMany(u => u.UserNotifications)
             .HasForeignKey(un => un.UserId);
