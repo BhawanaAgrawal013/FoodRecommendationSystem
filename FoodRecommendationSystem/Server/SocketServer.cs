@@ -1,8 +1,8 @@
-﻿using DataAcessLayer.Service.IService;
+﻿using DataAcessLayer.Helpers.IHelpers;
+using DataAcessLayer.Service.IService;
 using Server.RequestHandlers;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 public class SocketServer
@@ -13,13 +13,19 @@ public class SocketServer
     private readonly IRecommendationEngineService _service;
     private readonly ILoginService _loginService;
     private readonly LoginRequestHandler _loginRequestHandler;
+    private readonly NotificationRequestHandler _notificationHandler;
+    private readonly INotificationHelper _notificationHelper;
+
     private TcpListener _listener;
 
-    public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, ILoginService loginService)
+    public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, 
+                        ILoginService loginService, INotificationHelper notificationHelper)
     {
         _mealNameService = mealNameService;
         _service = service;
         _loginService = loginService;
+        _notificationHelper = notificationHelper;
+        _notificationHandler = new NotificationRequestHandler(_notificationHelper);
         _menuRequestHandler = new MenuRequestHandler(_mealNameService);
         _mealMenuRequestHandler = new MealMenuRequestHandler(_service);
         _loginRequestHandler = new LoginRequestHandler(_loginService);
@@ -75,6 +81,10 @@ public class SocketServer
         if(request.StartsWith("LOGIN"))
         {
             return _loginRequestHandler.HandleRequest(request);
+        }
+        if(request.StartsWith("NOTI"))
+        {
+            return _notificationHandler.HandleRequest(request);
         }
 
         return "";

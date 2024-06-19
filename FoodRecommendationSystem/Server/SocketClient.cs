@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
 using System.Text;
 
 namespace Server
@@ -12,7 +13,7 @@ namespace Server
         {
             int retryCount = 0;
             int maxRetries = 5;
-            int delay = 2000; // 2 seconds
+            int delay = 2000;
 
             while (retryCount < maxRetries)
             {
@@ -43,11 +44,13 @@ namespace Server
         {
             byte[] data = Encoding.ASCII.GetBytes(message);
             _stream.Write(data, 0, data.Length);
+        }
 
+        public string RecieveMessage()
+        {
             byte[] buffer = new byte[1024];
             int bytesRead = _stream.Read(buffer, 0, buffer.Length);
-            string response = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-            Console.WriteLine($"Received: {response}");
+            return Encoding.ASCII.GetString(buffer, 0, bytesRead);
         }
     }
 }

@@ -54,6 +54,7 @@ class Program
                 services.AddScoped<IFeedbackHelper, FeedbackHelper>();
                 services.AddScoped<IRecommendationEngineService, RecommendationEngineService>();
                 services.AddScoped<ILoginService, LoginService>();
+                services.AddScoped<INotificationHelper, NotificationHelper>();
                 services.AddSingleton<SocketServer>();
             });
 }
