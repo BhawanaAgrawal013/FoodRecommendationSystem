@@ -1,41 +1,91 @@
-﻿using Server;
+﻿using DataAcessLayer.ModelDTOs;
+using Newtonsoft.Json;
+using Server;
 
 class Program
 {
     static void Main(string[] args)
     {
-        // Wait for a short period to ensure the server has time to start
-        System.Threading.Thread.Sleep(2000);
+        System.Threading.Thread.Sleep(4000);
 
         var client = new SocketClient("127.0.0.1", 5000);
 
+        EmployeeLogin(client);
+
         Console.WriteLine("Employee Console");
         Console.WriteLine("1. View Menu");
-        Console.WriteLine("2. Give Feedback");
-        Console.Write("Select an option: ");
-        var option = Console.ReadLine();
+        Console.WriteLine("2. Recieve Notification");
+        Console.WriteLine("5. To Exit");
 
-        switch (option)
+        var menuActions = new Dictionary<string, Action>
         {
-            case "1":
-                // View Menu Logic
-                client.SendMessage("GET_MENU");
-                break;
-            case "2":
-                // Give Feedback Logic
-                Console.Write("Enter Menu Item ID: ");
-                var menuItemId = Console.ReadLine();
-                Console.Write("Enter Comment: ");
-                var comment = Console.ReadLine();
-                Console.Write("Enter Rating: ");
-                var rating = Console.ReadLine();
-                client.SendMessage($"ADD_FEEDBACK|{menuItemId}|{comment}|{rating}");
-                break;
-            default:
+            { "1", () => ViewMenu(client) },
+            { "2", () => GetNotification(client)},
+            { "5", () => ExitProgram() }
+        };
+
+        while (true)
+        {
+            Console.Write("Select an option: ");
+            var option = Console.ReadLine();
+
+            if (menuActions.TryGetValue(option, out var action))
+            {
+                action();
+            }
+            else
+            {
                 Console.WriteLine("Invalid option.");
-                break;
+            }
+        }
+    }
+
+    static void ViewMenu(SocketClient client)
+    {
+        client.SendMessage("MENU_GET");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+    }
+
+    static void GetNotification(SocketClient client)
+    {
+        Console.Write("Enter Email: ");
+        string email = Console.ReadLine();
+
+        client.SendMessage($"NOTI_RECIEVE|{email}");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+    }
+
+    static void ExitProgram()
+    {
+        Environment.Exit(0);
+    }
+
+    static void EmployeeLogin(SocketClient client)
+    {
+        UserDTO user = new UserDTO();
+
+        Console.WriteLine("Login as Employee");
+        Console.WriteLine("Enter Email: ");
+        user.Email = Console.ReadLine();
+        Console.WriteLine("Enter Password: ");
+        user.Password = Console.ReadLine();
+
+        string json = JsonConvert.SerializeObject(user);
+        client.SendMessage($"LOGIN|{json}");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        if(response == "Login Sucessfull")
+        {
+            return;
         }
 
-        Console.ReadLine();
+        EmployeeLogin(client);
     }
 }
