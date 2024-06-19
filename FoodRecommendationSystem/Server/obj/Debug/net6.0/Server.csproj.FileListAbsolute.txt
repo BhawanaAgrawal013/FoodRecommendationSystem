@@ -44,6 +44,7 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Newtonsoft.Json.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\System.Diagnostics.EventLog.dll
@@ -84,4 +85,3 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\net6.0\Server.pdb
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\net6.0\Server.genruntimeconfig.cache
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\net6.0\ref\Server.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -1,68 +1,82 @@
-﻿using System.Net.Sockets;
+﻿using DataAcessLayer.Service.IService;
+using Server.RequestHandlers;
 using System.Net;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
-using DataAcessLayer.Service.IService;
-using Microsoft.Extensions.DependencyInjection;
 
 public class SocketServer
 {
-    private readonly TcpListener _server;
+    private readonly MenuRequestHandler _menuRequestHandler;
     private readonly IMealNameService _mealNameService;
+    private readonly MealMenuRequestHandler _mealMenuRequestHandler;
+    private readonly IRecommendationEngineService _service;
+    private readonly ILoginService _loginService;
+    private readonly LoginRequestHandler _loginRequestHandler;
+    private TcpListener _listener;
 
-    public SocketServer(IMealNameService mealNameService)
+    public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, ILoginService loginService)
     {
-        _server = new TcpListener(IPAddress.Parse("127.0.0.1"), 5000);
         _mealNameService = mealNameService;
+        _service = service;
+        _loginService = loginService;
+        _menuRequestHandler = new MenuRequestHandler(_mealNameService);
+        _mealMenuRequestHandler = new MealMenuRequestHandler(_service);
+        _loginRequestHandler = new LoginRequestHandler(_loginService);
     }
 
     public void Start()
     {
-        _server.Start();
-        Console.WriteLine("Server started...");
+        _listener = new TcpListener(IPAddress.Any, 5000);
+        _listener.Start();
+        Console.WriteLine("Socket server started on port 5000.");
+
         while (true)
         {
-            TcpClient client = _server.AcceptTcpClient();
-            Thread clientThread = new Thread(() => HandleClient(client));
-            clientThread.Start();
+            try
+            {
+                var client = _listener.AcceptTcpClient();
+                Task.Run(() => HandleClient(client));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
         }
     }
 
     private void HandleClient(TcpClient client)
     {
-        NetworkStream stream = client.GetStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead = stream.Read(buffer, 0, buffer.Length);
-        string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-        Console.WriteLine($"Received: {dataReceived}");
+        using (var stream = client.GetStream())
+        {
+            var buffer = new byte[1024];
+            int bytesRead;
 
-        // Process the request and send a response
-        string response = ProcessRequest(dataReceived);
-        byte[] responseData = Encoding.ASCII.GetBytes(response);
-        stream.Write(responseData, 0, responseData.Length);
-
-        client.Close();
+            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+            {
+                var request = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                var response = ProcessRequest(request);
+                var responseBytes = Encoding.UTF8.GetBytes(response);
+                stream.Write(responseBytes, 0, responseBytes.Length);
+            }
+        }
     }
 
     private string ProcessRequest(string request)
     {
-        // Basic request processing logic
-        if (request.StartsWith("GET_MENU"))
+        if(request.StartsWith("MENU"))
         {
-            var mealName = _mealNameService.GetAllMeals();
-            string meals = String.Join(' ', mealName.Select(x => x.MealName));
+            return _menuRequestHandler.HandleRequest(request);   
+        }
+        if(request.StartsWith("MEAL"))
+        {
+            return _mealMenuRequestHandler.HandleRequest(request);
+        }
+        if(request.StartsWith("LOGIN"))
+        {
+            return _loginRequestHandler.HandleRequest(request);
+        }
 
-            return meals;
-        }
-        else if (request.StartsWith("ADD_FEEDBACK"))
-        {
-            // Parse feedback details and add to the service
-            var parts = request.Split('|');
-
-            return "Feedback added." + parts;
-        }
-        else
-        {
-            return "Invalid request.";
-        }
+        return "";
     }
 }

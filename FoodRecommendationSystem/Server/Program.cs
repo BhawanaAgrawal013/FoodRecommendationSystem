@@ -1,4 +1,7 @@
 ﻿using DataAcessLayer;
+using DataAcessLayer.Entity;
+using DataAcessLayer.Helpers;
+using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.Repository.IRepository;
 using DataAcessLayer.Repository.Repository;
 using DataAcessLayer.Service.IService;
@@ -26,8 +29,31 @@ class Program
             {
                 services.AddDbContext<FoodRecommendationContext>(options =>
                     options.UseSqlServer(@"Server=.;Database=FoodRecommendationSystem;Trusted_Connection=True;"));
-                services.AddScoped<IMealNameRepository, MealNameRepository>();
+                services.AddScoped<IRepository<MealName>, MealNameRepository>();
                 services.AddScoped<IMealNameService, MealNameService>();
+                services.AddScoped<IRepository<Food>, FoodRepository>();
+                services.AddScoped<IFoodService, FoodService>();
+                services.AddScoped<IRepository<MealMenu>, MealMenuRepository>();
+                services.AddScoped<IMealMenuService, MealMenuService>();
+                services.AddScoped<IRepository<Meal>, MealRepository>();
+                services.AddScoped<IMealService, MealService>();
+                services.AddScoped<IRepository<Notification>,  NotificationRepository>();
+                services.AddScoped<INotificationService, NotificationService>();
+                services.AddScoped<IRepository<Rating>, RatingRepository>();
+                services.AddScoped<IRatingService, RatingService>();
+                services.AddScoped<IRepository<Review>, ReviewRepository>();
+                services.AddScoped<IReviewService, ReviewService>();
+                services.AddScoped<IRepository<SummaryRating>, SummaryRatingRepository>();
+                services.AddScoped<ISummaryRatingService, SummaryRatingService>();
+                services.AddScoped<IRepository<UserNotification>, UserNotificationRepository>();
+                services.AddScoped<IUserNotificationService, UserNotificationService>();
+                services.AddScoped<IRepository<User>,  UserRepository>();
+                services.AddScoped<IAdminHelper, AdminHelper>();
+                services.AddScoped<IChefHelper, ChefHelper>();
+                services.AddScoped<IEmployeeHelper, EmployeeHelper>();
+                services.AddScoped<IFeedbackHelper, FeedbackHelper>();
+                services.AddScoped<IRecommendationEngineService, RecommendationEngineService>();
+                services.AddScoped<ILoginService, LoginService>();
                 services.AddSingleton<SocketServer>();
             });
 }
