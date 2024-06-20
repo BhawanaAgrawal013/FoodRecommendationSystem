@@ -37,7 +37,7 @@ namespace Server.RequestHandlers
             var parts = request.Split('|');
             UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(parts[1]);
 
-            string result = _service.Login(userDTO);
+            string result = _service.Login(userDTO, parts[2]);
 
             return result;
         }

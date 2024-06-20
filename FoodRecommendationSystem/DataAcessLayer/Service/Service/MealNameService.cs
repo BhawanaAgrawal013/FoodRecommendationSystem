@@ -1,6 +1,4 @@
-﻿using DataAcessLayer.Service.IService;
-
-namespace DataAcessLayer.Service.Service
+﻿namespace DataAcessLayer.Service.Service
 {
     public class MealNameService : IMealNameService
     {
@@ -16,6 +14,7 @@ namespace DataAcessLayer.Service.Service
             {
                 MealName mealName = (MealName)mealNameDTO;
                 _mealNameRepository.Insert(mealName);
+                _mealNameRepository.Save();
             }
             catch (Exception ex)
             {
@@ -55,10 +54,24 @@ namespace DataAcessLayer.Service.Service
             {
                 var mealName = (MealName)mealNameDTO;
                 _mealNameRepository.Update(mealName);
+                _mealNameRepository.Save();
             }
             catch
             {
                 throw new Exception("Error updating the Meal Name");
+            }
+        }
+
+        public void DeleteMealName(int id)
+        {
+            try
+            {
+                _mealNameRepository.Delete(id);
+                _mealNameRepository.Save();
+            }
+            catch
+            {
+                throw new Exception("Error deleting the Meal Name");
             }
         }
     }
