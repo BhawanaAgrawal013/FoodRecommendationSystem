@@ -31,23 +31,22 @@
 
         public static Dictionary<string, int> SentimentWords = new Dictionary<string, int>
         {
-           // Normal words
-            {"good", 2}, {"happy", 3}, {"joy", 3}, {"excellent", 4}, {"great", 3}, {"positive", 2}, {"fortunate", 2}, {"correct", 1}, {"superior", 2},
+            // Normal words
+            {"good", 2}, {"hated", -3}, {"loved", 3}, {"happy", 3}, {"joy", 3}, {"excellent", 4}, {"great", 3}, {"positive", 2}, {"fortunate", 2}, {"correct", 1}, {"superior", 2},
             {"bad", -2}, {"sad", -3}, {"pain", -3}, {"terrible", -4}, {"poor", -3}, {"negative", -2}, {"unfortunate", -2}, {"wrong", -1}, {"inferior", -2},
-            {"horrible", -4}, {"disgusting", -4}, {"wonderful", 4}, {"awful", -4}, {"fantastic", 4}, {"amazing", 4}, {"love", 3}, {"like", 2}, {"hate", -3},
+            {"horrible", -4}, {"wonderful", 4}, {"awful", -4}, {"fantastic", 4}, {"amazing", 4}, {"love", 3}, {"like", 2}, {"hate", -3},
             {"dislike", -2}, {"enjoy", 3}, {"disappointed", -3}, {"satisfied", 3}, {"unsatisfied", -3}, {"remarkable", 4}, {"mediocre", -2}, {"awesome", 4},
-            {"terrific", 4}, {"marvelous", 4}, {"fabulous", 4}, {"pleasant", 3}, {"nice", 2}, {"decent", 2}, {"okay", 1}, {"average", 0}, {"boring", -2},
+            {"terrific", 4}, {"marvelous", 4}, {"fabulous", 4}, {"pleasant", 3}, {"nice", 2}, {"decent", 2}, {"average", 0}, {"boring", -2},
             {"dull", -2}, {"interesting", 2}, {"fascinating", 3}, {"engaging", 3}, {"entertaining", 3}, {"delightful", 4}, {"charming", 3}, {"annoying", -3},
-            {"frustrating", -3}, {"horrific", -4}, {"appalling", -4}, {"disheartening", -3}, {"pleasing", 3}, {"gratifying", 3}, {"inspiring", 4}, {"unpleasant", -3},
+            {"frustrating", -3}, {"horrific", -4}, {"appalling", -4}, {"disheartening", -3}, {"pleasing", 3}, {"gratifying", 3}, {"inspiring", 4}, {"unpleasant", -3}, {"hot", 2},
 
             // Positive food-related words
             {"delicious", 4}, {"tasty", 3}, {"flavorful", 3}, {"yummy", 3}, {"scrumptious", 4}, {"savory", 3}, {"mouthwatering", 4}, {"delectable", 4},
-            {"appetizing", 3}, {"fresh", 3}, {"succulent", 4}, {"juicy", 3}, {"crispy", 3}, {"tender", 3}, {"fluffy", 2}, {"well-seasoned", 3}, {"rich", 2},
-            {"creamy", 3},
+            {"appetizing", 3}, {"fresh", 3}, {"well-seasoned", 3}, {"rich", 2},
 
             // Negative food-related words
             {"bland", -3}, {"tasteless", -3}, {"overcooked", -3}, {"undercooked", -3}, {"burnt", -4}, {"soggy", -3}, {"greasy", -3}, {"dry", -3},
-            {"stale", -3}, {"rubbery", -3}, {"salty", -2}, {"sour", -2}, {"bitter", -2}, {"flavorless", -3}, {"unappetizing", -3}, {"spoiled", -4},
+            {"stale", -3}, {"rubbery", -3}, {"flavorless", -3}, {"unappetizing", -3}, {"spoiled", -4},
             {"inedible", -4}, {"disgusting", -4},
             
             // Neutral or context-specific words

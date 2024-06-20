@@ -28,7 +28,7 @@ class Program
             .ConfigureServices((context, services) =>
             {
                 services.AddDbContext<FoodRecommendationContext>(options =>
-                    options.UseSqlServer(@"Server=.;Database=FoodRecommendationSystem;Trusted_Connection=True;"));
+                options.UseSqlServer(@"Server=.;Database=FoodRecommendationSystem;Trusted_Connection=True;").EnableSensitiveDataLogging());
                 services.AddScoped<IRepository<MealName>, MealNameRepository>();
                 services.AddScoped<IMealNameService, MealNameService>();
                 services.AddScoped<IRepository<Food>, FoodRepository>();

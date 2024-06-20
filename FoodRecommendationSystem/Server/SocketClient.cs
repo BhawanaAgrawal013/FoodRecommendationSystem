@@ -49,8 +49,17 @@ namespace Server
         public string RecieveMessage()
         {
             byte[] buffer = new byte[1024];
-            int bytesRead = _stream.Read(buffer, 0, buffer.Length);
-            return Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            StringBuilder message = new StringBuilder();
+            int bytesRead;
+
+            do
+            {
+                bytesRead = _stream.Read(buffer, 0, buffer.Length);
+                message.Append(Encoding.ASCII.GetString(buffer, 0, bytesRead));
+            } while (_stream.DataAvailable);
+
+            return message.ToString();
         }
+
     }
 }

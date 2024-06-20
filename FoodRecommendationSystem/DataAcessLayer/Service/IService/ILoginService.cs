@@ -2,6 +2,6 @@
 {
     public interface ILoginService
     {
-        string Login(UserDTO userDTO);
+        string Login(UserDTO userDTO, string roleName);
     }
 }

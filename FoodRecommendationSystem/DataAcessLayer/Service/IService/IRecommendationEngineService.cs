@@ -2,6 +2,6 @@
 {
     public interface IRecommendationEngineService
     {
-        List<RecommendedMeal> GiveRecommendation(string classification);
+        List<RecommendedMeal> GiveRecommendation(string classification, int numberOfMeals);
     }
 }

@@ -9,11 +9,12 @@
             _userRepository = userRepository;
         }
 
-        public string Login(UserDTO userDTO)
+        public string Login(UserDTO userDTO, string roleName)
         {
             IEnumerable<User> users = _userRepository.GetAll();
 
-            var user = users.SingleOrDefault(u => u.Email == userDTO.Email && u.Password == userDTO.Password);
+            var user = users.SingleOrDefault(u => u.Email == userDTO.Email && u.Password == userDTO.Password
+                                            && u.Role.RoleName == roleName);
 
             if (user != null)
             {
