@@ -17,12 +17,14 @@ public class SocketServer
     private readonly INotificationHelper _notificationHelper;
     private readonly IChefHelper _chefHelper;
     private readonly IEmployeeHelper _employeeHelper;
+    private readonly FeedbackRequestHandler _feedbackRequestHelper;
+    private readonly IFeedbackHelper _feedbackHelper;
 
     private TcpListener _listener;
 
     public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, 
                         ILoginService loginService, INotificationHelper notificationHelper, IChefHelper chefHelper, 
-                        IEmployeeHelper employeeHelper)
+                        IEmployeeHelper employeeHelper, IFeedbackHelper feedbackHelper)
     {
         _mealNameService = mealNameService;
         _service = service;
@@ -35,7 +37,8 @@ public class SocketServer
         _mealMenuRequestHandler = new MealMenuRequestHandler(_service, _chefHelper, _employeeHelper);
         _loginRequestHandler = new LoginRequestHandler(_loginService);
         _employeeHelper = employeeHelper;
-
+        _feedbackHelper = feedbackHelper;
+        _feedbackRequestHelper = new FeedbackRequestHandler(_feedbackHelper);
     }
 
     public void Start()
@@ -92,6 +95,10 @@ public class SocketServer
         if(request.StartsWith("NOTI"))
         {
             return _notificationHandler.HandleRequest(request);
+        }
+        if(request.StartsWith("FEEDBACK"))
+        {
+            return _feedbackRequestHelper.HandleRequest(request);
         }
 
         return "";

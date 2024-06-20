@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Helpers
+﻿using DataAcessLayer.ModelDTOs;
+
+namespace DataAcessLayer.Helpers
 {
     public class FeedbackHelper : IFeedbackHelper
     {
@@ -6,41 +8,63 @@
         private readonly IRatingService _ratingService;
         private readonly IFoodService _foodService;
         private readonly ISummaryRatingService _summaryRatingService;
+        private readonly IMealService _mealService;
+        private readonly IRepository<User> _repository;
         public FeedbackHelper(IRatingService ratingService, IReviewService reviewService, 
-                            IFoodService foodService, ISummaryRatingService summaryRatingService)
+                            IFoodService foodService, ISummaryRatingService summaryRatingService, 
+                            IMealService mealService, IRepository<User> repository)
         {
             _ratingService = ratingService;
             _reviewService = reviewService;
             _foodService = foodService;
             _summaryRatingService = summaryRatingService;
+            _mealService = mealService;
+            _repository = repository;
         }
 
         public void AddFeedback(ReviewDTO reviewDTO, RatingDTO ratingDTO)
         {
-            var review = _reviewService.GetFoodReviewByUser(reviewDTO.User.Id, reviewDTO.Food.Id);
+            var userId = _repository.GetAll().Where(x => x.Email == ratingDTO.User.Email).Select(x => x.Id).First();
 
-            if (review == null)
+            reviewDTO.User = new User
+            {
+                Id = userId
+            };
+
+            reviewDTO.Food = new Food
+            {
+                Id = ratingDTO.Food.Id
+            };
+
+            ratingDTO.User = new User
+            {
+                Id = userId
+            };
+
+            if (!_reviewService.ReviewByUserExist(userId, ratingDTO.Food.Id))
             {
                 _reviewService.AddReview(reviewDTO);
             }
             else
             {
+                var reviewid = _reviewService.GetFoodReviewByUser(userId, ratingDTO.Food.Id).Id;
+                reviewDTO.Id = reviewid;
                 _reviewService.UpdateReview(reviewDTO);
             }
             
-            var rating = _ratingService.GetFoodRatingByUser(ratingDTO.User.Id, ratingDTO.Food.Id);
 
-            if(rating == null)
+            if(!_ratingService.RatingByUserExist(userId, ratingDTO.Food.Id))
             {
                 _ratingService.AddRating(ratingDTO);
             }
             else
             {
+                var ratingId = _ratingService.GetFoodRatingByUser(userId, ratingDTO.Food.Id).Id;
+                ratingDTO.Id = ratingId;
                 _ratingService.UpdateRating(ratingDTO);
             }
 
             var summaryRatingDTO = SetSummaryRating(reviewDTO, ratingDTO);
-            _summaryRatingService.AddSummaryRating(summaryRatingDTO);
         }
 
         private SummaryRatingDTO SetSummaryRating(ReviewDTO reviewDTO, RatingDTO ratingDTO)
@@ -51,6 +75,8 @@
             {
                 var summaryRatingDTO = CreateSummaryRating(reviewDTO, ratingDTO);
                 summaryRatingDTO.Food = _foodService.GetFood(reviewDTO.Food.Id);
+
+                _summaryRatingService.AddSummaryRating(summaryRatingDTO);
 
                 return summaryRatingDTO;
             }
@@ -64,6 +90,8 @@
                 existingSummaryRatingDTO.TotalQualityRating = CalcualteAverage(existingSummaryRatingDTO.TotalQualityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QualityRating);
                 existingSummaryRatingDTO.NumberOfPeople += 1;
                 existingSummaryRatingDTO.TotalValueForMoneyRating = CalcualteAverage(existingSummaryRatingDTO.TotalValueForMoneyRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.ValueForMoneyRating);
+
+                _summaryRatingService.UpdateSummaryRating(existingSummaryRatingDTO);
 
                 return existingSummaryRatingDTO;
             }
@@ -159,6 +187,13 @@
             }
 
             return totalSentimentScore;
+        }
+
+        public List<MealDTO> GetMeals(string classification)
+        {
+            var meals = _mealService.GetAllMeals().Where(x => x.MealName.MealType == classification).ToList();
+
+            return meals;
         }
     }
 }

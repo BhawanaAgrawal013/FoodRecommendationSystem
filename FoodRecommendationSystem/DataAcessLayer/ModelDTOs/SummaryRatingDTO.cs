@@ -52,8 +52,7 @@
                 TotalQuantityRating = summaryRatingDTO.TotalQuantityRating,
                 TotalValueForMoneyRating = summaryRatingDTO.TotalValueForMoneyRating,
                 NumberOfPeople= summaryRatingDTO.NumberOfPeople,
-                FoodId = summaryRatingDTO.Food.Id,
-                Food = (Food)summaryRatingDTO.Food
+                FoodId = summaryRatingDTO.Food.Id
             };
         }
     }

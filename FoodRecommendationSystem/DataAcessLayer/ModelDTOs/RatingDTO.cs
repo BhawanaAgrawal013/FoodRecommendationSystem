@@ -32,9 +32,7 @@
                 Id = ratingDTO.Id,
                 RatingValue = ratingDTO.RatingValue,
                 FoodId = ratingDTO.Food.Id,
-                UserId = ratingDTO.User.Id,
-                User = (User)ratingDTO.User,
-                Food= (Food)ratingDTO.Food
+                UserId = ratingDTO.User.Id
             };
         }
     }

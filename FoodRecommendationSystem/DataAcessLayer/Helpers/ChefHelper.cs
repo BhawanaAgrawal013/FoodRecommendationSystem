@@ -50,18 +50,5 @@
 
             return mealMenu;
         }
-
-        public List<MealDTO> SendDishesToReview(List<string> mealNames)
-        {
-            List<MealDTO> meals = new List<MealDTO>();
-
-            foreach (var mealName in mealNames)
-            {
-                var meal = _mealService.GetAllMeals().Where(x => x.MealName.MealName == mealName);
-                meals.AddRange(meal);
-            }
-
-            return meals;
-        }
     }
 }

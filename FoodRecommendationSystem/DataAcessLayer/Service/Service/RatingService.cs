@@ -1,4 +1,5 @@
-﻿using DataAcessLayer.Repository.Repository;
+﻿using DataAcessLayer.Entity;
+using DataAcessLayer.Repository.Repository;
 using DataAcessLayer.Service.IService;
 
 namespace DataAcessLayer.Service.Service
@@ -49,6 +50,21 @@ namespace DataAcessLayer.Service.Service
             catch (Exception ex)
             {
                 throw new Exception($"Error getting the rating {id}", ex);
+            }
+        }
+
+        public bool RatingByUserExist(int userId, int foodId)
+        {
+            try
+            {
+                var rating = _ratingRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
+                if (rating == null)
+                    return false;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error getting the review for {foodId} by {userId}", ex);
             }
         }
 

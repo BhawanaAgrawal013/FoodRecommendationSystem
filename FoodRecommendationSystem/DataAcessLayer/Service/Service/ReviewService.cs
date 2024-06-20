@@ -52,12 +52,27 @@ namespace DataAcessLayer.Service.Service
             }
         }
 
+        public bool ReviewByUserExist(int userId, int foodId)
+        {
+            try
+            {
+                var review = _reviewRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
+                if(review == null)
+                    return false;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error getting the review for {foodId} by {userId}", ex);
+            }
+        }
+
         public ReviewDTO GetFoodReviewByUser(int userId, int foodId)
         {
             try
             {
                 var review = _reviewRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
-                return (ReviewDTO)review;
+                return (ReviewDTO)review;   
             }
             catch (Exception ex)
             {

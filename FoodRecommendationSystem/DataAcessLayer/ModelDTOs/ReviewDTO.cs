@@ -55,9 +55,7 @@
                 AppearanceRating = reviewDTO.AppearanceRating,
                 ValueForMoneyRating = reviewDTO.ValueForMoneyRating,
                 UserId = reviewDTO.User.Id,
-                FoodId = reviewDTO.Food.Id,
-                User = (User)reviewDTO.User,
-                Food = (Food)reviewDTO.Food
+                FoodId = reviewDTO.Food.Id
             };
         }
     }
