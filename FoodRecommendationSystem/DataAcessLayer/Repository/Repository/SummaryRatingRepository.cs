@@ -26,7 +26,25 @@
 
         public void Update(SummaryRating entity)
         {
-            _context.SummaryRatings.Update(entity);
+            try
+            {
+                var existingEntity = _context.SummaryRatings.Find(entity.Id);
+
+                if (existingEntity != null)
+                {
+                    _context.Entry(existingEntity).State = EntityState.Detached;
+                }
+
+                _context.SummaryRatings.Attach(entity);
+
+                _context.Entry(entity).State = EntityState.Modified;
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating summary rating", ex);
+            }
         }
 
         public void Delete(int id)

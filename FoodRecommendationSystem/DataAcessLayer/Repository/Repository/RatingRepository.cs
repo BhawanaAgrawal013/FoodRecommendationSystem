@@ -26,7 +26,25 @@
 
         public void Update(Rating entity)
         {
-            _context.Ratings.Update(entity);
+            try
+            {
+                var existingEntity = _context.Ratings.Find(entity.Id);
+
+                if (existingEntity != null)
+                {
+                    _context.Entry(existingEntity).State = EntityState.Detached;
+                }
+
+                _context.Ratings.Attach(entity);
+
+                _context.Entry(entity).State = EntityState.Modified;
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating rating", ex);
+            }
         }
 
         public void Delete(int id)

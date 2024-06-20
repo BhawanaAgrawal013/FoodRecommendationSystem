@@ -26,6 +26,7 @@
 
             return new MealName()
             {
+                Id = mealNameDTO.MealNameId,
                 Name = mealNameDTO.MealName,
                 MealType = mealNameDTO.MealType
             };

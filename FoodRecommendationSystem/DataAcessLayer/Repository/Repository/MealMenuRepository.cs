@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Repository.Repository
+﻿using DataAcessLayer.Entity;
+
+namespace DataAcessLayer.Repository.Repository
 {
     public class MealMenuRepository : IRepository<MealMenu>
     {
@@ -21,13 +23,43 @@
 
         public void Insert(MealMenu entity)
         {
+            var existingMealName = _context.MealNames.Local.FirstOrDefault(mn => mn.Id == entity.MealNameId);
+
+            if (existingMealName != null)
+            {
+                entity.MealName = existingMealName;
+            }
+            else
+            {
+                _context.MealNames.Attach(entity.MealName);
+            }
+
             _context.MealMenus.Add(entity);
         }
 
         public void Update(MealMenu entity)
         {
-            _context.MealMenus.Update(entity);
+            try
+            {
+                var existingEntity = _context.MealMenus.Find(entity.Id);
+
+                if (existingEntity != null)
+                {
+                    _context.Entry(existingEntity).State = EntityState.Detached;
+                }
+                
+                _context.MealMenus.Attach(entity);
+
+                _context.Entry(entity).State = EntityState.Modified;
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating meal menu", ex);
+            }
         }
+
 
         public void Delete(int id)
         {

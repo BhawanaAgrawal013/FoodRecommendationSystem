@@ -40,8 +40,7 @@
                 WasPrepared = mealMenuDTO .WasPrepared,
                 Classification = mealMenuDTO.Classification,
                 MealNameId = mealMenuDTO.MealName.MealNameId,
-                CreationDate = mealMenuDTO.CreationDate,
-                MealName = (MealName)mealMenuDTO .MealName
+                CreationDate = mealMenuDTO.CreationDate
             };
         }
     }
