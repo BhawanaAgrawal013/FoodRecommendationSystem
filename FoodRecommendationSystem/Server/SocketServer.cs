@@ -33,7 +33,8 @@ public class SocketServer
         _notificationHandler = new NotificationRequestHandler(_notificationHelper);
         _menuRequestHandler = new MenuRequestHandler(_mealNameService);
         _mealMenuRequestHandler = new MealMenuRequestHandler(_service, _chefHelper, _employeeHelper);
-        _loginRequestHandler = new LoginRequestHandler(_loginService);        _employeeHelper = employeeHelper;
+        _loginRequestHandler = new LoginRequestHandler(_loginService);
+        _employeeHelper = employeeHelper;
 
     }
 
