@@ -13,61 +13,7 @@
             _mealService = mealService;
         }
 
-        //public List<RecommendedMeal> GiveRecommendation(string classification)
-        //{
-        //    var summaryRatings = _summaryRatingService.GetAllSummaryRatings().OrderBy(x => x.SentimentScore).Take(20);
-
-        //    List<RecommendedMeal> recommendedMeals = GetRecommendedMeals(summaryRatings, classification);
-
-        //    if (recommendedMeals.Count < 10)
-        //    {
-        //        summaryRatings = _summaryRatingService.GetAllSummaryRatings().OrderBy(x => x.AverageRating).Take(20);
-
-        //        List<RecommendedMeal> mealsByRating = GetRecommendedMeals(summaryRatings, classification);
-
-        //        recommendedMeals.AddRange(mealsByRating);
-        //    }
-
-        //    if (recommendedMeals.Count < 10)
-        //    {
-        //        summaryRatings = _summaryRatingService.GetAllSummaryRatings().OrderBy(x => x.TotalQualityRating).Take(20);
-
-        //        List<RecommendedMeal> mealsByQuality = GetRecommendedMeals(summaryRatings, classification);
-
-        //        recommendedMeals.AddRange(mealsByQuality);
-        //    }
-
-        //    if (recommendedMeals.Count < 10)
-        //    {
-        //        summaryRatings = _summaryRatingService.GetAllSummaryRatings().OrderBy(x => x.TotalQuantityRating).Take(20);
-
-        //        List<RecommendedMeal> mealsByQuantity = GetRecommendedMeals(summaryRatings, classification);
-
-        //        recommendedMeals.AddRange(mealsByQuantity);
-        //    }
-
-        //    if (recommendedMeals.Count < 10)
-        //    {
-        //        summaryRatings = _summaryRatingService.GetAllSummaryRatings().OrderBy(x => x.TotalAppearanceRating).Take(20);
-
-        //        List<RecommendedMeal> mealsByAppearance = GetRecommendedMeals(summaryRatings, classification);
-
-        //        recommendedMeals.AddRange(mealsByAppearance);
-        //    }
-
-        //    if (recommendedMeals.Count < 10)
-        //    {
-        //        summaryRatings = _summaryRatingService.GetAllSummaryRatings().OrderBy(x => x.TotalValueForMoneyRating).Take(20);
-
-        //        List<RecommendedMeal> mealsByVFM = GetRecommendedMeals(summaryRatings, classification);
-
-        //        recommendedMeals.AddRange(mealsByVFM);
-        //    }
-
-        //    return recommendedMeals;
-        //}
-
-        public List<RecommendedMeal> GiveRecommendation(string classification)
+        public List<RecommendedMeal> GiveRecommendation(string classification, int numberOfMeals)
         {
             var recommendedMeals = new List<RecommendedMeal>();
 
@@ -90,11 +36,11 @@
                 var meals = GetRecommendedMeals(summaryRatings, classification);
                 recommendedMeals.AddRange(meals);
 
-                if (recommendedMeals.Count >= 10)
+                if (recommendedMeals.Count >= 20)
                     break;
             }
 
-            return recommendedMeals.Take(5).ToList();
+            return recommendedMeals.Take(numberOfMeals).ToList();
         }
 
 

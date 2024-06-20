@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.ModelDTOs;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Newtonsoft.Json;
 using Server;
 
@@ -16,6 +17,7 @@ class Program
         Console.WriteLine("1. View Menu");
         Console.WriteLine("2. Select Meal Option");
         Console.WriteLine("3. Send Notification");
+        Console.WriteLine("4. Select Meal for tomorrow");
         Console.WriteLine("5. To Exit");
 
         var menuActions = new Dictionary<string, Action>
@@ -23,7 +25,8 @@ class Program
             { "1", () => ViewMenu(client) },
             { "2", () => SelectMealOptions(client) },
             { "3", () => SendNotification(client) },
-            { "5", () => ExitProgram() }
+            { "4", () => SelectMeal(client) },
+            { "5", () => LogOut(client) }
         };
 
         while (true)
@@ -51,14 +54,19 @@ class Program
 
     }
 
-    static void SelectMealOptions(SocketClient client)
+    static string GetRecommendedMeals(SocketClient client)
     {
+
         Console.Write("Enter the Classification (Breakfast/Lunch/Dinner): ");
         string classification = Console.ReadLine();
 
-        client.SendMessage($"MEAL_SELECT|{classification}");
+        Console.Write("How many Meals do you want?");
+        string numberOfMeals = Console.ReadLine();
+
+        client.SendMessage($"MEAL_SELECT|{classification}|{numberOfMeals}");
 
         var response = client.RecieveMessage();
+        Console.WriteLine("These are the recommended meals: ");
         Console.WriteLine(response);
 
         Console.WriteLine("\n\nThis is the full meanu:");
@@ -67,6 +75,13 @@ class Program
 
         response = client.RecieveMessage();
         Console.WriteLine(response);
+
+        return classification;
+    }
+
+    static void SelectMealOptions(SocketClient client)
+    {
+        var classification = GetRecommendedMeals(client);
 
         List<string> meals = new List<string>();
 
@@ -81,8 +96,31 @@ class Program
 
         client.SendMessage($"MEAL_OPTION|{classification}|{meal}");
 
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        SendNotification(client);
+    }
+
+    static void SelectMeal(SocketClient client)
+    {
+        Console.Write("Enter Classification: ");
+        string classification = Console.ReadLine();
+
+        client.SendMessage($"MEAL_GETOPTIONS|{classification}");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        Console.WriteLine("Enter the meal you want to make next day: ");
+        string mealId = Console.ReadLine();
+
+        client.SendMessage($"MEAL_CHOOSE|{mealId}");
+
         response = client.RecieveMessage();
         Console.WriteLine(response);
+
+        SendNotification(client);
     }
 
     static void SendNotification(SocketClient client)
@@ -96,9 +134,10 @@ class Program
         Console.WriteLine(response);
     }
 
-    static void ExitProgram()
+    static void LogOut(SocketClient client)
     {
-        Environment.Exit(0);
+        Console.Clear();
+        ChefLogin(client);
     }
 
     static void ChefLogin(SocketClient client)
@@ -112,7 +151,7 @@ class Program
         user.Password = Console.ReadLine();
 
         string json = JsonConvert.SerializeObject(user);
-        client.SendMessage($"LOGIN|{json}");
+        client.SendMessage($"LOGIN|{json}|Chef");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);

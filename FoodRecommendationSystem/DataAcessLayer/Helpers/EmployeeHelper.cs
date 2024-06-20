@@ -2,11 +2,11 @@
 {
     public class EmployeeHelper : IEmployeeHelper
     {
-        private IRepository<MealMenu> _mealMenuRepository;
+        private IMealMenuService _mealMenuService;
         private readonly IFeedbackHelper _feedbackHelper;
-        public EmployeeHelper(IRepository<MealMenu> mealMenuRepository, IFeedbackHelper feedbackHelper) 
+        public EmployeeHelper(IMealMenuService mealMenuRepository, IFeedbackHelper feedbackHelper) 
         { 
-            _mealMenuRepository = mealMenuRepository;
+            _mealMenuService = mealMenuRepository;
             _feedbackHelper = feedbackHelper;
         }
 
@@ -14,7 +14,7 @@
         {
             try
             {
-                var mealMenus = _mealMenuRepository.GetAll().Where(x => x.CreationDate == dateTime && x.Classification == classification).ToList();
+                var mealMenus = _mealMenuService.GetAllMealMenus().Where(x => x.CreationDate == dateTime && x.Classification == classification).ToList();
                 return mealMenus.Select(mealMenu => (MealMenuDTO)mealMenu).ToList();
             }
             catch (Exception ex)
@@ -27,7 +27,7 @@
         {
             try
             {
-                var mealMenu = _mealMenuRepository.GetAll().Where(x => x.CreationDate == dateTime && x.Classification == classification
+                var mealMenu = _mealMenuService.GetAllMealMenus().Where(x => x.CreationDate == dateTime && x.Classification == classification
                                                                   && x.WasPrepared).FirstOrDefault();
                 return (MealMenuDTO)mealMenu;
             }
@@ -41,19 +41,28 @@
         {
             try
             {
-                var mealMenu = _mealMenuRepository.GetAll().Where(x => x.MealNameId == mealNameId && x.CreationDate == dateTime).FirstOrDefault();
-                
-                mealMenu.NumberOfVotes += 1;
+                var mealMenu = _mealMenuService.GetAllMealMenus()
+                    .FirstOrDefault(x => x.MealName.MealNameId == mealNameId && x.CreationDate == dateTime);
 
-                _mealMenuRepository.Update(mealMenu);
+                if (mealMenu != null)
+                {
+                    mealMenu.NumberOfVotes += 1;
 
-                return mealMenu;
+                    _mealMenuService.UpdateMealMenu(mealMenu);
+
+                    return mealMenu;
+                }
+                else
+                {
+                    throw new Exception("Meal menu not found for the specified criteria.");
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("Cannot vote for the next day meal", ex);
             }
         }
+
 
         public void GiveFeedback(RatingDTO ratingDTO, ReviewDTO reviewDTO)
         {

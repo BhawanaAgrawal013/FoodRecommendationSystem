@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Common;
+using DataAcessLayer.Entity;
 using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.Service.IService;
 using Newtonsoft.Json;
@@ -25,7 +26,8 @@ namespace Server.RequestHandlers
                 {"MEAL_SELECT",  GetRecommendedMeals },
                 {"MEAL_OPTION", SendMealMenuOptions },
                 {"MEAL_GETOPTIONS",  GetMealMenuOptions },
-                {"MEAL_VOTE", VoteForMeal }
+                {"MEAL_VOTE", VoteForMeal },
+                {"MEAL_CHOOSE", ChooseMeal }
             };
 
             foreach (var handlerKey in requestHandlers.Keys)
@@ -44,8 +46,9 @@ namespace Server.RequestHandlers
         {
             var parts = request.Split('|');
             string classification = parts[1];
+            int numberOfMeals = Convert.ToInt32(parts[2]);
 
-            var recommendedMeals = _service.GiveRecommendation(classification);
+            var recommendedMeals = _service.GiveRecommendation(classification, numberOfMeals);
 
             string result = "";
 
@@ -93,6 +96,18 @@ namespace Server.RequestHandlers
             var meal = _employeeHelper.VoteForNextDayMeal(id, DateTime.Now.Date);
 
             return ($"Selected Meal: {meal.MealName.MealName}");
+        }
+
+        private string ChooseMeal(string request)
+        {
+            var parts = request.Split('|');
+
+            int mealMenuId = Convert.ToInt32(parts[1]);
+
+            var meal = _chefHelper.ChooseNextMealMenu(mealMenuId);
+            
+            return ($"Choosen meal is: \nMeal: {meal.MealName.MealName} and Id: {meal.MealName.MealNameId}");
+
         }
     }
 }

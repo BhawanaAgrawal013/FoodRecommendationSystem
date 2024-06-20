@@ -9,5 +9,7 @@
         MealNameDTO GetMealName(int id);
 
         void UpdateMealName(MealNameDTO mealNameDTO);
+
+        void DeleteMealName(int id);
     }
 }
