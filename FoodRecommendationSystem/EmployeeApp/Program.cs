@@ -13,11 +13,6 @@ class Program
         EmployeeLogin(client);
 
         Console.WriteLine("Employee Console");
-        Console.WriteLine("1. View Menu");
-        Console.WriteLine("2. Recieve Notification");
-        Console.WriteLine("3. Vote for Meal Options");
-        Console.WriteLine("4. Give Feedback");
-        Console.WriteLine("5. To Log Out");
 
         var menuActions = new Dictionary<string, Action>
         {
@@ -30,6 +25,12 @@ class Program
 
         while (true)
         {
+            Console.WriteLine("1. View Menu");
+            Console.WriteLine("2. Recieve Notification");
+            Console.WriteLine("3. Vote for Meal Options");
+            Console.WriteLine("4. Give Feedback");
+            Console.WriteLine("5. To Log Out");
+
             Console.Write("Select an option: ");
             var option = Console.ReadLine();
 
@@ -66,8 +67,7 @@ class Program
 
     static void VoteMealOptions(SocketClient client)
     {
-        Console.Write("Enter Classification: ");
-        string classification = Console.ReadLine();
+        string classification = GetClassificationFromUser();
 
         client.SendMessage($"MEAL_GETOPTIONS|{classification}");
 
@@ -82,8 +82,7 @@ class Program
 
     static void GiveFeedback(SocketClient client)
     {
-        Console.WriteLine("Enter Classification");
-        string classification = Console.ReadLine();
+        string classification = GetClassificationFromUser();
 
         client.SendMessage($"FEEDBACK_LIST|{classification}");
 
@@ -181,5 +180,25 @@ class Program
             Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
         }
         return rating;
+    }
+
+    static string GetClassificationFromUser()
+    {
+        while (true)
+        {
+            Console.WriteLine("Enter Classification (Breakfast, Beverage, Snacks, Thali, Appetizer, Healthy Snack):");
+            string userInput = Console.ReadLine();
+
+            string formattedInput = userInput.Replace(" ", string.Empty);
+
+            if (Enum.TryParse(formattedInput, true, out Classification classification) && Enum.IsDefined(typeof(Classification), classification))
+            {
+                return userInput; 
+            }
+            else
+            {
+                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Beverage, Snacks, Thali, Appetizer, Healthy Snack.");
+            }
+        }
     }
 }

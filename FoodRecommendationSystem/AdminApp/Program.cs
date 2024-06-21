@@ -11,11 +11,6 @@ class Program
         AdminLogin(client);
 
         Console.WriteLine("Admin Console");
-        Console.WriteLine("1. View Menu");
-        Console.WriteLine("2. Add Menu Item");
-        Console.WriteLine("3. Update Menu Item");
-        Console.WriteLine("4. Delete Menu Item");
-        Console.WriteLine("5. To Exit");
 
         var menuActions = new Dictionary<string, Action>
         {
@@ -28,6 +23,12 @@ class Program
 
         while (true)
         {
+            Console.WriteLine("1. View Menu");
+            Console.WriteLine("2. Add Menu Item");
+            Console.WriteLine("3. Update Menu Item");
+            Console.WriteLine("4. Delete Menu Item");
+            Console.WriteLine("5. To Exit");
+
             Console.Write("Select an option: ");
             var option = Console.ReadLine();
 
