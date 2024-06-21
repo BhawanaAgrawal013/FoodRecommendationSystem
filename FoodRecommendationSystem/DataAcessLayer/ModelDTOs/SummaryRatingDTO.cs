@@ -18,6 +18,8 @@
 
         public int NumberOfPeople { get; set; }
 
+        public string SentimentComment { get; set; }
+
         public FoodDTO Food { get; set; }
 
         public static implicit operator SummaryRatingDTO(SummaryRating summaryRating)
@@ -34,6 +36,7 @@
                 TotalQuantityRating = summaryRating.TotalQuantityRating,
                 TotalValueForMoneyRating = summaryRating.TotalValueForMoneyRating,
                 NumberOfPeople = summaryRating.NumberOfPeople,
+                SentimentComment = summaryRating.SentimentComment,
                 Food = (FoodDTO)summaryRating.Food
             };
         }
@@ -52,7 +55,8 @@
                 TotalQuantityRating = summaryRatingDTO.TotalQuantityRating,
                 TotalValueForMoneyRating = summaryRatingDTO.TotalValueForMoneyRating,
                 NumberOfPeople= summaryRatingDTO.NumberOfPeople,
-                FoodId = summaryRatingDTO.Food.Id
+                FoodId = summaryRatingDTO.Food.Id,
+                SentimentComment = summaryRatingDTO.SentimentComment
             };
         }
     }

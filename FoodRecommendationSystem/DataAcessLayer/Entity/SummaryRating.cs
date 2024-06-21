@@ -22,5 +22,7 @@ public class SummaryRating
 
     public int NumberOfPeople { get; set; }
 
+    public string SentimentComment { get; set; }
+
     public Food Food { get; set; }
 }

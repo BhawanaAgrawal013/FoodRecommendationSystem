@@ -13,6 +13,8 @@
         [Column(TypeName = "varchar(50)")]
         public string MealType { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Meal> Meals { get; set; }
     }
 }

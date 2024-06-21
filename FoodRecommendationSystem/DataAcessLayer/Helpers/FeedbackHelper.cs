@@ -1,4 +1,6 @@
 ﻿using DataAcessLayer.ModelDTOs;
+using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DataAcessLayer.Helpers
 {
@@ -83,6 +85,7 @@ namespace DataAcessLayer.Helpers
             else
             {
                 var newScore = AnalyzeSentiment(reviewDTO.ReviewText);
+                existingSummaryRatingDTO.SentimentComment = GetSentimentSummary(reviewDTO.Food.Id);
                 existingSummaryRatingDTO.SentimentScore = CalcualteAverage(existingSummaryRatingDTO.SentimentScore, existingSummaryRatingDTO.NumberOfPeople, newScore);
                 existingSummaryRatingDTO.TotalQuantityRating = CalcualteAverage(existingSummaryRatingDTO.TotalQuantityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QuantityRating);
                 existingSummaryRatingDTO.AverageRating = CalcualteAverage(existingSummaryRatingDTO.AverageRating, existingSummaryRatingDTO.NumberOfPeople, ratingDTO.RatingValue);
@@ -107,7 +110,8 @@ namespace DataAcessLayer.Helpers
                 TotalQualityRating = reviewDTO.QualityRating,
                 TotalQuantityRating = reviewDTO.QuantityRating,
                 TotalValueForMoneyRating = reviewDTO.ValueForMoneyRating,
-                NumberOfPeople = 1
+                NumberOfPeople = 1,
+                SentimentComment = GetSentimentSummary(reviewDTO.Food.Id)
             };
 
             return summaryRating;
@@ -194,6 +198,33 @@ namespace DataAcessLayer.Helpers
             var meals = _mealService.GetAllMeals().Where(x => x.MealName.MealType == classification).ToList();
 
             return meals;
+        }
+
+        public string GetSentimentSummary(int foodId)
+        {
+            List<string> reviewTexts = _reviewService.GetAllReviews().Where(x => x.Food.Id == foodId).Select(x => x.ReviewText).ToList();
+
+            var result = string.Empty;
+
+            foreach (var review in reviewTexts)
+            {
+
+                var words = review.Split(new[] { ' ', '.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var sentimentWordsSet = new HashSet<string>();
+
+                foreach (var word in words)
+                {
+                    var lowerWord = word.ToLower();
+                    if (WordsDictionary.SentimentWords.ContainsKey(lowerWord))
+                    {
+                        sentimentWordsSet.Add(lowerWord);
+                    }
+                }
+
+                result += string.Join(", ", sentimentWordsSet);
+            }
+
+            return result;
         }
     }
 }

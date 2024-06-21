@@ -8,6 +8,8 @@
 
         public string MealType { get; set; }
 
+        public bool IsDeleted {  get; set; }
+
         public static implicit operator MealNameDTO(MealName mealName)
         {
             if (mealName == null) return null;
@@ -16,7 +18,8 @@
             {
                 MealNameId = mealName.Id,
                 MealName = mealName.Name,
-                MealType = mealName.MealType
+                MealType = mealName.MealType,
+                IsDeleted = mealName.IsDeleted
             };
         }
 
@@ -28,7 +31,8 @@
             {
                 Id = mealNameDTO.MealNameId,
                 Name = mealNameDTO.MealName,
-                MealType = mealNameDTO.MealType
+                MealType = mealNameDTO.MealType,
+                IsDeleted = mealNameDTO.IsDeleted
             };
         }
     }

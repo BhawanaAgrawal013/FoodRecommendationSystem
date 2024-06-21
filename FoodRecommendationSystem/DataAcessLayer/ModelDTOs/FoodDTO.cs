@@ -14,6 +14,8 @@
 
         public bool IsInMainMenu { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public static implicit operator FoodDTO(Food food)
         {
             if (food ==null) return null;
@@ -25,7 +27,8 @@
                 Description = food.Description,
                 Price = food.Price,
                 IsAvailable = food.IsAvailable,
-                IsInMainMenu = food.IsInMainMenu
+                IsInMainMenu = food.IsInMainMenu,
+                IsDeleted = food.IsDeleted
             };
         }
 
@@ -40,7 +43,8 @@
                 Description = foodDTO.Description,
                 Price = foodDTO.Price,
                 IsAvailable = foodDTO.IsAvailable,
-                IsInMainMenu= foodDTO.IsInMainMenu
+                IsInMainMenu= foodDTO.IsInMainMenu,
+                IsDeleted = foodDTO.IsDeleted
             };
         }
     }

@@ -45,9 +45,9 @@
             {"appetizing", 3}, {"fresh", 3}, {"well-seasoned", 3}, {"rich", 2},
 
             // Negative food-related words
-            {"bland", -3}, {"tasteless", -3}, {"overcooked", -3}, {"undercooked", -3}, {"burnt", -4}, {"soggy", -3}, {"greasy", -3}, {"dry", -3},
+            {"bland", -3}, {"tasteless", -6}, {"overcooked", -3}, {"undercooked", -3}, {"burnt", -4}, {"soggy", -3}, {"greasy", -3}, {"dry", -3},
             {"stale", -3}, {"rubbery", -3}, {"flavorless", -3}, {"unappetizing", -3}, {"spoiled", -4},
-            {"inedible", -4}, {"disgusting", -4},
+            {"inedible", -4}, {"disgusting", -4}, { "not worth having", -6}, { "extremely bad experience", -6},
             
             // Neutral or context-specific words
             {"salt", 0}, {"sugar", 0}, {"butter", 0}, {"oil", 0}, {"bread", 0}, {"water", 0}, {"spice", 0}, {"meat", 0},

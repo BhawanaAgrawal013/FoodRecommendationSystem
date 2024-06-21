@@ -19,6 +19,8 @@ public class Food
 
     public bool IsInMainMenu { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public ICollection<Rating> Ratings { get; set; }
     public ICollection<Review> Reviews { get; set; }
     public ICollection<Meal> MealPlans { get; set; }
