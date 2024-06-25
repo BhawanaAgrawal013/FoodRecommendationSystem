@@ -11,7 +11,7 @@
 
         public IEnumerable<Meal> GetAll()
         {
-            return _context.Meals.Include(x => x.MealName).Include(x => x.Food).ToList();
+            return _context.Meals.Where(x => !x.IsDeleted).Include(x => x.MealName).Include(x => x.Food).ToList();
         }
 
         public Meal GetById(int id)

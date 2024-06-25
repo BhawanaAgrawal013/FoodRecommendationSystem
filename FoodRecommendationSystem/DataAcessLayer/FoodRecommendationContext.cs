@@ -19,6 +19,9 @@ public partial class FoodRecommendationContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<MealName> MealNames { get; set; }
     public DbSet<UserNotification> UserNotifications { get; set; }
+    public DbSet<DiscardedMenu> DiscardedMenus { get; set; }
+    public DbSet<DiscardedMenuFeedback> DiscardedMenuFeedbacks { get; set; }
+    public DbSet<Profile> Profiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,6 +69,21 @@ public partial class FoodRecommendationContext : DbContext
             .HasOne(un => un.Notification)
             .WithMany(n => n.UserNotifications)
             .HasForeignKey(un => un.NotificationId);
+
+        modelBuilder.Entity<Profile>()
+            .HasOne(pr => pr.User)
+            .WithOne(pr => pr.Profile)
+            .HasForeignKey<Profile>(x => x.UserId);
+
+        modelBuilder.Entity<DiscardedMenuFeedback>()
+            .HasOne(un => un.DiscardedMenu)
+            .WithMany(n => n.DiscardedMenuFeedbacks)
+            .HasForeignKey(un => un.DiscardedMenuId);
+
+        modelBuilder.Entity<DiscardedMenu>()
+            .HasOne(un => un.MealName)
+            .WithOne(n => n.DiscardedMenu)
+            .HasForeignKey<DiscardedMenu>(un => un.MealNameId);
 
         OnModelCreatingPartial(modelBuilder);
     }

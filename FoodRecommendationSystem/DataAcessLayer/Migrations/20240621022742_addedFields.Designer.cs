@@ -4,6 +4,7 @@ using DataAcessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayer.Migrations
 {
     [DbContext(typeof(FoodRecommendationContext))]
-    partial class FoodRecommendationContextModelSnapshot : ModelSnapshot
+    [Migration("20240621022742_addedFields")]
+    partial class addedFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,55 +23,6 @@ namespace DataAcessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("DataAcessLayer.Entity.DiscardedMenu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("IsDiscarded")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MealNameId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MealNameId")
-                        .IsUnique();
-
-                    b.ToTable("DiscardedMenus");
-                });
-
-            modelBuilder.Entity("DataAcessLayer.Entity.DiscardedMenuFeedback", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("DiscardedMenuId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DislikeText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LikeText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Recipie")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiscardedMenuId");
-
-                    b.ToTable("DiscardedMenuFeedbacks");
-                });
 
             modelBuilder.Entity("DataAcessLayer.Entity.Food", b =>
                 {
@@ -114,9 +67,6 @@ namespace DataAcessLayer.Migrations
 
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int>("MealNameId")
                         .HasColumnType("int");
@@ -169,16 +119,7 @@ namespace DataAcessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CuisinePreference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DietType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSweet")
                         .HasColumnType("bit");
 
                     b.Property<string>("MealType")
@@ -188,9 +129,6 @@ namespace DataAcessLayer.Migrations
                     b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
-
-                    b.Property<string>("SpiceLevel")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -216,37 +154,6 @@ namespace DataAcessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("DataAcessLayer.Entity.Profile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CuisinePreference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DietType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSweet")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SpiceLevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("DataAcessLayer.Entity.Rating", b =>
@@ -448,28 +355,6 @@ namespace DataAcessLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.DiscardedMenu", b =>
-                {
-                    b.HasOne("DataAcessLayer.Entity.MealName", "MealName")
-                        .WithOne("DiscardedMenu")
-                        .HasForeignKey("DataAcessLayer.Entity.DiscardedMenu", "MealNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MealName");
-                });
-
-            modelBuilder.Entity("DataAcessLayer.Entity.DiscardedMenuFeedback", b =>
-                {
-                    b.HasOne("DataAcessLayer.Entity.DiscardedMenu", "DiscardedMenu")
-                        .WithMany("DiscardedMenuFeedbacks")
-                        .HasForeignKey("DiscardedMenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DiscardedMenu");
-                });
-
             modelBuilder.Entity("DataAcessLayer.Entity.Meal", b =>
                 {
                     b.HasOne("DataAcessLayer.Entity.Food", "Food")
@@ -498,17 +383,6 @@ namespace DataAcessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("MealName");
-                });
-
-            modelBuilder.Entity("DataAcessLayer.Entity.Profile", b =>
-                {
-                    b.HasOne("DataAcessLayer.User", "User")
-                        .WithOne("Profile")
-                        .HasForeignKey("DataAcessLayer.Entity.Profile", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAcessLayer.Entity.Rating", b =>
@@ -590,11 +464,6 @@ namespace DataAcessLayer.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DataAcessLayer.Entity.DiscardedMenu", b =>
-                {
-                    b.Navigation("DiscardedMenuFeedbacks");
-                });
-
             modelBuilder.Entity("DataAcessLayer.Entity.Food", b =>
                 {
                     b.Navigation("MealPlans");
@@ -608,8 +477,6 @@ namespace DataAcessLayer.Migrations
 
             modelBuilder.Entity("DataAcessLayer.Entity.MealName", b =>
                 {
-                    b.Navigation("DiscardedMenu");
-
                     b.Navigation("Meals");
                 });
 
@@ -625,8 +492,6 @@ namespace DataAcessLayer.Migrations
 
             modelBuilder.Entity("DataAcessLayer.User", b =>
                 {
-                    b.Navigation("Profile");
-
                     b.Navigation("Ratings");
 
                     b.Navigation("Reviews");

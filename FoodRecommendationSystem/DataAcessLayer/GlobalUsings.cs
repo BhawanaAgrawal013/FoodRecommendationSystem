@@ -5,7 +5,6 @@ global using Microsoft.EntityFrameworkCore;
 global using DataAcessLayer.ModelDTOs;
 global using System.Diagnostics.CodeAnalysis;
 global using Newtonsoft.Json;
-global using Microsoft.Extensions.DependencyInjection;
 global using DataAcessLayer.Repository.IRepository;
 global using DataAcessLayer.Helpers.IHelpers;
 global using DataAcessLayer.Service.IService;

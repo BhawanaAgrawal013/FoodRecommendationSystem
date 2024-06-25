@@ -40,6 +40,12 @@ namespace Server
             }
         }
 
+        public void CloseClient()
+        {
+            _client.Close();
+            Console.WriteLine("Closed Server");
+        }
+
         public void SendMessage(string message)
         {
             byte[] data = Encoding.ASCII.GetBytes(message);
@@ -48,7 +54,7 @@ namespace Server
 
         public string RecieveMessage()
         {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             StringBuilder message = new StringBuilder();
             int bytesRead;
 

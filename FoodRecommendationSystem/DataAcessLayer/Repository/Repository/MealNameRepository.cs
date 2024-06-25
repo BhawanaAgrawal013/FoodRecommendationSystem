@@ -10,7 +10,7 @@
 
         public IEnumerable<MealName> GetAll()
         {
-            return _context.MealNames.ToList();
+            return _context.MealNames.Where(x => !x.IsDeleted).ToList();
         }
 
         public MealName GetById(int id)

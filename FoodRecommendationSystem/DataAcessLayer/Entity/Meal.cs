@@ -11,6 +11,8 @@ public class Meal
     [ForeignKey("MealName")]
     public int MealNameId { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public Food Food { get; set; }
 
     public MealName MealName { get; set; }

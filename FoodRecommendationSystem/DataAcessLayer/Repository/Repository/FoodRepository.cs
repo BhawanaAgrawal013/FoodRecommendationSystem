@@ -11,7 +11,7 @@
 
         public IEnumerable<Food> GetAll()
         {
-            return _context.Foods.ToList();
+            return _context.Foods.Where(x => !x.IsDeleted).ToList();
         }
 
         public Food GetById(int id)

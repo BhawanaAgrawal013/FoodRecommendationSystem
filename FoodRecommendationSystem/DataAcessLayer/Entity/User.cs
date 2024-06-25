@@ -35,4 +35,5 @@ public class User
     public ICollection<Rating> Ratings { get; set; }
     public ICollection<UserNotification> UserNotifications { get; set; }
     public Role Role { get; set; }
+    public Profile Profile { get; set; }
 }

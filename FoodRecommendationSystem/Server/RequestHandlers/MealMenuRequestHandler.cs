@@ -82,7 +82,7 @@ namespace Server.RequestHandlers
 
             foreach (var meal in meals)
             {
-                result += ($"\nMeal: {meal.MealName.MealName} and Id: {meal.MealName.MealNameId}");
+                result += ($"\nID: {meal.Id} Meal: {meal.MealName.MealName} and Id: {meal.MealName.MealNameId} and Vote: {meal.NumberOfVotes}");
             }
 
             return result;
