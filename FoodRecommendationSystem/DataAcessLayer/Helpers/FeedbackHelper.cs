@@ -11,22 +11,22 @@ namespace DataAcessLayer.Helpers
         private readonly IFoodService _foodService;
         private readonly ISummaryRatingService _summaryRatingService;
         private readonly IMealService _mealService;
-        private readonly IRepository<User> _repository;
+        private readonly IUserService _user;
         public FeedbackHelper(IRatingService ratingService, IReviewService reviewService, 
                             IFoodService foodService, ISummaryRatingService summaryRatingService, 
-                            IMealService mealService, IRepository<User> repository)
+                            IMealService mealService, IUserService user)
         {
             _ratingService = ratingService;
             _reviewService = reviewService;
             _foodService = foodService;
             _summaryRatingService = summaryRatingService;
             _mealService = mealService;
-            _repository = repository;
+            _user = user;
         }
 
         public void AddFeedback(ReviewDTO reviewDTO, RatingDTO ratingDTO)
         {
-            var userId = _repository.GetAll().Where(x => x.Email == ratingDTO.User.Email).Select(x => x.Id).First();
+            var userId = _user.GetAllUsers().Where(x => x.Email == ratingDTO.User.Email).Select(x => x.Id).First();
 
             reviewDTO.User = new User
             {

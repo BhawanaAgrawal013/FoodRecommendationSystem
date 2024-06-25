@@ -55,6 +55,7 @@ class Program
                 services.AddScoped<IRecommendationEngineService, RecommendationEngineService>();
                 services.AddScoped<ILoginService, LoginService>();
                 services.AddScoped<INotificationHelper, NotificationHelper>();
+                services.AddScoped<IUserService, UserService>();
                 services.AddSingleton<SocketServer>();
             });
 }

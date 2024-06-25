@@ -1,17 +1,10 @@
-﻿using DataAcessLayer;
-using DataAcessLayer.Helpers.IHelpers;
-using DataAcessLayer.ModelDTOs;
-using DataAcessLayer.Repository.IRepository;
-using DataAcessLayer.Service.IService;
+﻿using DataAcessLayer.Helpers.IHelpers;
 
 namespace Server.RequestHandlers
 {
     public class NotificationRequestHandler
     {
         private readonly INotificationHelper _helper;
-        private readonly INotificationService _notificationService;
-        private readonly IUserNotificationService _userNotificationService;
-        private readonly IRepository<User> _user;
 
         public NotificationRequestHandler(INotificationHelper helper)
         {

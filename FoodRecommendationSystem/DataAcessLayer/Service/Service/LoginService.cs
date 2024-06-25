@@ -2,16 +2,16 @@
 {
     public class LoginService : ILoginService
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserService _userService;
 
-        public LoginService(IRepository<User> userRepository)
+        public LoginService(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         public string Login(UserDTO userDTO, string roleName)
         {
-            IEnumerable<User> users = _userRepository.GetAll();
+            List<UserDTO> users = _userService.GetAllUsers();
 
             var user = users.SingleOrDefault(u => u.Email == userDTO.Email && u.Password == userDTO.Password
                                             && u.Role.RoleName == roleName);

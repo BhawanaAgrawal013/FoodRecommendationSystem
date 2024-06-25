@@ -4,10 +4,10 @@ public class NotificationHelper : INotificationHelper
 {
     private readonly INotificationService _notificationService;
     private readonly IUserNotificationService _userNotificationService;
-    private readonly IRepository<User> _user;
+    private readonly IUserService _user;
 
     public NotificationHelper(IUserNotificationService userNotificationService, INotificationService notificationService,
-        IRepository<User> repository)
+        IUserService repository)
     {
         _notificationService = notificationService;
         _user = repository;
@@ -23,7 +23,7 @@ public class NotificationHelper : INotificationHelper
         _notificationService.AddNotification(notificationDTO);
         var notification = _notificationService.GetAllNotifications().LastOrDefault();
 
-        var users = _user.GetAll().Where(x => x.Role.RoleName == "Employee");
+        var users = _user.GetAllUsers().Where(x => x.Role.RoleName == "Employee");
 
         foreach (var user in users)
         {
@@ -42,7 +42,7 @@ public class NotificationHelper : INotificationHelper
     {
         var userNotifications = _userNotificationService.GetAllUserNotifications().Where(x => x.User.Email == email && !x.IsRead);
 
-        int userId = _user.GetAll().Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+        int userId = _user.GetAllUsers().Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
 
         _userNotificationService.MarkNotificationAsRead(userId);
         
