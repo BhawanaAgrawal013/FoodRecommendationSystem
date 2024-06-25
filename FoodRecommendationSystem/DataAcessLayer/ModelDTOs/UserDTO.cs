@@ -28,6 +28,7 @@
                 Gender = user.Gender,
                 EmpId = user.EmpId,
                 Role = (RoleDTO)user.Role,
+                Password = user.Password
             };
         }
 
@@ -43,7 +44,8 @@
                 Gender = userDTO.Gender,
                 EmpId = userDTO.EmpId,
                 RoleId = userDTO.Role.Id,
-                Role = (Role)userDTO.Role
+                Role = (Role)userDTO.Role,
+                Password = userDTO.Password
             };
         }
     }
