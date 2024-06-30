@@ -43,7 +43,7 @@ namespace DataAcessLayer.Migrations
                     b.HasIndex("MealNameId")
                         .IsUnique();
 
-                    b.ToTable("DiscardedMenus");
+                    b.ToTable("DiscardedMenuFeedbacks");
                 });
 
             modelBuilder.Entity("DataAcessLayer.Entity.DiscardedMenuFeedback", b =>

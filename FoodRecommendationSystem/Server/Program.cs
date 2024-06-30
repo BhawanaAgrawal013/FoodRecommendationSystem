@@ -59,6 +59,9 @@ class Program
                 services.AddScoped<IRepository<DiscardedMenu>, DiscardedMenuRepository>();
                 services.AddScoped<IDiscardedMenuService, DiscardedMenuService>();
                 services.AddScoped<IRecommendationHelper, RecommendationHelper>();
+                services.AddScoped<IDiscardedMenuFeedbackService, DiscardedMenuFeedbackService>();
+                services.AddScoped<IRepository<DiscardedMenuFeedback>, DiscardedMenuFeedbackRepository>();
+                services.AddScoped<IRepository<Profile>, ProfileRepository>();
                 services.AddSingleton<SocketServer>();
             });
 }

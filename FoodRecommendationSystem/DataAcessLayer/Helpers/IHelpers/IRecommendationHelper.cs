@@ -4,5 +4,7 @@
     {
         RecommendedMeal AddDiscardedMeal(List<RecommendedMeal> recommendedMeals);
         List<RecommendedMeal> GetDiscardedMeals();
+        DiscardedMenuDTO GetDiscardedMenu();
+        void UpdateDiscardMeal(int discardId, bool isDiscarded);
     }
 }

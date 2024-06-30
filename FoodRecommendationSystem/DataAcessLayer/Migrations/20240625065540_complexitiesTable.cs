@@ -41,7 +41,7 @@ namespace DataAcessLayer.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "DiscardedMenus",
+                name: "DiscardedMenuFeedbacks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -100,7 +100,7 @@ namespace DataAcessLayer.Migrations
                     table.ForeignKey(
                         name: "FK_DiscardedMenuFeedbacks_DiscardedMenus_DiscardedMenuId",
                         column: x => x.DiscardedMenuId,
-                        principalTable: "DiscardedMenus",
+                        principalTable: "DiscardedMenuFeedbacks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -112,7 +112,7 @@ namespace DataAcessLayer.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiscardedMenus_MealNameId",
-                table: "DiscardedMenus",
+                table: "DiscardedMenuFeedbacks",
                 column: "MealNameId",
                 unique: true);
 
@@ -132,7 +132,7 @@ namespace DataAcessLayer.Migrations
                 name: "Profiles");
 
             migrationBuilder.DropTable(
-                name: "DiscardedMenus");
+                name: "DiscardedMenuFeedbacks");
 
             migrationBuilder.DropColumn(
                 name: "IsDeleted",
