@@ -62,32 +62,11 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var food = _foodRepository.GetAll()
-                    .FirstOrDefault(f => f.Name == mealDTO.Food.Name);
-                if (food == null)
-                {
-                    food = (Food)mealDTO.Food;
-                    _foodRepository.Insert(food);
-                    _foodRepository.Save();
-                }
-
-                var mealName = _mealNameRepository.GetAll()
-                    .FirstOrDefault(mn => mn.Name == mealDTO.MealName.MealName);
-                if (mealName == null)
-                {
-                    mealName = (MealName)mealDTO.MealName;
-                    _mealNameRepository.Insert(mealName);
-                    _mealNameRepository.Save();
-                }
-
                 var meal = _mealRepository.GetById(mealDTO.Id);
                 if (meal == null)
                 {
                     throw new Exception("Meal not found");
                 }
-
-                meal.FoodId = food.Id;
-                meal.MealNameId = mealName.Id;
 
                 _mealRepository.Update(meal);
                 _mealRepository.Save();

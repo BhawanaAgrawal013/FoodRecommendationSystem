@@ -26,7 +26,18 @@
 
         public void Update(DiscardedMenu entity)
         {
-            _context.DiscardedMenus.Update(entity);
+            var existingEntity = _context.DiscardedMenus.Find(entity.Id);
+
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).State = EntityState.Detached;
+            }
+
+            _context.DiscardedMenus.Attach(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.SaveChanges();
         }
 
         public void Delete(int id)

@@ -18,7 +18,8 @@
             {
                 Id = discardedMenu.Id,
                 IsDiscarded = discardedMenu.IsDiscarded,
-                MealNameId = discardedMenu.MealNameId
+                MealNameId = discardedMenu.MealNameId,
+                MealName = discardedMenu.MealName
             };
         }
 

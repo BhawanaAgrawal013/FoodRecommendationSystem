@@ -42,7 +42,7 @@ public class SocketServer
         _feedbackHelper = feedbackHelper;
         _feedbackRequestHelper = new FeedbackRequestHandler(_feedbackHelper);
         _recommendationHelper = recommendationHelper;
-        _discardedMenuRequestHandler = new DiscardedMenuRequestHandler(_recommendationHelper);
+        _discardedMenuRequestHandler = new DiscardedMenuRequestHandler(_recommendationHelper, _feedbackHelper);
     }
 
     public void Start()

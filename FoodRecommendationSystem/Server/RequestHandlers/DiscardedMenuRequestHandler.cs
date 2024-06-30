@@ -1,21 +1,28 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
+using DataAcessLayer.ModelDTOs;
+using Newtonsoft.Json;
 
 namespace Server.RequestHandlers
 {
     public class DiscardedMenuRequestHandler
     {
         private readonly IRecommendationHelper _helper;
+        private readonly IFeedbackHelper _feedbackHelper;
 
-        public DiscardedMenuRequestHandler(IRecommendationHelper helper)
+        public DiscardedMenuRequestHandler(IRecommendationHelper helper, IFeedbackHelper feedbackHelper)
         {
             _helper = helper;
+            _feedbackHelper = feedbackHelper;
         }
 
         public string HandleRequest(string request)
         {
             var requestHandlers = new Dictionary<string, Func<string, string>>
             {
-                {"DISCARD_GET",  GetDiscardedMeals }
+                {"DISCARD_GET",  GetDiscardedMeals },
+                {"DISCARD_MENU", GetDiscardMenu },
+                {"DISCARD_FEEDBACK", AddDiscardFeedback },
+                {"DISCARD_UPDATE" , UpdateDiscardMenu}
             };
 
             foreach (var handlerKey in requestHandlers.Keys)
@@ -44,9 +51,37 @@ namespace Server.RequestHandlers
 
             var meals = _helper.AddDiscardedMeal(recommendedMeals);
 
-            result += ($"\n\n\nDiscarded Meals: {meals.MealName.MealName}");
+            result += ($"\n\n\nID: {meals.Id} \t Discarded Meals: {meals.MealName.MealName}");
 
             return result;
+        }
+
+        private string UpdateDiscardMenu(string request)
+        {
+            var parts = request.Split('|');
+            int Id = Convert.ToInt32(parts[1]);
+            bool isDiscard = (parts[2] == "2") ? true : false;
+
+            _helper.UpdateDiscardMeal(Id, isDiscard);
+
+            return "Successfull";
+        }
+
+        private string GetDiscardMenu(string request)
+        {
+            var result = _helper.GetDiscardedMenu();
+
+            return ($"{result.Id}|{result.MealName.MealName}");
+        }
+
+        private string AddDiscardFeedback(string request)
+        {
+            var parts = request.Split('|');
+            var feedbackDTO = JsonConvert.DeserializeObject<DiscardedMenuFeedbackDTO>(parts[1]);
+
+            _feedbackHelper.AddDiscardedFeedback(feedbackDTO);
+
+            return "Added feedback";
         }
     }
 }
