@@ -3,5 +3,7 @@
     public interface IRecommendationEngineService
     {
         List<RecommendedMeal> GiveRecommendation(string classification, int numberOfMeals);
+
+        List<RecommendedMeal> GetDiscardedMeals();
     }
 }

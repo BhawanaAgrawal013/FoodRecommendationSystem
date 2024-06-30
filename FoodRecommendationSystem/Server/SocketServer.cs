@@ -19,12 +19,14 @@ public class SocketServer
     private readonly IEmployeeHelper _employeeHelper;
     private readonly FeedbackRequestHandler _feedbackRequestHelper;
     private readonly IFeedbackHelper _feedbackHelper;
+    private readonly DiscardedMenuRequestHandler _discardedMenuRequestHandler;
+    private readonly IRecommendationHelper _recommendationHelper;
 
     private TcpListener _listener;
 
     public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, 
                         ILoginService loginService, INotificationHelper notificationHelper, IChefHelper chefHelper, 
-                        IEmployeeHelper employeeHelper, IFeedbackHelper feedbackHelper)
+                        IEmployeeHelper employeeHelper, IFeedbackHelper feedbackHelper, IRecommendationHelper recommendationHelper)
     {
         _mealNameService = mealNameService;
         _service = service;
@@ -39,6 +41,8 @@ public class SocketServer
         _employeeHelper = employeeHelper;
         _feedbackHelper = feedbackHelper;
         _feedbackRequestHelper = new FeedbackRequestHandler(_feedbackHelper);
+        _recommendationHelper = recommendationHelper;
+        _discardedMenuRequestHandler = new DiscardedMenuRequestHandler(_recommendationHelper, _feedbackHelper);
     }
 
     public void Start()
@@ -99,6 +103,10 @@ public class SocketServer
         if(request.StartsWith("FEEDBACK"))
         {
             return _feedbackRequestHelper.HandleRequest(request);
+        }
+        if(request.StartsWith("DISCARD"))
+        {
+            return _discardedMenuRequestHandler.HandleRequest(request);
         }
 
         return "";

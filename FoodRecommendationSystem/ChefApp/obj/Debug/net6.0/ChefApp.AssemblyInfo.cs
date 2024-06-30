@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChefApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a134857593aa62735df7154bd76852416326debd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c0dfebb773b75d6f7fd0e8de5d1136e75707b2dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChefApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChefApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
