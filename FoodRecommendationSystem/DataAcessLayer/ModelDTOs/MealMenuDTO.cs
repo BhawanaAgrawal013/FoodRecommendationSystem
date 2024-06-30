@@ -14,6 +14,8 @@
 
         public MealNameDTO MealName { get; set; }
 
+        public int Priority { get; set; } = 0;
+
         public static implicit operator MealMenuDTO(MealMenu mealMenu)
         {
             if (mealMenu == null) return null;

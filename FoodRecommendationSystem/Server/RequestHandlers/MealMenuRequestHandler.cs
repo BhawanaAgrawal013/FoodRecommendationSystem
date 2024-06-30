@@ -77,12 +77,12 @@ namespace Server.RequestHandlers
             var parts = request.Split('|');
             string classification = parts[1];
 
-            var meals = _employeeHelper.GetMealMenuOption(DateTime.Now.Date, classification);
+            var meals = _employeeHelper.GetMealMenuOption(DateTime.Now.Date, classification, parts[2]);
             string result = "";
 
             foreach (var meal in meals)
             {
-                result += ($"\nID: {meal.Id} Meal: {meal.MealName.MealName} and Id: {meal.MealName.MealNameId} and Vote: {meal.NumberOfVotes}");
+                result += ($"\nID: {meal.Id} Meal: {meal.MealName.MealName} and Vote: {meal.NumberOfVotes}");
             }
 
             return result;

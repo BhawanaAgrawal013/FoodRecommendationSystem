@@ -8,7 +8,15 @@
 
         public string MealType { get; set; }
 
-        public bool IsDeleted {  get; set; }
+        public string DietType { get; set; }
+
+        public string SpiceLevel { get; set; }
+
+        public string CuisinePreference { get; set; }
+
+        public bool IsSweet { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public static implicit operator MealNameDTO(MealName mealName)
         {
@@ -19,7 +27,11 @@
                 MealNameId = mealName.Id,
                 MealName = mealName.Name,
                 MealType = mealName.MealType,
-                IsDeleted = mealName.IsDeleted
+                IsDeleted = mealName.IsDeleted,
+                DietType = mealName.DietType,
+                SpiceLevel = mealName.SpiceLevel,
+                CuisinePreference = mealName.CuisinePreference,
+                IsSweet = mealName.IsSweet
             };
         }
 
@@ -32,7 +44,11 @@
                 Id = mealNameDTO.MealNameId,
                 Name = mealNameDTO.MealName,
                 MealType = mealNameDTO.MealType,
-                IsDeleted = mealNameDTO.IsDeleted
+                IsDeleted = mealNameDTO.IsDeleted,
+                DietType = mealNameDTO.DietType,
+                SpiceLevel = mealNameDTO.SpiceLevel,
+                CuisinePreference = mealNameDTO.CuisinePreference,
+                IsSweet = mealNameDTO.IsSweet
             };
         }
     }

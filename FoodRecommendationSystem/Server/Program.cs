@@ -56,6 +56,13 @@ class Program
                 services.AddScoped<ILoginService, LoginService>();
                 services.AddScoped<INotificationHelper, NotificationHelper>();
                 services.AddScoped<IUserService, UserService>();
+                services.AddScoped<IRepository<DiscardedMenu>, DiscardedMenuRepository>();
+                services.AddScoped<IDiscardedMenuService, DiscardedMenuService>();
+                services.AddScoped<IRecommendationHelper, RecommendationHelper>();
+                services.AddScoped<IDiscardedMenuFeedbackService, DiscardedMenuFeedbackService>();
+                services.AddScoped<IRepository<DiscardedMenuFeedback>, DiscardedMenuFeedbackRepository>();
+                services.AddScoped<IRepository<Profile>, ProfileRepository>();
+                services.AddScoped<IProfileService, ProfileService>();
                 services.AddSingleton<SocketServer>();
             });
 }
