@@ -1,4 +1,5 @@
-﻿namespace DataAcessLayer.Repository.IRepository
+﻿
+namespace DataAcessLayer.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {

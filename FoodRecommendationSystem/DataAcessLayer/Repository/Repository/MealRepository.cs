@@ -26,7 +26,18 @@
 
         public void Update(Meal entity)
         {
-            _context.Meals.Update(entity);
+            var existingEntity = _context.Meals.Find(entity.Id);
+
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).State = EntityState.Detached;
+            }
+
+            _context.Meals.Attach(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.SaveChanges();
         }
 
         public void Delete(int id)

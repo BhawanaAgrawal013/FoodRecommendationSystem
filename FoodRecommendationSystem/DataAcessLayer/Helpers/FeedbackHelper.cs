@@ -12,9 +12,11 @@ namespace DataAcessLayer.Helpers
         private readonly ISummaryRatingService _summaryRatingService;
         private readonly IMealService _mealService;
         private readonly IUserService _user;
+        private readonly IDiscardedMenuFeedbackService _discardedMenuFeedback;
+
         public FeedbackHelper(IRatingService ratingService, IReviewService reviewService, 
-                            IFoodService foodService, ISummaryRatingService summaryRatingService, 
-                            IMealService mealService, IUserService user)
+                            IFoodService foodService, ISummaryRatingService summaryRatingService,
+                            IMealService mealService, IUserService user, IDiscardedMenuFeedbackService discardedMenuFeedback)
         {
             _ratingService = ratingService;
             _reviewService = reviewService;
@@ -22,6 +24,7 @@ namespace DataAcessLayer.Helpers
             _summaryRatingService = summaryRatingService;
             _mealService = mealService;
             _user = user;
+            _discardedMenuFeedback = discardedMenuFeedback;
         }
 
         public void AddFeedback(ReviewDTO reviewDTO, RatingDTO ratingDTO)
@@ -67,6 +70,45 @@ namespace DataAcessLayer.Helpers
             }
 
             var summaryRatingDTO = SetSummaryRating(reviewDTO, ratingDTO);
+        }
+
+        public List<MealDTO> GetMeals(string classification)
+        {
+            var meals = _mealService.GetAllMeals().Where(x => x.MealName.MealType == classification).ToList();
+
+            return meals;
+        }
+
+        public string GetSentimentSummary(int foodId)
+        {
+            List<string> reviewTexts = _reviewService.GetAllReviews().Where(x => x.Food.Id == foodId).Select(x => x.ReviewText).ToList();
+
+            var result = string.Empty;
+
+            foreach (var review in reviewTexts)
+            {
+
+                var words = review.Split(new[] { ' ', '.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var sentimentWordsSet = new HashSet<string>();
+
+                foreach (var word in words)
+                {
+                    var lowerWord = word.ToLower();
+                    if (WordsDictionary.SentimentWords.ContainsKey(lowerWord))
+                    {
+                        sentimentWordsSet.Add(lowerWord);
+                    }
+                }
+
+                result += string.Join(", ", sentimentWordsSet);
+            }
+
+            return result;
+        }
+
+        public void AddDiscardedFeedback(DiscardedMenuFeedbackDTO discardedMenuFeedbackDTO)
+        {
+            _discardedMenuFeedback.AddDiscardedMenuFeedback(discardedMenuFeedbackDTO);
         }
 
         private SummaryRatingDTO SetSummaryRating(ReviewDTO reviewDTO, RatingDTO ratingDTO)
@@ -193,38 +235,5 @@ namespace DataAcessLayer.Helpers
             return totalSentimentScore;
         }
 
-        public List<MealDTO> GetMeals(string classification)
-        {
-            var meals = _mealService.GetAllMeals().Where(x => x.MealName.MealType == classification).ToList();
-
-            return meals;
-        }
-
-        public string GetSentimentSummary(int foodId)
-        {
-            List<string> reviewTexts = _reviewService.GetAllReviews().Where(x => x.Food.Id == foodId).Select(x => x.ReviewText).ToList();
-
-            var result = string.Empty;
-
-            foreach (var review in reviewTexts)
-            {
-
-                var words = review.Split(new[] { ' ', '.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                var sentimentWordsSet = new HashSet<string>();
-
-                foreach (var word in words)
-                {
-                    var lowerWord = word.ToLower();
-                    if (WordsDictionary.SentimentWords.ContainsKey(lowerWord))
-                    {
-                        sentimentWordsSet.Add(lowerWord);
-                    }
-                }
-
-                result += string.Join(", ", sentimentWordsSet);
-            }
-
-            return result;
-        }
     }
 }

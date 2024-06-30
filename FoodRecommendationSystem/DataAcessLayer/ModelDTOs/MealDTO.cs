@@ -8,6 +8,8 @@
 
         public MealNameDTO MealName { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public static implicit operator MealDTO(Meal meal)
         {
             if (meal == null) return null;
@@ -16,7 +18,8 @@
             {
                 Id = meal.Id,
                 Food = (FoodDTO)meal.Food,
-                MealName = (MealNameDTO)meal.MealName
+                MealName = (MealNameDTO)meal.MealName,
+                IsDeleted = meal.IsDeleted
             };
         }
 
@@ -30,7 +33,8 @@
                 FoodId = mealDTO.Food.Id,
                 MealNameId = mealDTO.MealName.MealNameId,
                 Food = (Food)mealDTO.Food,
-                MealName = (MealName)mealDTO.MealName
+                MealName = (MealName)mealDTO.MealName,
+                IsDeleted = (mealDTO.IsDeleted)
             };
         }
     }

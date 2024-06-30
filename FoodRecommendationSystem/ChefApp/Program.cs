@@ -21,7 +21,8 @@ class Program
             { "2", () => SelectMealOptions(client) },
             { "3", () => SendNotification(client) },
             { "4", () => SelectMeal(client) },
-            { "5", () => LogOut(client) }
+            { "6", () => LogOut(client) },
+            { "5", () => GetDiscardedMeal(client)}
         };
 
         while (true)
@@ -30,7 +31,8 @@ class Program
             Console.WriteLine("2. Select Meal Option");
             Console.WriteLine("3. Send Notification");
             Console.WriteLine("4. Select Meal for tomorrow");
-            Console.WriteLine("5. To Exit");
+            Console.WriteLine("5. Get Discarded Meal");
+            Console.WriteLine("6. To Exit");
 
             Console.Write("Select an option: ");
             var option = Console.ReadLine();
@@ -53,6 +55,24 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
+    }
+
+    static void GetDiscardedMeal(SocketClient client)
+    {
+        client.SendMessage("DISCARD_GET");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        Console.WriteLine("\nPress 1: To Get Feedback\nPress 2: To Discard");
+        string decision = Console.ReadLine();
+
+        Console.Write("Enter the Meal Id: ");
+        string mealId = Console.ReadLine();
+
+        client.SendMessage($"DISCARD_UPDATE|{mealId}|{decision}");
+
+        SendNotification(client);
     }
 
     static string GetRecommendedMeals(SocketClient client)
