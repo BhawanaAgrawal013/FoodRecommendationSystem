@@ -17,6 +17,18 @@
             _mealService = mealService;
         }
 
+        public List<RecommendedMeal> GiveRecommendation(string classification, int numberOfMeals)
+        {
+            try
+            {
+                return _recommendationEngineService.GiveRecommendation(classification, numberOfMeals);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Exception sending recommendation for {classification}, {ex.Message}");
+            }
+        }
+
         public List<RecommendedMeal> GetDiscardedMeals()
         {
             return _recommendationEngineService.GetDiscardedMeals().Take(3).ToList();

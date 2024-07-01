@@ -1,18 +1,17 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
-using DataAcessLayer.Service.IService;
 using Newtonsoft.Json;
 
 namespace Server.RequestHandlers
 {
     public class MealMenuRequestHandler : IRequestHandler<MealMenuRequestHandler>
     {
-        private readonly IRecommendationEngineService _service;
+        private readonly IRecommendationHelper _recommendationHelper;
         private readonly IChefHelper _chefHelper;
         private readonly IEmployeeHelper _employeeHelper;
 
-        public MealMenuRequestHandler(IRecommendationEngineService service, IChefHelper chefHelper, IEmployeeHelper employeeHelper)
+        public MealMenuRequestHandler(IRecommendationHelper recommendationHelper, IChefHelper chefHelper, IEmployeeHelper employeeHelper)
         {
-            _service = service;
+            _recommendationHelper = recommendationHelper;
             _chefHelper = chefHelper;
             _employeeHelper = employeeHelper;
         }
@@ -46,7 +45,7 @@ namespace Server.RequestHandlers
             string classification = parts[1];
             int numberOfMeals = Convert.ToInt32(parts[2]);
 
-            var recommendedMeals = _service.GiveRecommendation(classification, numberOfMeals);
+            var recommendedMeals = _recommendationHelper.GiveRecommendation(classification, numberOfMeals);
 
             string result = "";
 

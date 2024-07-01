@@ -88,6 +88,7 @@ class Program
         services.AddScoped<IFeedbackHelper, FeedbackHelper>();
         services.AddScoped<INotificationHelper, NotificationHelper>();
         services.AddScoped<IRecommendationHelper, RecommendationHelper>();
+        services.AddScoped<ILoginHelper, LoginHelper>();
     }
 
     private static void ConfigureRequestHandlers(IServiceCollection services)

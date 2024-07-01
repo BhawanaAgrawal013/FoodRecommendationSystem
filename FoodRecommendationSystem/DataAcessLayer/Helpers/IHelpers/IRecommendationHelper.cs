@@ -6,5 +6,6 @@
         List<RecommendedMeal> GetDiscardedMeals();
         DiscardedMenuDTO GetDiscardedMenu();
         void UpdateDiscardMeal(int discardId, bool isDiscarded);
+        List<RecommendedMeal> GiveRecommendation(string classification, int numberOfMeals);
     }
 }

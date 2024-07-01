@@ -1,16 +1,16 @@
-﻿using DataAcessLayer.ModelDTOs;
-using DataAcessLayer.Service.IService;
+﻿using DataAcessLayer.Helpers.IHelpers;
+using DataAcessLayer.ModelDTOs;
 using Newtonsoft.Json;
 
 namespace Server.RequestHandlers
 {
     public class LoginRequestHandler : IRequestHandler<LoginRequestHandler>
     {
-        private readonly ILoginService _service;
+        private readonly ILoginHelper _loginHelper;
 
-        public LoginRequestHandler(ILoginService service)
+        public LoginRequestHandler(ILoginHelper loginHelper)
         {
-            _service = service;
+            _loginHelper = loginHelper;
         }
 
         public string HandleRequest(string request)
@@ -37,7 +37,7 @@ namespace Server.RequestHandlers
             var parts = request.Split('|');
             UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(parts[1]);
 
-            string result = _service.Login(userDTO, parts[2]);
+            string result = _loginHelper.LoginUser(userDTO, parts[2]);
 
             return result;
         }
