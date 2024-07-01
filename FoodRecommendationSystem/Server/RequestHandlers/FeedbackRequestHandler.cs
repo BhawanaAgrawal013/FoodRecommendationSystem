@@ -1,13 +1,10 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.ModelDTOs;
-using DataAcessLayer.Service.IService;
 using Newtonsoft.Json;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Server.RequestHandlers
 {
-    public class FeedbackRequestHandler
+    public class FeedbackRequestHandler : IRequestHandler<FeedbackRequestHandler>
     {
         private readonly IFeedbackHelper _feedbackHelper;
 

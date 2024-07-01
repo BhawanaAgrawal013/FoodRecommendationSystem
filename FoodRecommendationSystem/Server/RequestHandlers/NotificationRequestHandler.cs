@@ -2,7 +2,7 @@
 
 namespace Server.RequestHandlers
 {
-    public class NotificationRequestHandler
+    public class NotificationRequestHandler : IRequestHandler<NotificationRequestHandler>
     {
         private readonly INotificationHelper _helper;
 

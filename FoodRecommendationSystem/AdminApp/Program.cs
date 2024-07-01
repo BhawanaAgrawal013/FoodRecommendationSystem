@@ -23,7 +23,7 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("1. View Menu");
+            Console.WriteLine("\n\n1. View Menu");
             Console.WriteLine("2. Add Menu Item");
             Console.WriteLine("3. Update Menu Item");
             Console.WriteLine("4. Delete Menu Item");

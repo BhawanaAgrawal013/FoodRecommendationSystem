@@ -1,12 +1,11 @@
-﻿using DataAcessLayer.Entity;
-using DataAcessLayer.ModelDTOs;
+﻿using DataAcessLayer.ModelDTOs;
 using DataAcessLayer.Service.IService;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace Server.RequestHandlers
 {
-    public class MenuRequestHandler
+    public class MenuRequestHandler : IRequestHandler<MenuRequestHandler>
     {
         private readonly IMealNameService _mealNameService;  
         public MenuRequestHandler(IMealNameService mealNameService)

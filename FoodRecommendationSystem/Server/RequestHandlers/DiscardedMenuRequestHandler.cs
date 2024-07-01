@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Server.RequestHandlers
 {
-    public class DiscardedMenuRequestHandler
+    public class DiscardedMenuRequestHandler : IRequestHandler<DiscardedMenuRequestHandler>
     {
         private readonly IRecommendationHelper _helper;
         private readonly IFeedbackHelper _feedbackHelper;

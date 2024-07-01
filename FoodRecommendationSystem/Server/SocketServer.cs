@@ -1,48 +1,32 @@
-﻿using DataAcessLayer.Helpers.IHelpers;
-using DataAcessLayer.Service.IService;
-using Server.RequestHandlers;
+﻿using Server.RequestHandlers;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 public class SocketServer
 {
-    private readonly MenuRequestHandler _menuRequestHandler;
-    private readonly IMealNameService _mealNameService;
-    private readonly MealMenuRequestHandler _mealMenuRequestHandler;
-    private readonly IRecommendationEngineService _service;
-    private readonly ILoginService _loginService;
-    private readonly LoginRequestHandler _loginRequestHandler;
-    private readonly NotificationRequestHandler _notificationHandler;
-    private readonly INotificationHelper _notificationHelper;
-    private readonly IChefHelper _chefHelper;
-    private readonly IEmployeeHelper _employeeHelper;
-    private readonly FeedbackRequestHandler _feedbackRequestHelper;
-    private readonly IFeedbackHelper _feedbackHelper;
-    private readonly DiscardedMenuRequestHandler _discardedMenuRequestHandler;
-    private readonly IRecommendationHelper _recommendationHelper;
+    private readonly IRequestHandler<MenuRequestHandler> _menuRequestHandler;
+    private readonly IRequestHandler<MealMenuRequestHandler> _mealMenuRequestHandler;
+    private readonly IRequestHandler<LoginRequestHandler> _loginRequestHandler;
+    private readonly IRequestHandler<NotificationRequestHandler> _notificationHandler;
+    private readonly IRequestHandler<FeedbackRequestHandler> _feedbackRequestHelper;
+    private readonly IRequestHandler<DiscardedMenuRequestHandler> _discardedMenuRequestHandler;
 
     private TcpListener _listener;
 
-    public SocketServer(IMealNameService mealNameService, IRecommendationEngineService service, 
-                        ILoginService loginService, INotificationHelper notificationHelper, IChefHelper chefHelper, 
-                        IEmployeeHelper employeeHelper, IFeedbackHelper feedbackHelper, IRecommendationHelper recommendationHelper)
+    public SocketServer(IRequestHandler<MenuRequestHandler> menuRequestHandler,
+                        IRequestHandler<MealMenuRequestHandler> mealMenuHandler,
+                        IRequestHandler<LoginRequestHandler> loginRequestHandler, 
+                        IRequestHandler<DiscardedMenuRequestHandler> discardRequestHandler, 
+                        IRequestHandler<FeedbackRequestHandler> feedbackHandler,
+                        IRequestHandler<NotificationRequestHandler> notificationHandler)
     {
-        _mealNameService = mealNameService;
-        _service = service;
-        _loginService = loginService;
-        _notificationHelper = notificationHelper;
-        _chefHelper = chefHelper;
-        _employeeHelper = employeeHelper;
-        _notificationHandler = new NotificationRequestHandler(_notificationHelper);
-        _menuRequestHandler = new MenuRequestHandler(_mealNameService);
-        _mealMenuRequestHandler = new MealMenuRequestHandler(_service, _chefHelper, _employeeHelper);
-        _loginRequestHandler = new LoginRequestHandler(_loginService);
-        _employeeHelper = employeeHelper;
-        _feedbackHelper = feedbackHelper;
-        _feedbackRequestHelper = new FeedbackRequestHandler(_feedbackHelper);
-        _recommendationHelper = recommendationHelper;
-        _discardedMenuRequestHandler = new DiscardedMenuRequestHandler(_recommendationHelper, _feedbackHelper);
+        _notificationHandler = notificationHandler;
+        _menuRequestHandler = menuRequestHandler;
+        _mealMenuRequestHandler = mealMenuHandler;
+        _loginRequestHandler = loginRequestHandler;
+        _feedbackRequestHelper = feedbackHandler;
+        _discardedMenuRequestHandler = discardRequestHandler;
     }
 
     public void Start()

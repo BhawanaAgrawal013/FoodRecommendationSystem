@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Server.RequestHandlers
 {
-    public class LoginRequestHandler
+    public class LoginRequestHandler : IRequestHandler<LoginRequestHandler>
     {
         private readonly ILoginService _service;
 

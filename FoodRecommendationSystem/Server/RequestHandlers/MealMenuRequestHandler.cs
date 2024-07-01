@@ -1,12 +1,10 @@
-﻿using DataAcessLayer.Common;
-using DataAcessLayer.Entity;
-using DataAcessLayer.Helpers.IHelpers;
+﻿using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.Service.IService;
 using Newtonsoft.Json;
 
 namespace Server.RequestHandlers
 {
-    public class MealMenuRequestHandler
+    public class MealMenuRequestHandler : IRequestHandler<MealMenuRequestHandler>
     {
         private readonly IRecommendationEngineService _service;
         private readonly IChefHelper _chefHelper;

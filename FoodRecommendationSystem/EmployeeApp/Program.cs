@@ -28,7 +28,7 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("1. View Menu");
+            Console.WriteLine("\n\n1. View Menu");
             Console.WriteLine("2. Recieve Notification");
             Console.WriteLine("3. Vote for Meal Options");
             Console.WriteLine("4. Give Feedback");
