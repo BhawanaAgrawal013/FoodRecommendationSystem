@@ -1,5 +1,5 @@
-﻿using DataAcessLayer.ModelDTOs;
-using DataAcessLayer.Service.IService;
+﻿using DataAcessLayer.Helpers.IHelpers;
+using DataAcessLayer.ModelDTOs;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -7,10 +7,10 @@ namespace Server.RequestHandlers
 {
     public class MenuRequestHandler : IRequestHandler<MenuRequestHandler>
     {
-        private readonly IMealNameService _mealNameService;  
-        public MenuRequestHandler(IMealNameService mealNameService)
+        private readonly IAdminHelper _adminHelper;  
+        public MenuRequestHandler(IAdminHelper adminHelper)
         {
-            _mealNameService = mealNameService;  
+            _adminHelper = adminHelper;  
         }
 
         public string HandleRequest(string request)
@@ -19,7 +19,6 @@ namespace Server.RequestHandlers
             {
                 { "MENU_GET", HandleGetMenuRequest },
                 { "MENU_ADD", HandleAddMenuNameRequest },
-                { "MENU_BYID", HandleGetMenuByIdRequest },
                 { "MENU_UPDATE", HandleUpdateMenuNameRequest },
                 { "MENU_DELETE", HandleDeleteMenuRequest }
             };
@@ -38,7 +37,7 @@ namespace Server.RequestHandlers
 
         private string HandleGetMenuRequest(string request)
         {
-            var mealNames = _mealNameService.GetAllMeals();
+            var mealNames = _adminHelper.GetFullMenu();
             StringBuilder sb = new StringBuilder();
 
             foreach (var mealName in mealNames)
@@ -56,20 +55,9 @@ namespace Server.RequestHandlers
             string jsonMealName = parts[1];
             MealNameDTO mealName = JsonConvert.DeserializeObject<MealNameDTO>(jsonMealName);  
 
-            _mealNameService.AddMealName(mealName);
+            _adminHelper.AddMenuItem(mealName);
 
             return "Meal Added";
-        }
-
-        private string HandleGetMenuByIdRequest(string request)
-        {
-            var parts = request.Split('|');
-
-            var mealNameId = Convert.ToInt32(parts[1]);
-
-            var mealName = _mealNameService.GetMealName(mealNameId);
-
-            return ($"ID: {mealName.MealNameId} Name: {mealName.MealName} Type: {mealName.MealType}");
         }
 
         private string HandleUpdateMenuNameRequest(string request)
@@ -79,7 +67,7 @@ namespace Server.RequestHandlers
             string jsonMealName = parts[1];
             MealNameDTO mealName = JsonConvert.DeserializeObject<MealNameDTO>(jsonMealName);
 
-            _mealNameService.UpdateMealName(mealName);
+            _adminHelper.UpdateMenuItem(mealName);
 
             return "Meal Updated";
         }
@@ -90,7 +78,7 @@ namespace Server.RequestHandlers
 
             var mealNameId = Convert.ToInt32(parts[1]);
 
-            _mealNameService.DeleteMealName(mealNameId);
+            _adminHelper.DeleteMenuItem(mealNameId);
 
             return ($"Meal id {parts[1]} deleted sucessfully");
         }

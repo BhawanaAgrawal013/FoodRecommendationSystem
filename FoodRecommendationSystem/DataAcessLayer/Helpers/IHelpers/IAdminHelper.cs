@@ -1,9 +1,10 @@
-﻿using DataAcessLayer.Common;
-
-namespace DataAcessLayer.Helpers.IHelpers
+﻿namespace DataAcessLayer.Helpers.IHelpers
 {
     public interface IAdminHelper
     {
-        List<FullMenu> GetFullMenu();
+        List<MealNameDTO> GetFullMenu();
+        MealNameDTO AddMenuItem(MealNameDTO mealDTO);
+        MealNameDTO UpdateMenuItem(MealNameDTO mealDTO);
+        string DeleteMenuItem(int mealNameId);
     }
 }

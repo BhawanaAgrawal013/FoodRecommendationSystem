@@ -10,7 +10,9 @@ class Program
 
         AdminLogin(client);
 
+        Console.WriteLine("-------------------");
         Console.WriteLine("Admin Console");
+        Console.WriteLine("-------------------");
 
         var menuActions = new Dictionary<string, Action>
         {
@@ -58,7 +60,16 @@ class Program
         Console.Write("Enter Name: ");
         mealName.MealName = Console.ReadLine();
         Console.Write("Enter Type: ");
-        mealName.MealType = Console.ReadLine(); 
+        mealName.MealType = Console.ReadLine();
+        Console.Write("Enter Cusinine: ");
+        mealName.CuisinePreference = Console.ReadLine();
+        Console.Write("Enter Veg/Non-Veg: ");
+        mealName.DietType = Console.ReadLine();
+        Console.Write("Is it Sweet? (Y/N)");
+        var isSweet = Console.ReadLine();
+        mealName.IsSweet = (isSweet == "Y")? true : false;
+        Console.Write("Enter Spice Level (Low/Medium/High): ");
+        mealName.SpiceLevel = Console.ReadLine();
         
         string jsonMealName = JsonConvert.SerializeObject(mealName);
         client.SendMessage($"MENU_ADD|{jsonMealName}");
