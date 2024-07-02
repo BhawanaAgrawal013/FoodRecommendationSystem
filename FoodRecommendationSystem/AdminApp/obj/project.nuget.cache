@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5tj1NPwAoR6/kDDG+LJmlo5VL2F4rZyl2e6v6F0vGWOk9rtEvlhhKk8mX8rJb6CYIcqWLq6r74YQ/w67txHRrg==",
+  "dgSpecHash": "UvgfBVx5/HtUlyasw11Lpyqgck5i8V5xAx7e5YqEhjrIKG3mIoQMO7WtzjJEI6aHswVZ6q1pfU8lPVFoqrcArA==",
   "success": true,
   "projectFilePath": "F:\\Bhawana\\Food Recommendation System\\FoodRecommendationSystem\\AdminApp\\AdminApp.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,11 @@
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\serilog\\4.0.0\\serilog.4.0.0.nupkg.sha512",
+    "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\serilog.extensions.hosting\\8.0.0\\serilog.extensions.hosting.8.0.0.nupkg.sha512",
+    "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\serilog.extensions.logging\\8.0.0\\serilog.extensions.logging.8.0.0.nupkg.sha512",
+    "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512",
+    "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\serilog.sinks.file\\6.0.0\\serilog.sinks.file.6.0.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\bhawana.agrawal\\.nuget\\packages\\system.diagnostics.diagnosticsource\\8.0.0\\system.diagnostics.diagnosticsource.8.0.0.nupkg.sha512",

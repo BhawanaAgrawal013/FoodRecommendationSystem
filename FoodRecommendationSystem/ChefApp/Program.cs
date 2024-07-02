@@ -13,7 +13,9 @@ class Program
 
         ChefLogin(client);
 
+        Console.WriteLine("-------------------");
         Console.WriteLine("Chef Console");
+        Console.WriteLine("-------------------");
 
         var menuActions = new Dictionary<string, Action>
         {
@@ -174,7 +176,7 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        if (response == "Login Sucessfull")
+        if (response == "Login Successful")
         {
             return;
         }

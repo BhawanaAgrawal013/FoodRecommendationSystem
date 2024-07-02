@@ -1,6 +1,8 @@
-﻿using DataAcessLayer.Helpers.IHelpers;
+﻿using DataAcessLayer;
+using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.ModelDTOs;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Server.RequestHandlers
 {
@@ -38,6 +40,8 @@ namespace Server.RequestHandlers
             UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(parts[1]);
 
             string result = _loginHelper.LoginUser(userDTO, parts[2]);
+
+            Log.Information($"Login Handler: {result} for user {userDTO.Email}.");
 
             return result;
         }

@@ -22,11 +22,13 @@ namespace Server
                     _client = new TcpClient(ipAddress, port);
                     _stream = _client.GetStream();
                     Console.WriteLine("Connected to server.");
+                    Log.Information("Connected to server.");
                     break;
                 }
                 catch (SocketException ex)
                 {
                     Console.WriteLine($"Attempt {retryCount + 1} - Error connecting to server: {ex.Message}");
+                    Log.Information($"Attempt {retryCount + 1} - Error connecting to server: {ex.Message}");
                     retryCount++;
                     if (retryCount < maxRetries)
                     {
@@ -35,6 +37,7 @@ namespace Server
                     else
                     {
                         Console.WriteLine("Max retry attempts reached. Unable to connect to server.");
+                        Log.Warning("Max retry attempts reached. Unable to connect to server.");
                     }
                 }
             }

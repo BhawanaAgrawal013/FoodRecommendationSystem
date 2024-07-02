@@ -1,0 +1,7 @@
+2024-07-02 15:05:22.648 +05:30 [INF] Starting up the server
+2024-07-02 15:05:38.679 +05:30 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2024-07-02 15:05:38.869 +05:30 [INF] Entity Framework Core 6.0.31 initialized 'FoodRecommendationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.31' with options: SensitiveDataLoggingEnabled 
+2024-07-02 15:05:39.850 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Email], [u].[EmpId], [u].[Gender], [u].[Name], [u].[Password], [u].[RoleId], [r].[Id], [r].[RoleName]
+FROM [Users] AS [u]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[Id]

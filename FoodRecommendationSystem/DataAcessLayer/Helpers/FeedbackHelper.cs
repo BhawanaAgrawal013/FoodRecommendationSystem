@@ -29,48 +29,43 @@ namespace DataAcessLayer.Helpers
 
         public void AddFeedback(ReviewDTO reviewDTO, RatingDTO ratingDTO)
         {
-            var userId = _user.GetAllUsers().Where(x => x.Email == ratingDTO.User.Email).Select(x => x.Id).First();
-
-            reviewDTO.User = new User
+            var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == ratingDTO.User.Email);
+            if (user == null)
             {
-                Id = userId
-            };
+                throw new ArgumentException("User not found");
+            }
 
-            reviewDTO.Food = new Food
-            {
-                Id = ratingDTO.Food.Id
-            };
+            int userId = user.Id;
 
-            ratingDTO.User = new User
-            {
-                Id = userId
-            };
+            reviewDTO.User = new User { Id = userId };
+            reviewDTO.Food = new Food { Id = ratingDTO.Food.Id };
+            ratingDTO.User = new User { Id = userId };
 
-            if (!_reviewService.ReviewByUserExist(userId, ratingDTO.Food.Id))
+            var existingReview = _reviewService.GetFoodReviewByUser(userId, ratingDTO.Food.Id);
+            if (existingReview == null)
             {
                 _reviewService.AddReview(reviewDTO);
             }
             else
             {
-                var reviewid = _reviewService.GetFoodReviewByUser(userId, ratingDTO.Food.Id).Id;
-                reviewDTO.Id = reviewid;
+                reviewDTO.Id = existingReview.Id;
                 _reviewService.UpdateReview(reviewDTO);
             }
-            
 
-            if(!_ratingService.RatingByUserExist(userId, ratingDTO.Food.Id))
+            var existingRating = _ratingService.GetFoodRatingByUser(userId, ratingDTO.Food.Id);
+            if (existingRating == null)
             {
                 _ratingService.AddRating(ratingDTO);
             }
             else
             {
-                var ratingId = _ratingService.GetFoodRatingByUser(userId, ratingDTO.Food.Id).Id;
-                ratingDTO.Id = ratingId;
+                ratingDTO.Id = existingRating.Id;
                 _ratingService.UpdateRating(ratingDTO);
             }
 
             var summaryRatingDTO = SetSummaryRating(reviewDTO, ratingDTO);
         }
+
 
         public List<MealDTO> GetMeals(string classification)
         {

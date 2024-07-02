@@ -51,7 +51,6 @@ class Program
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
-
     }
 
     static void AddMenuItem(SocketClient client)
@@ -76,7 +75,6 @@ class Program
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
-
     }
 
     static void UpdateMenuItem(SocketClient client)
@@ -132,7 +130,7 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        if (response == "Login Sucessfull")
+        if (response == "Login Successful")
         {
             return;
         }

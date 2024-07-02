@@ -90,3 +90,8 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\D
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.pdb
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\EmployeeApp.genruntimeconfig.cache
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\obj\Debug\net6.0\ref\EmployeeApp.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Serilog.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Serilog.Sinks.File.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\EmployeeApp\bin\Debug\net6.0\Serilog.Extensions.Logging.dll

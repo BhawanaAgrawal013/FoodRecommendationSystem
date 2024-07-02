@@ -18,7 +18,7 @@
 
             if (user != null)
             {
-                return "Login Sucessfull";
+                return "Login Successful";
             }
 
             return "Invalid Email and Password";

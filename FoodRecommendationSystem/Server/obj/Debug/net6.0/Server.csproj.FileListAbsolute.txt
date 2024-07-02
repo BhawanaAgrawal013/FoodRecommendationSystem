@@ -85,3 +85,8 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\net6.0\Server.pdb
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\net6.0\Server.genruntimeconfig.cache
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\obj\Debug\net6.0\ref\Server.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Serilog.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Serilog.Sinks.File.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\Server\bin\Debug\net6.0\Serilog.Extensions.Logging.dll

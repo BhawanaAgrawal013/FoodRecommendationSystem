@@ -14,7 +14,9 @@ class Program
 
         EmployeeLogin(client);
 
+        Console.WriteLine("-------------------");
         Console.WriteLine("Employee Console");
+        Console.WriteLine("-------------------");
 
         var menuActions = new Dictionary<string, Action>
         {
@@ -23,17 +25,17 @@ class Program
             { "3", () => VoteMealOptions(client)},
             { "4", () => GiveFeedback(client) },
             { "5", () => CheckDiscardedMenu(client)},
-            { "6", () => LogOUt(client) }
+            { "6", () => LogOut(client) }
         };
 
         while (true)
         {
             Console.WriteLine("\n\n1. View Menu");
-            Console.WriteLine("2. Recieve Notification");
+            Console.WriteLine("2. Receive Notification");
             Console.WriteLine("3. Vote for Meal Options");
             Console.WriteLine("4. Give Feedback");
             Console.WriteLine("5. Check Discarded Menu");
-            Console.WriteLine("6. To Log Out");
+            Console.WriteLine("6. Log Out");
 
             Console.Write("Select an option: ");
             var option = Console.ReadLine();
@@ -81,10 +83,11 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        Console.Write("Enter the choosen meal: ");
+        Console.Write("Enter the chosen meal: ");
         string id = Console.ReadLine();
 
         client.SendMessage($"MEAL_VOTE|{id}");
+
     }
 
     static void CheckDiscardedMenu(SocketClient client)
@@ -128,14 +131,8 @@ class Program
 
         RatingDTO ratingDTO = new RatingDTO()
         {
-            Food = new FoodDTO
-            {
-                Id = foodId,
-            },
-            User = new UserDTO
-            {
-                Email = email,
-            },
+            Food = new FoodDTO { Id = foodId },
+            User = new UserDTO { Email = email },
             RatingValue = GetRating("Rating")
         };
 
@@ -150,10 +147,18 @@ class Program
         Console.WriteLine(response);
     }
 
-    static void LogOUt(SocketClient client)
+    static void LogOut(SocketClient client)
+    {
+        try
     {
         Console.Clear();
         EmployeeLogin(client);
+    }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error logging out: {ex.Message}");
+            throw;
+        }
     }
 
     static void EmployeeLogin(SocketClient client)

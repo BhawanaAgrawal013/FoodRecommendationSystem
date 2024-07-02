@@ -9,19 +9,31 @@ using DataAcessLayer.Service.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using Server.RequestHandlers;
 
 class Program
 {
     static void Main(string[] args)
     {
-        var host = CreateHostBuilder(args).Build();
-        var serviceProvider = host.Services;
+        SerilogConfig.ConfigureLogger();
 
-        var server = host.Services.GetRequiredService<SocketServer>();
-        server.Start();
+        try
+        {
+           SerilogConfig.Information("Starting up the server");
 
-        Console.WriteLine("This is the Server");
+            var host = CreateHostBuilder(args).Build();
+            var serviceProvider = host.Services;
+
+            var server = host.Services.GetRequiredService<SocketServer>();
+            server.Start();
+
+            Console.WriteLine("This is the Server");
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "A critical error occurred during application startup");
+        }
     }
 
     static IHostBuilder CreateHostBuilder(string[] args) =>
