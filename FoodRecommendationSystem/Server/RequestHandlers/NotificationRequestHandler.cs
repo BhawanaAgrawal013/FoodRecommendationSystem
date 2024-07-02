@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
+using Serilog;
 
 namespace Server.RequestHandlers
 {
@@ -28,34 +29,50 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "Invalid request.";
+            return "";
         }
 
         private string SendNotification(string request)
         {
-            var parts = request.Split('|');
-            var message = parts[1];
+            try
+            {
+                var parts = request.Split('|');
+                var message = parts[1];
 
-            _helper.AddNotification(message);
+                _helper.AddNotification(message);
 
-            return "Notification Sent";
+                return "Notification Sent";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error sending the notification {ex.Message}");
+                throw new Exception($"Error sending the notification {ex.Message}");
+            }
         }
 
         private string RecieveNotification(string request)
         {
-            var parts = request.Split('|');
-            var email = parts[1];
-
-            var notifications = _helper.GetUnreadNotification(email);
-
-            string result = String.Empty;
-
-            foreach (var notification in notifications)
+            try
             {
-                result += ($"\n {notification.Notification.NotificationMessage} \t {notification.Notification.DateTime}");
-            }
+                var parts = request.Split('|');
+                var email = parts[1];
 
-            return result;
+                var notifications = _helper.GetUnreadNotification(email);
+
+                string result = String.Empty;
+
+                foreach (var notification in notifications)
+                {
+                    result += ($"\n {notification.Notification.NotificationMessage} \t {notification.Notification.DateTime}");
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error recieving the notification {ex.Message}");
+                throw new Exception($"Error recieving the notification {ex.Message}");
+            }
         }
     }
 }

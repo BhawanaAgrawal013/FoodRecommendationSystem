@@ -5,6 +5,8 @@ using Server;
 
 class Program
 {
+    private static string? UserEmail { get; set; }
+
     static void Main(string[] args)
     {
         System.Threading.Thread.Sleep(4000);
@@ -41,7 +43,14 @@ class Program
 
             if (menuActions.TryGetValue(option, out var action))
             {
-                action();
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
             else
             {
@@ -56,7 +65,6 @@ class Program
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
-
     }
 
     static void GetDiscardedMeal(SocketClient client)
@@ -73,6 +81,9 @@ class Program
         string mealId = Console.ReadLine();
 
         client.SendMessage($"DISCARD_UPDATE|{mealId}|{decision}");
+
+        response = client.RecieveMessage();
+        Console.WriteLine(response);
 
         SendNotification(client);
     }
@@ -92,7 +103,7 @@ class Program
 
         Console.WriteLine("\n\nThis is the full meanu:");
 
-        client.SendMessage("MENU_GET");
+        client.SendMessage($"MENU_CLASSIFIED|{classification}");
 
         response = client.RecieveMessage();
         Console.WriteLine(response);
@@ -156,8 +167,16 @@ class Program
 
     static void LogOut(SocketClient client)
     {
-        Console.Clear();
-        ChefLogin(client);
+        try
+        {
+            Console.Clear();
+            ChefLogin(client);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error logging out: {ex.Message}");
+            throw;
+        }
     }
 
     static void ChefLogin(SocketClient client)
@@ -178,6 +197,7 @@ class Program
 
         if (response == "Login Successful")
         {
+            UserEmail = user.Email;
             return;
         }
 
@@ -188,7 +208,7 @@ class Program
     {
         while (true)
         {
-            Console.WriteLine("Enter Classification (Breakfast, Beverage, Snacks, Thali, Appetizer, Healthy Snack):");
+            Console.WriteLine("Enter Classification (Breakfast, Thali):");
             string userInput = Console.ReadLine();
 
             string formattedInput = userInput.Replace(" ", string.Empty);
@@ -199,7 +219,7 @@ class Program
             }
             else
             {
-                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Beverage, Snacks, Thali, Appetizer, Healthy Snack.");
+                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Thali.");
             }
         }
     }

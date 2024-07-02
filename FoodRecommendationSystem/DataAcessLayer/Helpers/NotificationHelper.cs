@@ -40,7 +40,8 @@ public class NotificationHelper : INotificationHelper
 
     public List<UserNotificationDTO> GetUnreadNotification(string email)
     {
-        var userNotifications = _userNotificationService.GetAllUserNotifications().Where(x => x.User.Email == email && !x.IsRead);
+        var userNotifications = _userNotificationService.GetAllUserNotifications().Where(x => x.User.Email == email && !x.IsRead
+                                    && x.Notification.DateTime >= DateTime.Now);
 
         int userId = _user.GetAllUsers().Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
 

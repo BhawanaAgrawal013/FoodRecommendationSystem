@@ -4,7 +4,7 @@ using Server;
 
 class Program
 {
-    private static string UserEmail { get; set; }
+    private static string? UserEmail { get; set; }
 
     static void Main(string[] args)
     {
