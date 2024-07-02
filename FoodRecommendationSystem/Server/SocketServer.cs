@@ -1,4 +1,5 @@
-﻿using Server.RequestHandlers;
+﻿using Serilog;
+using Server.RequestHandlers;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -34,6 +35,7 @@ public class SocketServer
         _listener = new TcpListener(IPAddress.Any, 5000);
         _listener.Start();
         Console.WriteLine("Socket server started on port 5000.");
+        Log.Information("Socket server started on port 5000.");
 
         while (true)
         {
@@ -51,20 +53,46 @@ public class SocketServer
 
     private void HandleClient(TcpClient client)
     {
-        using (var stream = client.GetStream())
+        try
         {
-            var buffer = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+            using (var stream = client.GetStream())
             {
-                var request = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                var response = ProcessRequest(request);
-                var responseBytes = Encoding.UTF8.GetBytes(response);
-                stream.Write(responseBytes, 0, responseBytes.Length);
+                var buffer = new byte[1024];
+                int bytesRead;
+
+                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+                {
+                    var request = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    try
+                    {
+                        var response = ProcessRequest(request);
+                        if(String.IsNullOrEmpty(response))
+                        {
+                            Log.Error("No data available");
+                            throw new Exception("Error: No data is available");
+                        }
+
+                        var responseBytes = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseBytes, 0, responseBytes.Length);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"Exception occured {ex.Message}");
+
+                        var response = ex.Message;
+                        var responseBytes = Encoding.UTF8.GetBytes(response);
+                        stream.Write(responseBytes, 0, responseBytes.Length);
+                    }
+                }
             }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error handling client: {ex.Message}");
+            Log.Error(ex.Message);
+        }
     }
+
 
     private string ProcessRequest(string request)
     {

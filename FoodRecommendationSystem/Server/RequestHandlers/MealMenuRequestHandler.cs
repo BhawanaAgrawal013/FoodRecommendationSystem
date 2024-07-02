@@ -1,5 +1,7 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
 using Newtonsoft.Json;
+using Serilog;
+using System.Text;
 
 namespace Server.RequestHandlers
 {
@@ -36,75 +38,125 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "Invalid request.";
+            return "";
         }
 
         private string GetRecommendedMeals(string request)
         {
-            var parts = request.Split('|');
-            string classification = parts[1];
-            int numberOfMeals = Convert.ToInt32(parts[2]);
-
-            var recommendedMeals = _recommendationHelper.GiveRecommendation(classification, numberOfMeals);
-
-            string result = "";
-
-            foreach (var meal in recommendedMeals)
+            try
             {
-                result += ($"\nMeal: {meal.MealName.MealName}, Primary Food: {meal.PrimaryFoodName}");
-            }
+                var parts = request.Split('|');
+                string classification = parts[1];
+                int numberOfMeals = Convert.ToInt32(parts[2]);
 
-            return result;
+                Log.Information("Getting the recommendation for {classification}", classification);
+
+                var recommendedMeals = _recommendationHelper.GiveRecommendation(classification, numberOfMeals);
+
+                string result = "";
+
+                foreach (var meal in recommendedMeals)
+                {
+                    result += ($"\nMeal: {meal.MealName.MealName}, Primary Food: {meal.PrimaryFoodName}");
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting the recommended meal {ex.Message}");
+                throw new Exception($"Error getting the recommended meal {ex.Message}");
+            }
         }
 
         private string SendMealMenuOptions(string request)
         {
-            var parts = request.Split('|');
-            string classification = parts[1];
+            try
+            {
+                var parts = request.Split('|');
+                string classification = parts[1];
 
-            List<string> meals = JsonConvert.DeserializeObject<List<string>>(parts[2]);
+                List<string> meals = JsonConvert.DeserializeObject<List<string>>(parts[2]);
 
-            _chefHelper.CreateNextMealMenu(meals, classification);
+                Log.Information("Rolled out meal options for {class}", classification);
+                _chefHelper.CreateNextMealMenu(meals, classification);
 
-            return "Created Meal Options";
+                return "Created Meal Options";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error creating meal options: {ex.Message}");
+                throw new Exception($"Error creating meal options: {ex.Message}");
+            }
         }
+
 
         private string GetMealMenuOptions(string request)
         {
-            var parts = request.Split('|');
-            string classification = parts[1];
-
-            var meals = _employeeHelper.GetMealMenuOption(DateTime.Now.Date, classification, parts[2]);
-            string result = "";
-
-            foreach (var meal in meals)
+            try
             {
-                result += ($"\nID: {meal.Id} Meal: {meal.MealName.MealName} and Vote: {meal.NumberOfVotes}");
-            }
+                var parts = request.Split('|');
+                string classification = parts[1];
 
-            return result;
+                Log.Information("Getting the meal options for employee");
+
+                var meals = _employeeHelper.GetMealMenuOption(DateTime.Now.Date, classification, parts[2]);
+                StringBuilder result = new StringBuilder();
+
+                foreach (var meal in meals)
+                {
+                    result.AppendLine($"ID: {meal.Id} Meal: {meal.MealName.MealName} and Vote: {meal.NumberOfVotes}");
+                }
+
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting meal menu options: {ex.Message}");
+                throw new Exception($"Error getting meal menu options: {ex.Message}");
+            }
         }
+
 
         private string VoteForMeal(string request)
         {
-            var parts = request.Split('|');
-            int id = Convert.ToInt32(parts[1]);
+            try
+            {
+                var parts = request.Split('|');
+                int id = Convert.ToInt32(parts[1]);
 
-            var meal = _employeeHelper.VoteForNextDayMeal(id, DateTime.Now.Date);
+                Log.Information($"Employee voted for item {id}");
 
-            return ($"Selected Meal: {meal.MealName.MealName}");
+                var meal = _employeeHelper.VoteForNextDayMeal(id, DateTime.Now.Date);
+
+                return $"Selected Meal: {meal.MealName.MealName}";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error voting for meal: {ex.Message}");
+                throw new Exception($"Error voting for meal: {ex.Message}");
+            }
         }
+
 
         private string ChooseMeal(string request)
         {
-            var parts = request.Split('|');
+            try
+            {
+                var parts = request.Split('|');
+                int mealMenuId = Convert.ToInt32(parts[1]);
 
-            int mealMenuId = Convert.ToInt32(parts[1]);
+                Log.Information("Choosing the next day final meal");
+                var meal = _chefHelper.ChooseNextMealMenu(mealMenuId);
 
-            var meal = _chefHelper.ChooseNextMealMenu(mealMenuId);
-            
-            return ($"Choosen meal is: \nMeal: {meal.MealName.MealName} and Id: {meal.MealName.MealNameId}");
-
+                return $"Chosen meal is: \nMeal: {meal.MealName.MealName} and Id: {meal.MealName.MealNameId}";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error choosing meal: {ex.Message}");
+                throw new Exception($"Error choosing meal: {ex.Message}");
+            }
         }
+
     }
 }

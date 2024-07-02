@@ -16,7 +16,7 @@ namespace Server.RequestHandlers
             var requestHandlers = new Dictionary<string, Func<string, string>>
             {
                 {"NOTI_SEND",  SendNotification },
-                {"NOTI_RECIEVE", RecieveNotification },
+                {"NOTI_RECEIVE", RecieveNotification },
             };
 
             foreach (var handlerKey in requestHandlers.Keys)

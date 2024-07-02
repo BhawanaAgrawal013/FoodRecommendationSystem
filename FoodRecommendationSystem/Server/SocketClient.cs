@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Serilog;
 using System.Net.Sockets;
 using System.Text;
 
@@ -29,6 +29,7 @@ namespace Server
                 {
                     Console.WriteLine($"Attempt {retryCount + 1} - Error connecting to server: {ex.Message}");
                     Log.Information($"Attempt {retryCount + 1} - Error connecting to server: {ex.Message}");
+
                     retryCount++;
                     if (retryCount < maxRetries)
                     {
@@ -45,14 +46,32 @@ namespace Server
 
         public void CloseClient()
         {
-            _client.Close();
-            Console.WriteLine("Closed Server");
+            try
+            {
+                _client.Close();
+                Log.Information("Closing the client connection");
+                Console.WriteLine("Closed Server");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error closing the client: {ex.Message}");
+                ResetConsole();
+            }
         }
 
         public void SendMessage(string message)
         {
-            byte[] data = Encoding.ASCII.GetBytes(message);
-            _stream.Write(data, 0, data.Length);
+            try
+            {
+                byte[] data = Encoding.ASCII.GetBytes(message);
+                _stream.Write(data, 0, data.Length);
+                Log.Information($"Sending {message} request to the server");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending message: {ex.Message}");
+                ResetConsole();
+            }
         }
 
         public string RecieveMessage()
@@ -67,8 +86,20 @@ namespace Server
                 message.Append(Encoding.ASCII.GetString(buffer, 0, bytesRead));
             } while (_stream.DataAvailable);
 
-            return message.ToString();
+            var result = message.ToString();
+
+            if (result.StartsWith("Error"))
+            {
+                throw new Exception(result);
+            }
+
+            return result;
         }
 
+        private void ResetConsole()
+        {
+            Console.WriteLine("Resetting console...");
+            Console.Clear();
+        }
     }
 }
