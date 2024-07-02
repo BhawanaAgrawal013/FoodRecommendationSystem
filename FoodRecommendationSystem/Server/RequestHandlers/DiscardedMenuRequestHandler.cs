@@ -1,6 +1,7 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.ModelDTOs;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Server.RequestHandlers
 {
@@ -34,54 +35,86 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "Invalid request.";
+            return "";
         }
 
         private string GetDiscardedMeals(string request)
         {
-            var recommendedMeals = _helper.GetDiscardedMeals();
-
-            string result = "";
-
-            foreach (var meal in recommendedMeals)
+            try
             {
-                result += ($"\nMeal: {meal.MealName.MealName} \t Average Rating: {meal.SummaryRating.AverageRating} " +
-                    $"\n Sentiments: {meal.SummaryRating.SentimentComment}\n");
+                var recommendedMeals = _helper.GetDiscardedMeals();
+
+                string result = "";
+
+                foreach (var meal in recommendedMeals)
+                {
+                    result += ($"\nMeal: {meal.MealName.MealName} \t Average Rating: {meal.SummaryRating.AverageRating} " +
+                        $"\n Sentiments: {meal.SummaryRating.SentimentComment}\n");
+                }
+
+                var meals = _helper.AddDiscardedMeal(recommendedMeals);
+
+                result += ($"\n\n\nID: {meals.Id} \t Discarded Meals: {meals.MealName.MealName}");
+
+                return result;
             }
-
-            var meals = _helper.AddDiscardedMeal(recommendedMeals);
-
-            result += ($"\n\n\nID: {meals.Id} \t Discarded Meals: {meals.MealName.MealName}");
-
-            return result;
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting the discarded meals {ex.Message}");
+                throw new Exception($"Error getting the discarded meals {ex.Message}");
+            }
         }
 
         private string UpdateDiscardMenu(string request)
         {
-            var parts = request.Split('|');
-            int Id = Convert.ToInt32(parts[1]);
-            bool isDiscard = (parts[2] == "2") ? true : false;
+            try
+            {
+                var parts = request.Split('|');
+                int Id = Convert.ToInt32(parts[1]);
+                bool isDiscard = (parts[2] == "2") ? true : false;
 
-            _helper.UpdateDiscardMeal(Id, isDiscard);
+                _helper.UpdateDiscardMeal(Id, isDiscard);
 
-            return "Successfull";
+                return "Successfull";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating the discarded meals {ex.Message}");
+                throw new Exception($"Error updating the discarded meals {ex.Message}");
+            }
         }
 
         private string GetDiscardMenu(string request)
         {
-            var result = _helper.GetDiscardedMenu();
+            try
+            {
+                var result = _helper.GetDiscardedMenu();
 
-            return ($"{result.Id}|{result.MealName.MealName}");
+                return ($"{result.Id}|{result.MealName.MealName}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting the discarded menu {ex.Message}");
+                throw new Exception($"Error getting the discarded menu {ex.Message}");
+            }
         }
 
         private string AddDiscardFeedback(string request)
         {
-            var parts = request.Split('|');
-            var feedbackDTO = JsonConvert.DeserializeObject<DiscardedMenuFeedbackDTO>(parts[1]);
+            try
+            {
+                var parts = request.Split('|');
+                var feedbackDTO = JsonConvert.DeserializeObject<DiscardedMenuFeedbackDTO>(parts[1]);
 
-            _feedbackHelper.AddDiscardedFeedback(feedbackDTO);
+                _feedbackHelper.AddDiscardedFeedback(feedbackDTO);
 
-            return "Added feedback";
+                return "Added feedback";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting the discarded meals {ex.Message}");
+                throw new Exception($"Error getting the discarded menu {ex.Message}");
+            }
         }
     }
 }

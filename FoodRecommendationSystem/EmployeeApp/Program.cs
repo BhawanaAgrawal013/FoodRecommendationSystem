@@ -159,7 +159,7 @@ class Program
         user.Password = Console.ReadLine();
 
         string json = JsonConvert.SerializeObject(user);
-        client.SendMessage($"LOGIN|{json}|Employee");
+        client.SendMessage($"LOGIN|{json}|{UserRole.Employee.ToString()}");
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 

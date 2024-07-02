@@ -1,6 +1,7 @@
 ﻿using DataAcessLayer.Helpers.IHelpers;
 using DataAcessLayer.ModelDTOs;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Server.RequestHandlers
 {
@@ -30,34 +31,50 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "Invalid request.";
+            return "";
         }
 
         private string HandleSendFoodReview(string request)
         {
-            var parts = request.Split('|');
-            var foods = _feedbackHelper.GetMeals(parts[1]);
-
-            string result = String.Empty;
-
-            foreach(var food in foods)
+            try
             {
-                result += ($"\nFood ID: {food.Food.Id}\tName: {food.Food.Name}");
-            }
+                var parts = request.Split('|');
+                var foods = _feedbackHelper.GetMeals(parts[1]);
 
-            return result;
+                string result = String.Empty;
+
+                foreach (var food in foods)
+                {
+                    result += ($"\nFood ID: {food.Food.Id}\tName: {food.Food.Name}");
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error sending the food list for review {ex.Message}");
+                throw new Exception($"Error sending the food list for review {ex.Message}");
+            }
         }
 
         private string HandleSendingFeedback(string request)
         {
-            var parts = request.Split('|');
+            try
+            {
+                var parts = request.Split('|');
 
-            ReviewDTO reviewDTO = JsonConvert.DeserializeObject<ReviewDTO>(parts[1]);
-            RatingDTO ratingDTO = JsonConvert.DeserializeObject<RatingDTO>(parts[2]);
+                ReviewDTO reviewDTO = JsonConvert.DeserializeObject<ReviewDTO>(parts[1]);
+                RatingDTO ratingDTO = JsonConvert.DeserializeObject<RatingDTO>(parts[2]);
 
-            _feedbackHelper.AddFeedback(reviewDTO, ratingDTO);
+                _feedbackHelper.AddFeedback(reviewDTO, ratingDTO);
 
-            return "Added Feedback";
+                return "Added Feedback";
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error sending the food feedback {ex.Message}");
+                throw new Exception($"Error sending the food feedback {ex.Message}");
+            }
         }
     }
 }

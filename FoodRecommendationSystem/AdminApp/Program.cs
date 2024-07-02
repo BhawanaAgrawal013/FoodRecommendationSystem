@@ -36,7 +36,14 @@ class Program
 
             if (menuActions.TryGetValue(option, out var action))
             {
-                action(); 
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
             else
             {
@@ -94,8 +101,8 @@ class Program
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
-
     }
+
     static void DeleteMenuItem(SocketClient client)
     {
         Console.Write("Enter ID: ");
@@ -105,13 +112,20 @@ class Program
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
-
     }
 
     static void LogOut(SocketClient client)
     {
-        Console.Clear();
-        AdminLogin(client);
+        try
+        {
+            Console.Clear();
+            AdminLogin(client);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error logging out: {ex.Message}");
+            throw;
+        }
     }
 
     static void AdminLogin(SocketClient client)
@@ -125,7 +139,7 @@ class Program
         user.Password = Console.ReadLine();
 
         string json = JsonConvert.SerializeObject(user);
-        client.SendMessage($"LOGIN|{json}|Admin");
+        client.SendMessage($"LOGIN|{json}|{UserRole.Admin.ToString()}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);

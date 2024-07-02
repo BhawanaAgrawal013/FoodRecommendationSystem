@@ -5,8 +5,6 @@ using Server;
 
 class Program
 {
-    private static string? UserEmail { get; set; }
-
     static void Main(string[] args)
     {
         System.Threading.Thread.Sleep(4000);
@@ -190,14 +188,13 @@ class Program
         user.Password = Console.ReadLine();
 
         string json = JsonConvert.SerializeObject(user);
-        client.SendMessage($"LOGIN|{json}|Chef");
+        client.SendMessage($"LOGIN|{json}|{UserRole.Chef.ToString()}}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
         if (response == "Login Successful")
         {
-            UserEmail = user.Email;
             return;
         }
 

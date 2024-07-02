@@ -7,3 +7,10 @@
     Appetizer,
     Healthy
 }
+
+public enum UserRole
+{
+    Chef,
+    Admin,
+    Employee
+}
