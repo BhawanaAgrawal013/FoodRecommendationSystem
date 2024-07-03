@@ -1,0 +1,116 @@
+2024-07-03 22:29:41.526 +05:30 [INF] Starting up the server
+2024-07-03 22:29:58.551 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 22:31:01.364 +05:30 [INF] Login Handler: Login Successful for user bhawana@gmail.com.
+2024-07-03 22:34:41.674 +05:30 [INF] Login Handler: Login Successful for user ross@gmail.com.
+2024-07-03 22:34:43.754 +05:30 [INF] Getting full menu from database
+2024-07-03 22:35:15.007 +05:30 [INF] Added the meal DataAcessLayer.ModelDTOs.MealNameDTO
+2024-07-03 22:35:18.066 +05:30 [INF] Getting full menu from database
+2024-07-03 22:35:44.202 +05:30 [INF] Updating the meal item DataAcessLayer.ModelDTOs.MealNameDTO
+2024-07-03 22:35:47.711 +05:30 [INF] Getting full menu from database
+2024-07-03 22:35:57.064 +05:30 [INF] Getting full menu from database
+2024-07-03 22:37:45.549 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 22:37:49.023 +05:30 [INF] Getting full menu from database
+2024-07-03 22:38:03.322 +05:30 [INF] Getting the recommendation for Breakfast
+2024-07-03 22:38:33.274 +05:30 [INF] Rolled out meal options for Breakfast
+2024-07-03 22:39:05.600 +05:30 [ERR] No data available
+2024-07-03 22:39:05.777 +05:30 [ERR] Exception occured Error: No data is available
+2024-07-03 22:40:21.436 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:40:21.604 +05:30 [ERR] Error getting the meal menu options for classification 'Thali' and email 'bhawana@gmail.com': No meal menus found for classification 'Thali' on date '03-07-2024'.
+2024-07-03 22:40:21.687 +05:30 [ERR] Error getting meal menu options: Error getting the meal menu options for classification 'Thali' and email 'bhawana@gmail.com': No meal menus found for classification 'Thali' on date '03-07-2024'.
+2024-07-03 22:40:21.768 +05:30 [ERR] Exception occured Error getting meal menu options: Error getting the meal menu options for classification 'Thali' and email 'bhawana@gmail.com': No meal menus found for classification 'Thali' on date '03-07-2024'.
+2024-07-03 22:40:32.477 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:40:54.280 +05:30 [INF] Employee voted for item 17
+2024-07-03 22:41:13.651 +05:30 [INF] Login Handler: Login Successful for user mitali@gmail.com.
+2024-07-03 22:41:20.231 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:41:26.384 +05:30 [INF] Employee voted for item 18
+2024-07-03 22:41:42.678 +05:30 [INF] Login Handler: Login Successful for user parshvi@gmail.com.
+2024-07-03 22:41:47.230 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:41:53.968 +05:30 [INF] Employee voted for item 19
+2024-07-03 22:42:05.137 +05:30 [INF] Login Handler: Login Successful for user lavesh@gmail.com.
+2024-07-03 22:42:08.941 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:42:09.042 +05:30 [ERR] Error getting the meal menu options for classification 'breakfast' and email 'lavesh@gmail.com': No meal menus found for classification 'breakfast' on date '03-07-2024'.
+2024-07-03 22:42:09.127 +05:30 [ERR] Error getting meal menu options: Error getting the meal menu options for classification 'breakfast' and email 'lavesh@gmail.com': No meal menus found for classification 'breakfast' on date '03-07-2024'.
+2024-07-03 22:42:09.215 +05:30 [ERR] Exception occured Error getting meal menu options: Error getting the meal menu options for classification 'breakfast' and email 'lavesh@gmail.com': No meal menus found for classification 'breakfast' on date '03-07-2024'.
+2024-07-03 22:42:21.285 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:42:27.007 +05:30 [INF] Employee voted for item 17
+2024-07-03 22:42:42.201 +05:30 [INF] Login Handler: Login Successful for user samyak@gmail.com.
+2024-07-03 22:42:47.275 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:42:53.993 +05:30 [INF] Employee voted for item 1
+2024-07-03 22:42:54.092 +05:30 [ERR] Error voting for the next day meal with ID '1' on date '03-07-2024': Meal menu not found for ID '1' on date '03-07-2024'.
+2024-07-03 22:42:54.177 +05:30 [ERR] Error voting for meal: Error voting for the next day meal with ID '1' on date '03-07-2024': Meal menu not found for ID '1' on date '03-07-2024'.
+2024-07-03 22:42:54.255 +05:30 [ERR] Exception occured Error voting for meal: Error voting for the next day meal with ID '1' on date '03-07-2024': Meal menu not found for ID '1' on date '03-07-2024'.
+2024-07-03 22:43:00.086 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:43:03.328 +05:30 [INF] Employee voted for item 18
+2024-07-03 22:43:17.516 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:43:17.627 +05:30 [ERR] Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:43:17.704 +05:30 [ERR] Exception occured Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:43:25.677 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:43:25.756 +05:30 [ERR] Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:43:25.830 +05:30 [ERR] Exception occured Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:44:28.047 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:45:10.124 +05:30 [ERR] Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:45:10.202 +05:30 [ERR] Exception occured Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:45:31.034 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:45:46.793 +05:30 [ERR] Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:45:46.852 +05:30 [ERR] Exception occured Error getting meal menu options: Index was outside the bounds of the array.
+2024-07-03 22:48:19.681 +05:30 [INF] Starting up the server
+2024-07-03 22:48:26.413 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 22:48:41.758 +05:30 [INF] Login Handler: Login Successful for user bhawana@gmail.com.
+2024-07-03 22:49:05.056 +05:30 [INF] Login Handler: Login Successful for user ross@gmail.com.
+2024-07-03 22:49:09.133 +05:30 [INF] Getting full menu from database
+2024-07-03 22:49:13.526 +05:30 [ERR] Error deleting menu item: Error deleting the meal with ID 91
+2024-07-03 22:49:13.628 +05:30 [ERR] Error deleting the meal Error deleting menu item: Error deleting the meal with ID 91
+2024-07-03 22:49:13.714 +05:30 [ERR] Exception occured Error deleting the meal Error deleting menu item: Error deleting the meal with ID 91
+2024-07-03 22:50:19.147 +05:30 [ERR] Error deleting menu item: Error deleting the meal with ID 91
+2024-07-03 22:50:19.196 +05:30 [ERR] Error deleting the meal Error deleting menu item: Error deleting the meal with ID 91
+2024-07-03 22:50:19.246 +05:30 [ERR] Exception occured Error deleting the meal Error deleting menu item: Error deleting the meal with ID 91
+2024-07-03 22:50:44.604 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 22:50:56.226 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:51:10.175 +05:30 [ERR] Error sorting the meals based on profile for email 'monica@gmail.com': Profile not found for email 'monica@gmail.com'.
+2024-07-03 22:51:15.591 +05:30 [ERR] Error getting the meal menu options for classification 'Breakfast' and email 'monica@gmail.com': Error sorting the meals based on profile for email 'monica@gmail.com': Profile not found for email 'monica@gmail.com'.
+2024-07-03 22:51:15.652 +05:30 [ERR] Error getting meal menu options: Error getting the meal menu options for classification 'Breakfast' and email 'monica@gmail.com': Error sorting the meals based on profile for email 'monica@gmail.com': Profile not found for email 'monica@gmail.com'.
+2024-07-03 22:51:15.711 +05:30 [ERR] Exception occured Error getting meal menu options: Error getting the meal menu options for classification 'Breakfast' and email 'monica@gmail.com': Error sorting the meals based on profile for email 'monica@gmail.com': Profile not found for email 'monica@gmail.com'.
+2024-07-03 22:54:02.625 +05:30 [INF] Starting up the server
+2024-07-03 22:54:10.121 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 22:54:26.094 +05:30 [INF] Login Handler: Login Successful for user ross@gmail.com.
+2024-07-03 22:54:27.336 +05:30 [INF] Getting full menu from database
+2024-07-03 22:54:34.108 +05:30 [INF] Getting full menu from database
+2024-07-03 22:54:48.970 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 22:54:59.306 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:55:09.277 +05:30 [ERR] Error sorting the meals based on profile for email 'monica@gmail.com': Object reference not set to an instance of an object.
+2024-07-03 22:55:09.345 +05:30 [ERR] Error getting the meal menu options for classification 'Breakfast' and email 'monica@gmail.com': Error sorting the meals based on profile for email 'monica@gmail.com': Object reference not set to an instance of an object.
+2024-07-03 22:55:09.396 +05:30 [ERR] Error getting meal menu options: Error getting the meal menu options for classification 'Breakfast' and email 'monica@gmail.com': Error sorting the meals based on profile for email 'monica@gmail.com': Object reference not set to an instance of an object.
+2024-07-03 22:55:09.438 +05:30 [ERR] Exception occured Error getting meal menu options: Error getting the meal menu options for classification 'Breakfast' and email 'monica@gmail.com': Error sorting the meals based on profile for email 'monica@gmail.com': Object reference not set to an instance of an object.
+2024-07-03 22:55:56.469 +05:30 [INF] Starting up the server
+2024-07-03 22:56:05.173 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 22:56:18.401 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 22:56:25.248 +05:30 [INF] Getting the meal options for employee
+2024-07-03 22:56:42.528 +05:30 [INF] Choosing the next day final meal
+2024-07-03 22:57:28.705 +05:30 [INF] Login Handler: Login Successful for user samyak@gmail.com.
+2024-07-03 22:57:29.884 +05:30 [INF] Getting full menu from database
+2024-07-03 22:58:23.876 +05:30 [ERR] Error getting the discarded menu Object reference not set to an instance of an object.
+2024-07-03 22:58:23.935 +05:30 [ERR] Exception occured Error getting the discarded menu Object reference not set to an instance of an object.
+2024-07-03 22:58:53.944 +05:30 [INF] Login Handler: Login Successful for user mitali@gmail.com.
+2024-07-03 22:59:48.992 +05:30 [INF] Getting full menu from database
+2024-07-03 23:01:03.115 +05:30 [ERR] Error adding feedback: Error getting the rating for user 4 and food 64
+2024-07-03 23:01:03.212 +05:30 [ERR] Error sending the food feedback Error adding feedback
+2024-07-03 23:01:03.299 +05:30 [ERR] Exception occured Error sending the food feedback Error adding feedback
+2024-07-03 23:03:17.228 +05:30 [ERR] Error adding feedback: Error getting the rating for user 4 and food 64
+2024-07-03 23:03:17.302 +05:30 [ERR] Error sending the food feedback Error adding feedback
+2024-07-03 23:03:17.393 +05:30 [ERR] Exception occured Error sending the food feedback Error adding feedback
+2024-07-03 23:04:08.881 +05:30 [INF] Starting up the server
+2024-07-03 23:04:13.274 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 23:04:29.299 +05:30 [INF] Login Handler: Login Successful for user mitali@gmail.com.
+2024-07-03 23:05:35.233 +05:30 [INF] Login Handler: Login Successful for user lavesh@gmail.com.
+2024-07-03 23:11:08.548 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 23:13:26.782 +05:30 [ERR] Exception updating discard meal: Discarded meal not found
+2024-07-03 23:13:26.863 +05:30 [ERR] Error updating the discarded meals Exception updating discard meal
+2024-07-03 23:13:26.952 +05:30 [ERR] Exception occured Error updating the discarded meals Exception updating discard meal
+2024-07-03 23:19:35.190 +05:30 [INF] Starting up the server
+2024-07-03 23:19:41.493 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 23:19:56.472 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 23:20:40.449 +05:30 [INF] Login Handler: Login Successful for user bhawana@gmail.com.
+2024-07-03 23:25:20.868 +05:30 [INF] Starting up the server
+2024-07-03 23:25:24.855 +05:30 [INF] Socket server started on port 5000.
+2024-07-03 23:25:48.732 +05:30 [INF] Login Handler: Login Successful for user monica@gmail.com.
+2024-07-03 23:26:53.871 +05:30 [INF] Getting full menu from database
