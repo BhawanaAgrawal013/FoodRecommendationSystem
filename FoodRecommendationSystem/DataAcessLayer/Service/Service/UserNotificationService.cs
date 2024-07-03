@@ -10,7 +10,6 @@ namespace DataAcessLayer.Service.Service
         {
             _userNotificationRepository = userNotificationRepository;
         }
-
         public void AddUserNotification(UserNotificationDTO userNotificationDTO)
         {
             try
@@ -47,7 +46,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
-                throw new Exception("Error getting all user notifications", ex);
+                throw new Exception("Error getting unread user notifications", ex);
             }
         }
 
@@ -62,12 +61,13 @@ namespace DataAcessLayer.Service.Service
                     userNotification.IsRead = true;
 
                     _userNotificationRepository.Update(userNotification);
-                    _userNotificationRepository.Save();
                 }
+
+                _userNotificationRepository.Save();
             }
             catch (Exception ex)
             {
-                throw new Exception("Not able to  mark the notification as read");
+                throw new Exception("Error marking notifications as read", ex);
             }
         }
 
@@ -107,7 +107,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error deleting the summary rating {id}", ex);
+                throw new Exception($"Error deleting the user notification {id}", ex);
             }
         }
     }

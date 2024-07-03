@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Helpers
+﻿using Serilog;
+
+namespace DataAcessLayer.Helpers
 {
     public class AdminHelper : IAdminHelper
     {
@@ -15,65 +17,97 @@
 
         public List<MealNameDTO> GetFullMenu()
         {
-            return _mealNameService.GetAllMeals();
+            try
+            {
+                return _mealNameService.GetAllMeals();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error retrieving full menu: {ex.Message}");
+                throw new Exception($"Error retrieving full menu: {ex.Message}");
+            }
         }
 
         public MealNameDTO AddMenuItem(MealNameDTO mealNameDTO)
         {
-            var existingFood = _foodService.GetAllFoods().Where(x => x.Name == mealNameDTO.MealName).FirstOrDefault();
-
-            if (existingFood == null)
+            try
             {
-                FoodDTO foodDTO = new FoodDTO
+                var existingFood = _foodService.GetAllFoods().FirstOrDefault(x => x.Name == mealNameDTO.MealName);
+
+                if (existingFood == null)
                 {
-                    Name = mealNameDTO.MealName,
-                    IsAvailable = true,
+                    FoodDTO foodDTO = new FoodDTO
+                    {
+                        Name = mealNameDTO.MealName,
+                        IsAvailable = true,
+                    };
+
+                    _foodService.AddFood(foodDTO);
+                }
+
+                var existingMealName = _mealNameService.GetAllMeals().FirstOrDefault(x => x.MealName == mealNameDTO.MealName);
+
+                if (existingMealName == null)
+                {
+                    _mealNameService.AddMealName(mealNameDTO);
+                }
+
+                MealDTO mealDTO = new MealDTO
+                {
+                    Food = _foodService.GetAllFoods().FirstOrDefault(x => x.Name == mealNameDTO.MealName),
+                    MealName = _mealNameService.GetAllMeals().FirstOrDefault(x => x.MealName == mealNameDTO.MealName)
                 };
 
-                _foodService.AddFood(foodDTO);
+                var existingMeal = _mealService.GetAllMeals().FirstOrDefault(x => x.Food.Id == mealDTO.Food.Id && x.MealName.MealNameId == mealDTO.MealName.MealNameId);
+
+                if (existingMeal == null)
+                {
+                    _mealService.AddMeal(mealDTO);
+                }
+
+                return mealNameDTO;
             }
-
-            var existingMealName = _mealNameService.GetAllMeals().Where(x => x.MealName == mealNameDTO.MealName).FirstOrDefault();
-
-            if (existingMealName == null)
+            catch (Exception ex)
             {
-                _mealNameService.AddMealName(mealNameDTO);
+                Log.Error($"Error adding menu item: {ex.Message}");
+                throw new Exception($"Error adding menu item: {ex.Message}");
             }
-
-            MealDTO mealDTO = new MealDTO();
-
-            mealDTO.Food = _foodService.GetAllFoods().Where(x => x.Name == mealNameDTO.MealName).FirstOrDefault();
-            mealDTO.MealName = _mealNameService.GetAllMeals().Where(x => x.MealName == mealNameDTO.MealName).FirstOrDefault();
-
-            var existingMeal = _mealService.GetAllMeals().Where(x => x.Food.Id == mealDTO.Food.Id && x.MealName.MealNameId == mealDTO.MealName.MealNameId).FirstOrDefault();
-
-            if (existingMeal == null)
-            {
-                _mealService.AddMeal(mealDTO);
-            }
-
-            return mealNameDTO;
         }
 
         public MealNameDTO UpdateMenuItem(MealNameDTO mealDTO)
         {
-            _mealNameService.UpdateMealName(mealDTO);
-            return mealDTO;
+            try
+            {
+                _mealNameService.UpdateMealName(mealDTO);
+                return mealDTO;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error updating menu item: {ex.Message}");
+                throw new Exception($"Error updating menu item: {ex.Message}");
+            }
         }
 
         public string DeleteMenuItem(int mealNameId)
         {
-            var existingMeal = _mealNameService.GetAllMeals().Where(x => x.MealNameId == mealNameId).FirstOrDefault();
-
-            if(existingMeal == null)
+            try
             {
-                return "Meal does not exist";
+                var existingMeal = _mealNameService.GetAllMeals().FirstOrDefault(x => x.MealNameId == mealNameId);
+
+                if (existingMeal == null)
+                {
+                    return "Meal does not exist";
+                }
+                else
+                {
+                    _mealService.DeleteMeal(mealNameId);
+                    return "Meal deleted successfully";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _mealService.DeleteMeal(mealNameId);
-
-                return "Meal deleted sucessfully";
+                Log.Error($"Error deleting menu item: {ex.Message}");
+                throw new Exception($"Error deleting menu item: {ex.Message}");
             }
         }
     }

@@ -1,8 +1,4 @@
-﻿using DataAcessLayer.Entity;
-using DataAcessLayer.Repository.Repository;
-using DataAcessLayer.Service.IService;
-
-namespace DataAcessLayer.Service.Service
+﻿namespace DataAcessLayer.Service.Service
 {
     public class RatingService : IRatingService
     {
@@ -45,6 +41,10 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var rating = _ratingRepository.GetById(id);
+                if (rating == null)
+                {
+                    throw new Exception($"Rating with id {id} not found");
+                }
                 return (RatingDTO)rating;
             }
             catch (Exception ex)
@@ -57,14 +57,12 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var rating = _ratingRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
-                if (rating == null)
-                    return false;
-                return true;
+                var rating = _ratingRepository.GetAll().FirstOrDefault(x => x.UserId == userId && x.FoodId == foodId);
+                return rating != null;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the review for {foodId} by {userId}", ex);
+                throw new Exception($"Error checking if rating exists for user {userId} and food {foodId}", ex);
             }
         }
 
@@ -72,12 +70,16 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var rating = _ratingRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
+                var rating = _ratingRepository.GetAll().FirstOrDefault(x => x.UserId == userId && x.FoodId == foodId);
+                if (rating == null)
+                {
+                    throw new Exception($"Rating for user {userId} and food {foodId} not found");
+                }
                 return (RatingDTO)rating;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the review for {foodId} by {userId}", ex);
+                throw new Exception($"Error getting the rating for user {userId} and food {foodId}", ex);
             }
         }
 
@@ -107,6 +109,7 @@ namespace DataAcessLayer.Service.Service
                 throw new Exception($"Error deleting the rating {id}", ex);
             }
         }
+
     }
 
 }

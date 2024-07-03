@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Service.Service
+﻿using Serilog;
+
+namespace DataAcessLayer.Service.Service
 {
     public class DiscardedMenuFeedbackService : IDiscardedMenuFeedbackService
     {
@@ -11,15 +13,31 @@
 
         public void AddDiscardedMenuFeedback(DiscardedMenuFeedbackDTO discardedMenuDTO)
         {
-            DiscardedMenuFeedback discardedMenuFeedback = (DiscardedMenuFeedback)discardedMenuDTO;
-            _discardedMenuFeedbackRepository.Insert(discardedMenuFeedback);
-            _discardedMenuFeedbackRepository.Save();
+            try
+            {
+                DiscardedMenuFeedback discardedMenuFeedback = (DiscardedMenuFeedback)discardedMenuDTO;
+                _discardedMenuFeedbackRepository.Insert(discardedMenuFeedback);
+                _discardedMenuFeedbackRepository.Save();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error adding discarded menu feedback: {ex.Message}");
+                throw new Exception("Error adding discarded menu feedback", ex);
+            }
         }
 
         public List<DiscardedMenuFeedbackDTO> GetDiscardedMenuFeedbackList()
         {
-            var discardedMenus = _discardedMenuFeedbackRepository.GetAll();
-            return discardedMenus.Select(dm => (DiscardedMenuFeedbackDTO)dm).ToList();
+            try
+            {
+                var discardedMenus = _discardedMenuFeedbackRepository.GetAll();
+                return discardedMenus.Select(dm => (DiscardedMenuFeedbackDTO)dm).ToList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting discarded menu feedback list: {ex.Message}");
+                throw new Exception("Error getting discarded menu feedback list", ex);
+            }
         }
 
         public DiscardedMenuFeedbackDTO GetDiscardedMenuFeedback(int id)
@@ -27,11 +45,16 @@
             try
             {
                 var discardedMenu = _discardedMenuFeedbackRepository.GetById(id);
+                if (discardedMenu == null)
+                {
+                    throw new Exception($"Discarded menu feedback with id {id} not found");
+                }
                 return (DiscardedMenuFeedbackDTO)discardedMenu;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the food {id}", ex);
+                Log.Error($"Error getting discarded menu feedback with id {id}: {ex.Message}");
+                throw new Exception($"Error getting discarded menu feedback with id {id}", ex);
             }
         }
 
@@ -45,7 +68,8 @@
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating the food", ex);
+                Log.Error($"Error updating discarded menu feedback: {ex.Message}");
+                throw new Exception("Error updating discarded menu feedback", ex);
             }
         }
 
@@ -58,7 +82,8 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error deleting the food {id}", ex);
+                Log.Error($"Error deleting discarded menu feedback with id {id}: {ex.Message}");
+                throw new Exception($"Error deleting discarded menu feedback with id {id}", ex);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Service.IService;
+using Serilog;
 
 namespace DataAcessLayer.Service.Service
 {
@@ -21,6 +22,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error inserting meal menu: {ex.Message}");
                 throw new Exception("Error inserting meal menu", ex);
             }
         }
@@ -34,6 +36,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting all meal menus: {ex.Message}");
                 throw new Exception("Error getting all meal menus", ex);
             }
         }
@@ -43,10 +46,15 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var mealMenu = _mealMenuRepository.GetById(id);
+                if (mealMenu == null)
+                {
+                    throw new Exception($"Meal menu with id {id} not found");
+                }
                 return (MealMenuDTO)mealMenu;
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting the meal menu {id}: {ex.Message}");
                 throw new Exception($"Error getting the meal menu {id}", ex);
             }
         }
@@ -61,6 +69,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error updating the meal menu: {ex.Message}");
                 throw new Exception("Error updating the meal menu", ex);
             }
         }
@@ -74,9 +83,11 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error deleting the meal menu {id}: {ex.Message}");
                 throw new Exception($"Error deleting the meal menu {id}", ex);
             }
         }
+
     }
 
 }

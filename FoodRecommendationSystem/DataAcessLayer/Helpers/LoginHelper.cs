@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Helpers
+﻿using Serilog;
+
+namespace DataAcessLayer.Helpers
 {
     public class LoginHelper : ILoginHelper
     {
@@ -17,8 +19,10 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error whiel logging in the user {ex.Message}");
+                Log.Error($"Error while logging in the user: {ex.Message}");
+                throw new Exception($"Error while logging in the user", ex);
             }
         }
+
     }
 }

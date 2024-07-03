@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.ModelDTOs;
+using Serilog;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -29,119 +30,149 @@ namespace DataAcessLayer.Helpers
 
         public void AddFeedback(ReviewDTO reviewDTO, RatingDTO ratingDTO)
         {
-            var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == ratingDTO.User.Email);
-            if (user == null)
+            try
             {
-                throw new ArgumentException("User not found");
+                var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == ratingDTO.User.Email);
+                if (user == null)
+                {
+                    throw new ArgumentException("User not found");
+                }
+
+                int userId = user.Id;
+                reviewDTO.User = new User { Id = userId };
+                reviewDTO.Food = new Food { Id = ratingDTO.Food.Id };
+                ratingDTO.User = new User { Id = userId };
+
+                var existingReview = _reviewService.GetFoodReviewByUser(userId, ratingDTO.Food.Id);
+                if (existingReview == null)
+                {
+                    _reviewService.AddReview(reviewDTO);
+                }
+                else
+                {
+                    reviewDTO.Id = existingReview.Id;
+                    _reviewService.UpdateReview(reviewDTO);
+                }
+
+                var existingRating = _ratingService.GetFoodRatingByUser(userId, ratingDTO.Food.Id);
+                if (existingRating == null)
+                {
+                    _ratingService.AddRating(ratingDTO);
+                }
+                else
+                {
+                    ratingDTO.Id = existingRating.Id;
+                    _ratingService.UpdateRating(ratingDTO);
+                }
+
+                SetSummaryRating(reviewDTO, ratingDTO);
             }
-
-            int userId = user.Id;
-
-            reviewDTO.User = new User { Id = userId };
-            reviewDTO.Food = new Food { Id = ratingDTO.Food.Id };
-            ratingDTO.User = new User { Id = userId };
-
-            var existingReview = _reviewService.GetFoodReviewByUser(userId, ratingDTO.Food.Id);
-            if (existingReview == null)
+            catch (Exception ex)
             {
-                _reviewService.AddReview(reviewDTO);
+                Log.Error($"Error adding feedback: {ex.Message}");
+                throw new Exception("Error adding feedback", ex);
             }
-            else
-            {
-                reviewDTO.Id = existingReview.Id;
-                _reviewService.UpdateReview(reviewDTO);
-            }
-
-            var existingRating = _ratingService.GetFoodRatingByUser(userId, ratingDTO.Food.Id);
-            if (existingRating == null)
-            {
-                _ratingService.AddRating(ratingDTO);
-            }
-            else
-            {
-                ratingDTO.Id = existingRating.Id;
-                _ratingService.UpdateRating(ratingDTO);
-            }
-
-            var summaryRatingDTO = SetSummaryRating(reviewDTO, ratingDTO);
         }
-
 
         public List<MealDTO> GetMeals(string classification)
         {
-            var meals = _mealService.GetAllMeals().Where(x => x.MealName.MealType == classification).ToList();
-
-            return meals;
+            try
+            {
+                return _mealService.GetAllMeals().Where(x => x.MealName.MealType == classification).ToList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting meals for classification '{classification}': {ex.Message}");
+                throw new Exception($"Error getting meals for classification '{classification}'", ex);
+            }
         }
 
         public string GetSentimentSummary(int foodId)
         {
-            List<string> reviewTexts = _reviewService.GetAllReviews().Where(x => x.Food.Id == foodId).Select(x => x.ReviewText).ToList();
-
-            var result = string.Empty;
-
-            foreach (var review in reviewTexts)
+            try
             {
-
-                var words = review.Split(new[] { ' ', '.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var reviewTexts = _reviewService.GetAllReviews().Where(x => x.Food.Id == foodId).Select(x => x.ReviewText).ToList();
                 var sentimentWordsSet = new HashSet<string>();
 
-                foreach (var word in words)
+                foreach (var review in reviewTexts)
                 {
-                    var lowerWord = word.ToLower();
-                    if (WordsDictionary.SentimentWords.ContainsKey(lowerWord))
+                    var words = review.Split(new[] { ' ', '.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var word in words)
                     {
-                        sentimentWordsSet.Add(lowerWord);
+                        var lowerWord = word.ToLower();
+                        if (WordsDictionary.SentimentWords.ContainsKey(lowerWord))
+                        {
+                            sentimentWordsSet.Add(lowerWord);
+                        }
                     }
                 }
 
-                result += string.Join(", ", sentimentWordsSet);
+                return string.Join(", ", sentimentWordsSet);
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting sentiment summary for food ID '{foodId}': {ex.Message}");
+                throw new Exception($"Error getting sentiment summary for food ID '{foodId}'", ex);
+            }
         }
+
 
         public void AddDiscardedFeedback(DiscardedMenuFeedbackDTO discardedMenuFeedbackDTO)
         {
-            _discardedMenuFeedback.AddDiscardedMenuFeedback(discardedMenuFeedbackDTO);
+            try
+            {
+                _discardedMenuFeedback.AddDiscardedMenuFeedback(discardedMenuFeedbackDTO);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error adding discarded feedback: {ex.Message}");
+                throw new Exception("Error adding discarded feedback", ex);
+            }
         }
+
 
         private SummaryRatingDTO SetSummaryRating(ReviewDTO reviewDTO, RatingDTO ratingDTO)
         {
-            var existingSummaryRatingDTO = _summaryRatingService.GetSummaryRatingByFoodId(reviewDTO.Food.Id);
-
-            if (existingSummaryRatingDTO == null)
+            try
             {
-                var summaryRatingDTO = CreateSummaryRating(reviewDTO, ratingDTO);
-                summaryRatingDTO.Food = _foodService.GetFood(reviewDTO.Food.Id);
+                var existingSummaryRatingDTO = _summaryRatingService.GetSummaryRatingByFoodId(reviewDTO.Food.Id);
 
-                _summaryRatingService.AddSummaryRating(summaryRatingDTO);
-
-                return summaryRatingDTO;
+                if (existingSummaryRatingDTO == null)
+                {
+                    var summaryRatingDTO = CreateSummaryRating(reviewDTO, ratingDTO);
+                    summaryRatingDTO.Food = _foodService.GetFood(reviewDTO.Food.Id);
+                    _summaryRatingService.AddSummaryRating(summaryRatingDTO);
+                    return summaryRatingDTO;
+                }
+                else
+                {
+                    var newScore = AnalyzeSentiment(reviewDTO.ReviewText);
+                    existingSummaryRatingDTO.SentimentComment = GetSentimentSummary(reviewDTO.Food.Id);
+                    existingSummaryRatingDTO.SentimentScore = CalculateAverage(existingSummaryRatingDTO.SentimentScore, existingSummaryRatingDTO.NumberOfPeople, newScore);
+                    existingSummaryRatingDTO.TotalQuantityRating = CalculateAverage(existingSummaryRatingDTO.TotalQuantityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QuantityRating);
+                    existingSummaryRatingDTO.AverageRating = CalculateAverage(existingSummaryRatingDTO.AverageRating, existingSummaryRatingDTO.NumberOfPeople, ratingDTO.RatingValue);
+                    existingSummaryRatingDTO.TotalAppearanceRating = CalculateAverage(existingSummaryRatingDTO.TotalAppearanceRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.AppearanceRating);
+                    existingSummaryRatingDTO.TotalQualityRating = CalculateAverage(existingSummaryRatingDTO.TotalQualityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QualityRating);
+                    existingSummaryRatingDTO.NumberOfPeople += 1;
+                    existingSummaryRatingDTO.TotalValueForMoneyRating = CalculateAverage(existingSummaryRatingDTO.TotalValueForMoneyRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.ValueForMoneyRating);
+                    _summaryRatingService.UpdateSummaryRating(existingSummaryRatingDTO);
+                    return existingSummaryRatingDTO;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var newScore = AnalyzeSentiment(reviewDTO.ReviewText);
-                existingSummaryRatingDTO.SentimentComment = GetSentimentSummary(reviewDTO.Food.Id);
-                existingSummaryRatingDTO.SentimentScore = CalcualteAverage(existingSummaryRatingDTO.SentimentScore, existingSummaryRatingDTO.NumberOfPeople, newScore);
-                existingSummaryRatingDTO.TotalQuantityRating = CalcualteAverage(existingSummaryRatingDTO.TotalQuantityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QuantityRating);
-                existingSummaryRatingDTO.AverageRating = CalcualteAverage(existingSummaryRatingDTO.AverageRating, existingSummaryRatingDTO.NumberOfPeople, ratingDTO.RatingValue);
-                existingSummaryRatingDTO.TotalAppearanceRating = CalcualteAverage(existingSummaryRatingDTO.TotalAppearanceRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.AppearanceRating); ;
-                existingSummaryRatingDTO.TotalQualityRating = CalcualteAverage(existingSummaryRatingDTO.TotalQualityRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.QualityRating);
-                existingSummaryRatingDTO.NumberOfPeople += 1;
-                existingSummaryRatingDTO.TotalValueForMoneyRating = CalcualteAverage(existingSummaryRatingDTO.TotalValueForMoneyRating, existingSummaryRatingDTO.NumberOfPeople, reviewDTO.ValueForMoneyRating);
-
-                _summaryRatingService.UpdateSummaryRating(existingSummaryRatingDTO);
-
-                return existingSummaryRatingDTO;
+                Log.Error($"Error setting summary rating: {ex.Message}");
+                throw new Exception("Error setting summary rating", ex);
             }
         }
 
+
         private SummaryRatingDTO CreateSummaryRating(ReviewDTO reviewDTO, RatingDTO ratingDTO)
         {
-            SummaryRatingDTO summaryRating = new SummaryRatingDTO
+            return new SummaryRatingDTO
             {
-                SentimentScore = AnalyzeSentiment(reviewDTO.ReviewText), 
+                SentimentScore = AnalyzeSentiment(reviewDTO.ReviewText),
                 AverageRating = ratingDTO.RatingValue,
                 TotalAppearanceRating = reviewDTO.AppearanceRating,
                 TotalQualityRating = reviewDTO.QualityRating,
@@ -150,14 +181,14 @@ namespace DataAcessLayer.Helpers
                 NumberOfPeople = 1,
                 SentimentComment = GetSentimentSummary(reviewDTO.Food.Id)
             };
-
-            return summaryRating;
         }
 
-        private double CalcualteAverage(double sum, double numberOfPeople, double newRating)
+
+        private double CalculateAverage(double sum, double numberOfPeople, double newRating)
         {
-            return ( (sum * numberOfPeople) + newRating ) / (numberOfPeople + 1);
+            return ((sum * numberOfPeople) + newRating) / (numberOfPeople + 1);
         }
+
 
         private static string RemoveUnwantedWords(string text)
         {
@@ -169,14 +200,15 @@ namespace DataAcessLayer.Helpers
             return string.Join(" ", filteredWords);
         }
 
-        static double AnalyzeSentiment(string text)
+
+        private static double AnalyzeSentiment(string text)
         {
             text = RemoveUnwantedWords(text);
             string[] sentences = text.Split(new[] { '.', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
 
             double totalSentimentScore = 0;
 
-            foreach (string sentence in sentences)
+            foreach (var sentence in sentences)
             {
                 string[] words = sentence.Split(' ');
 
@@ -185,7 +217,7 @@ namespace DataAcessLayer.Helpers
                 int intensify = 1;
                 bool conjunctionFound = false;
 
-                foreach (string word in words)
+                foreach (var word in words)
                 {
                     if (WordsDictionary.Negations.Contains(word))
                     {
@@ -217,14 +249,7 @@ namespace DataAcessLayer.Helpers
                     }
                 }
 
-                if (conjunctionFound)
-                {
-                    totalSentimentScore += sentenceScore / 2;
-                }
-                else
-                {
-                    totalSentimentScore += sentenceScore;
-                }
+                totalSentimentScore += conjunctionFound ? sentenceScore / 2 : sentenceScore;
             }
 
             return totalSentimentScore;

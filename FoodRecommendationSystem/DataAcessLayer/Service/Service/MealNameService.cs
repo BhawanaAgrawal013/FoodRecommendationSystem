@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Service.Service
+﻿using Serilog;
+
+namespace DataAcessLayer.Service.Service
 {
     public class MealNameService : IMealNameService
     {
@@ -18,6 +20,7 @@
             }
             catch (Exception ex)
             {
+                Log.Error($"Error inserting meal name: {ex.Message}");
                 throw new Exception("Error inserting meal name", ex);
             }
         }
@@ -31,6 +34,7 @@
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting all the meals: {ex.Message}");
                 throw new Exception("Error getting all the meals", ex);
             }
         }
@@ -40,10 +44,15 @@
             try
             {
                 var mealName = _mealNameRepository.GetById(id);
+                if (mealName == null)
+                {
+                    throw new Exception($"Meal name with id {id} not found");
+                }
                 return (MealNameDTO)mealName;
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting the meal {id}: {ex.Message}");
                 throw new Exception($"Error getting the meal {id}", ex);
             }
         }
@@ -56,9 +65,10 @@
                 _mealNameRepository.Update(mealName);
                 _mealNameRepository.Save();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Error updating the Meal Name");
+                Log.Error($"Error updating the Meal Name: {ex.Message}");
+                throw new Exception("Error updating the Meal Name", ex);
             }
         }
 
@@ -69,10 +79,12 @@
                 _mealNameRepository.Delete(id);
                 _mealNameRepository.Save();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Error deleting the Meal Name");
+                Log.Error($"Error deleting the Meal Name with id {id}: {ex.Message}");
+                throw new Exception($"Error deleting the Meal Name with id {id}", ex);
             }
         }
+
     }
 }

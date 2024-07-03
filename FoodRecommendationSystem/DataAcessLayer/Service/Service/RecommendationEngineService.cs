@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Entity;
+using Serilog;
 using System.Security.Cryptography.X509Certificates;
 
 namespace DataAcessLayer.Service.Service
@@ -19,33 +20,42 @@ namespace DataAcessLayer.Service.Service
 
         public List<RecommendedMeal> GiveRecommendation(string classification, int numberOfMeals)
         {
-            var recommendedMeals = new List<RecommendedMeal>();
-
-            var sortingCriteria = new List<(Func<SummaryRatingDTO, double> selector, int takeCount)>
+            try
             {
-                (x => x.SentimentScore, 20),
-                (x => x.AverageRating, 20),
-                (x => x.TotalQualityRating, 20),
-                (x => x.TotalQuantityRating, 20),
-                (x => x.TotalAppearanceRating, 20),
-                (x => x.TotalValueForMoneyRating, 20)
-            };
+                var recommendedMeals = new List<RecommendedMeal>();
 
-            foreach (var (selector, takeCount) in sortingCriteria)
-            {
-                var summaryRatings = _summaryRatingService.GetAllSummaryRatings()
-                    .OrderByDescending(selector)
-                    .Take(takeCount);
+                var sortingCriteria = new List<(Func<SummaryRatingDTO, double> selector, int takeCount)>
+                {
+                    (x => x.SentimentScore, 20),
+                    (x => x.AverageRating, 20),
+                    (x => x.TotalQualityRating, 20),
+                    (x => x.TotalQuantityRating, 20),
+                    (x => x.TotalAppearanceRating, 20),
+                    (x => x.TotalValueForMoneyRating, 20)
+                };
 
-                var meals = GetRecommendedMeals(summaryRatings, classification);
-                recommendedMeals.AddRange(meals);
+                foreach (var (selector, takeCount) in sortingCriteria)
+                {
+                    var summaryRatings = _summaryRatingService.GetAllSummaryRatings()
+                        .OrderByDescending(selector)
+                        .Take(takeCount);
 
-                if (recommendedMeals.Count >= 20)
-                    break;
+                    var meals = GetRecommendedMeals(summaryRatings, classification);
+                    recommendedMeals.AddRange(meals);
+
+                    if (recommendedMeals.Count >= 20)
+                        break;
+                }
+
+                return recommendedMeals.Take(numberOfMeals).ToList();
             }
-
-            return recommendedMeals.Take(numberOfMeals).ToList();
+            catch (Exception ex)
+            {
+                Log.Error($"Error giving recommendation: {ex.Message}");
+                throw new Exception($"Exception giving recommendation for {classification}", ex);
+            }
         }
+
 
         private List<RecommendedMeal> GetRecommendedMeals(IEnumerable<SummaryRatingDTO> summaryRatings, string classification)
         {
@@ -79,31 +89,37 @@ namespace DataAcessLayer.Service.Service
 
         public List<RecommendedMeal> GetDiscardedMeals()
         {
-            var summaryRatings = _summaryRatingService.GetAllSummaryRatings().Where(x => x.AverageRating < 3).OrderBy(x => x.AverageRating).ToList();
-
-            var meals = _mealService.GetAllMeals();
-
-            List<RecommendedMeal> discardedMeals = new List<RecommendedMeal>();
-
-            foreach (var summaryRating in summaryRatings)
+            try
             {
-                var recommendedMeal = meals.Where(x => x.Food.Id == summaryRating.Food.Id)
-                                    .Select(x => new RecommendedMeal
-                                    {
-                                        MealName = x.MealName,
-                                        PrimaryFoodName = x.Food.Name,
-                                        SummaryRating = summaryRating
-                                    });
+                var summaryRatings = _summaryRatingService.GetAllSummaryRatings()
+                    .Where(x => x.AverageRating < 3)
+                    .OrderBy(x => x.AverageRating)
+                    .ToList();
 
-                discardedMeals.AddRange(recommendedMeal);
+                var meals = _mealService.GetAllMeals();
+
+                var discardedMeals = summaryRatings
+                    .SelectMany(summaryRating => meals.Where(x => x.Food.Id == summaryRating.Food.Id)
+                        .Select(x => new RecommendedMeal
+                        {
+                            MealName = x.MealName,
+                            PrimaryFoodName = x.Food.Name,
+                            SummaryRating = summaryRating
+                        }))
+                    .GroupBy(x => x.MealName.MealNameId)
+                    .Select(g => g.OrderBy(x => x.SummaryRating.AverageRating).First())
+                    .OrderBy(x => x.SummaryRating.AverageRating)
+                    .ToList();
+
+                discardedMeals = CheckWorstSentiments(discardedMeals);
+
+                return discardedMeals;
             }
-
-            discardedMeals = discardedMeals.GroupBy(x => x.MealName.MealNameId).Select( g => g.OrderBy(x => x.SummaryRating.AverageRating).First())
-                                .OrderBy(x => x.SummaryRating.AverageRating).ToList();  
-
-            discardedMeals = CheckWorstSentiments(discardedMeals).ToList();
-
-            return discardedMeals;
+            catch (Exception ex)
+            {
+                Log.Error($"Error getting discarded meals: {ex.Message}");
+                throw new Exception("Exception getting discarded meals", ex);
+            }
         }
 
         private List<RecommendedMeal> CheckWorstSentiments(List<RecommendedMeal> discardedMeals)
@@ -130,5 +146,6 @@ namespace DataAcessLayer.Service.Service
 
             return discardedMeals;
         }
+
     }
 }

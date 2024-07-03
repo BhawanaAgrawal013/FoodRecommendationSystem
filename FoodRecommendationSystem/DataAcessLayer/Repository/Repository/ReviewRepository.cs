@@ -26,25 +26,19 @@
 
         public void Update(Review entity)
         {
-            try
+            var existingEntity = _context.Reviews.Find(entity.Id);
+
+            if (existingEntity != null)
             {
-                var existingEntity = _context.Reviews.Find(entity.Id);
-
-                if (existingEntity != null)
-                {
-                    _context.Entry(existingEntity).State = EntityState.Detached;
-                }
-
-                _context.Reviews.Attach(entity);
-
-                _context.Entry(entity).State = EntityState.Modified;
-
-                _context.SaveChanges();
+                _context.Entry(existingEntity).State = EntityState.Detached;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error updating review", ex);
-            }
+
+            _context.Reviews.Attach(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.SaveChanges();
+
         }
 
         public void Delete(int id)

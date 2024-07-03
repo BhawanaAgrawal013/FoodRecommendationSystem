@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Helpers
+﻿using Serilog;
+
+namespace DataAcessLayer.Helpers
 {
     public class EmployeeHelper : IEmployeeHelper
     {
@@ -14,12 +16,21 @@
         {
             try
             {
-                var mealMenus = _mealMenuService.GetAllMealMenus().Where(x => x.CreationDate == dateTime && x.Classification == classification).ToList();
+                var mealMenus = _mealMenuService.GetAllMealMenus()
+                    .Where(x => x.CreationDate == dateTime && x.Classification == classification)
+                    .ToList();
+
+                if (!mealMenus.Any())
+                {
+                    throw new Exception($"No meal menus found for classification '{classification}' on date '{dateTime.ToShortDateString()}'.");
+                }
+
                 return SortForProfile(email, mealMenus);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the mean menu options of {classification} for {email}");
+                Log.Error($"Error getting the meal menu options for classification '{classification}' and email '{email}': {ex.Message}");
+                throw new Exception($"Error getting the meal menu options for classification '{classification}' and email '{email}': {ex.Message}");
             }
         }
 
@@ -27,13 +38,21 @@
         {
             try
             {
-                var mealMenu = _mealMenuService.GetAllMealMenus().Where(x => x.CreationDate == dateTime && x.Classification == classification
-                                                                  && x.WasPrepared).FirstOrDefault();
-                return (MealMenuDTO)mealMenu;
+                var mealMenu = _mealMenuService.GetAllMealMenus()
+                    .Where(x => x.CreationDate == dateTime && x.Classification == classification && x.WasPrepared)
+                    .FirstOrDefault();
+
+                if (mealMenu == null)
+                {
+                    throw new Exception($"No prepared meal menu found for classification '{classification}' on date '{dateTime.ToShortDateString()}'.");
+                }
+
+                return mealMenu;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the meal menu at {dateTime}", ex);
+                Log.Error($"Error getting the meal menu for date '{dateTime.ToShortDateString()}' and classification '{classification}': {ex.Message}");
+                throw new Exception($"Error getting the meal menu for date '{dateTime.ToShortDateString()}' and classification '{classification}': {ex.Message}");
             }
         }
 
@@ -44,22 +63,20 @@
                 var mealMenu = _mealMenuService.GetAllMealMenus()
                     .FirstOrDefault(x => x.Id == mealMenuId && x.CreationDate == dateTime);
 
-                if (mealMenu != null)
+                if (mealMenu == null)
                 {
-                    mealMenu.NumberOfVotes += 1;
-
-                    _mealMenuService.UpdateMealMenu(mealMenu);
-
-                    return mealMenu;
+                    throw new Exception($"Meal menu not found for ID '{mealMenuId}' on date '{dateTime.ToShortDateString()}'.");
                 }
-                else
-                {
-                    throw new Exception("Meal menu not found for the specified criteria.");
-                }
+
+                mealMenu.NumberOfVotes += 1;
+                _mealMenuService.UpdateMealMenu(mealMenu);
+
+                return mealMenu;
             }
             catch (Exception ex)
             {
-                throw new Exception("Cannot vote for the next day meal", ex);
+                Log.Error($"Error voting for the next day meal with ID '{mealMenuId}' on date '{dateTime.ToShortDateString()}': {ex.Message}");
+                throw new Exception($"Error voting for the next day meal with ID '{mealMenuId}' on date '{dateTime.ToShortDateString()}': {ex.Message}");
             }
         }
 
@@ -67,9 +84,13 @@
         {
             try
             {
-                var profile = _profileService.GetAllProfiles().Where(x => x.User.Email == email).FirstOrDefault();
+                var profile = _profileService.GetAllProfiles()
+                    .FirstOrDefault(x => x.User.Email == email);
 
-                var mealNames = mealMenuDTOs.Select(x => x.MealName).ToList();
+                if (profile == null)
+                {
+                    throw new Exception($"Profile not found for email '{email}'.");
+                }
 
                 foreach (var meal in mealMenuDTOs)
                 {
@@ -95,8 +116,8 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error sorting the meals based on {email} profile");
+                Log.Error($"Error sorting the meals based on profile for email '{email}': {ex.Message}");
+                throw new Exception($"Error sorting the meals based on profile for email '{email}': {ex.Message}");
             }
         }
-    }
 }

@@ -39,25 +39,19 @@ namespace DataAcessLayer.Repository.Repository
 
         public void Update(MealMenu entity)
         {
-            try
+            var existingEntity = _context.MealMenus.Find(entity.Id);
+
+            if (existingEntity != null)
             {
-                var existingEntity = _context.MealMenus.Find(entity.Id);
-
-                if (existingEntity != null)
-                {
-                    _context.Entry(existingEntity).State = EntityState.Detached;
-                }
-                
-                _context.MealMenus.Attach(entity);
-
-                _context.Entry(entity).State = EntityState.Modified;
-
-                _context.SaveChanges();
+                _context.Entry(existingEntity).State = EntityState.Detached;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error updating meal menu", ex);
-            }
+
+            _context.MealMenus.Attach(entity);
+
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.SaveChanges();
+
         }
 
 

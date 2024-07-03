@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Service.IService;
+using Serilog;
 
 namespace DataAcessLayer.Service.Service
 {
@@ -10,7 +11,7 @@ namespace DataAcessLayer.Service.Service
         {
             _notificationRepository = notificationRepository;
         }
-
+        
         public void AddNotification(NotificationDTO notificationDTO)
         {
             try
@@ -21,6 +22,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error adding notification: {ex.Message}");
                 throw new Exception("Error inserting notification", ex);
             }
         }
@@ -34,6 +36,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting all notifications: {ex.Message}");
                 throw new Exception("Error getting all notifications", ex);
             }
         }
@@ -43,10 +46,15 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var notification = _notificationRepository.GetById(id);
+                if (notification == null)
+                {
+                    throw new Exception($"Notification with id {id} not found");
+                }
                 return (NotificationDTO)notification;
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting notification with id {id}: {ex.Message}");
                 throw new Exception($"Error getting the notification {id}", ex);
             }
         }
@@ -61,6 +69,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error updating notification: {ex.Message}");
                 throw new Exception("Error updating the notification", ex);
             }
         }
@@ -74,9 +83,11 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error deleting notification with id {id}: {ex.Message}");
                 throw new Exception($"Error deleting the notification {id}", ex);
             }
         }
+
     }
 
 }

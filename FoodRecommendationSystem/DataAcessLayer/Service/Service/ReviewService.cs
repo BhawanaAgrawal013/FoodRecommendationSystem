@@ -9,7 +9,7 @@ namespace DataAcessLayer.Service.Service
         {
             _reviewRepository = reviewRepository;
         }
-
+        
         public void AddReview(ReviewDTO reviewDTO)
         {
             try
@@ -56,14 +56,12 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var review = _reviewRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
-                if(review == null)
-                    return false;
-                return true;
+                var review = _reviewRepository.GetAll().FirstOrDefault(x => x.UserId == userId && x.FoodId == foodId);
+                return (review != null);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the review for {foodId} by {userId}", ex);
+                throw new Exception($"Error checking if review exists for {foodId} by {userId}", ex);
             }
         }
 
@@ -71,8 +69,8 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var review = _reviewRepository.GetAll().Where(x => x.UserId == userId && x.FoodId == foodId).FirstOrDefault();
-                return (ReviewDTO)review;   
+                var review = _reviewRepository.GetAll().FirstOrDefault(x => x.UserId == userId && x.FoodId == foodId);
+                return (ReviewDTO)review;
             }
             catch (Exception ex)
             {
@@ -84,7 +82,7 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var review = (Review)reviewDTO;
+                Review review = (Review)reviewDTO;
                 review.OverallRating = (review.QuantityRating + review.QualityRating + review.ValueForMoneyRating + review.AppearanceRating) / 4;
 
                 _reviewRepository.Update(review);
@@ -108,6 +106,7 @@ namespace DataAcessLayer.Service.Service
                 throw new Exception($"Error deleting the review {id}", ex);
             }
         }
+
     }
 
 }

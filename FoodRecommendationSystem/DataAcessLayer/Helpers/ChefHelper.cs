@@ -1,54 +1,93 @@
-﻿namespace DataAcessLayer.Helpers
+﻿using Serilog;
+
+namespace DataAcessLayer.Helpers
 {
     public class ChefHelper : IChefHelper
     {
         private readonly IMealMenuService _mealMenuService;
-        private readonly IMealService _mealService;
         private readonly IMealNameService _mealNameService;
 
-        public ChefHelper(IMealMenuService mealMenuService, IMealNameService mealNameService, IMealService mealService)
+        public ChefHelper(IMealMenuService mealMenuService, IMealNameService mealNameService)
         {
             _mealMenuService = mealMenuService;
             _mealNameService = mealNameService;
-            _mealService = mealService;
         }
 
         public void CreateNextMealMenu(List<string> mealNames, string classification)
         {
-            var meals = _mealNameService.GetAllMeals();
-
-            foreach (var mealName in mealNames)
+            try
             {
-                var meal = meals.Where(x => x.MealName == mealName).FirstOrDefault();
+                var meals = _mealNameService.GetAllMeals();
 
-                MealMenuDTO mealMenuDTO = new MealMenuDTO()
+                foreach (var mealName in mealNames)
                 {
-                    NumberOfVotes = 0,
-                    WasPrepared = false,
-                    Classification = classification,
-                    CreationDate = DateTime.Now.Date,
-                    MealName = (MealNameDTO)meal
-                };
+                    var meal = meals.FirstOrDefault(x => x.MealName == mealName);
 
-                _mealMenuService.AddMealMenu(mealMenuDTO);
+                    if (meal == null)
+                    {
+                        throw new Exception($"Meal '{mealName}' not found.");
+                    }
+
+                    MealMenuDTO mealMenuDTO = new MealMenuDTO()
+                    {
+                        NumberOfVotes = 0,
+                        WasPrepared = false,
+                        Classification = classification,
+                        CreationDate = DateTime.Now.Date,
+                        MealName = meal
+                    };
+
+                    _mealMenuService.AddMealMenu(mealMenuDTO);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error creating next meal menu: {ex.Message}");
+                throw new Exception($"Error creating next meal menu: {ex.Message}");
             }
         }
 
         public List<MealMenuDTO> ViewEmployeeVotes(string classification, DateTime dateTime)
         {
-            var meals = _mealMenuService.GetAllMealMenus().Where(x => x.Classification == classification && x.CreationDate == dateTime).ToList();
+            try
+            {
+                var meals = _mealMenuService.GetAllMealMenus().Where(x => x.Classification == classification && x.CreationDate == dateTime).ToList();
 
-            return meals;
+                if (meals == null || !meals.Any())
+                {
+                    throw new Exception($"No meals found for classification '{classification}' on date '{dateTime.ToShortDateString()}'.");
+                }
+
+                return meals;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error viewing employee votes: {ex.Message}");
+                throw new Exception($"Error viewing employee votes: {ex.Message}");
+            }
         }
 
         public MealMenuDTO ChooseNextMealMenu(int mealMenuId)
         {
-            var mealMenu = _mealMenuService.GetMealMenu(mealMenuId);
-            mealMenu.WasPrepared = true;
+            try
+            {
+                var mealMenu = _mealMenuService.GetMealMenu(mealMenuId);
 
-            _mealMenuService.UpdateMealMenu(mealMenu);
+                if (mealMenu == null)
+                {
+                    throw new Exception($"Meal menu with ID '{mealMenuId}' not found.");
+                }
 
-            return mealMenu;
+                mealMenu.WasPrepared = true;
+                _mealMenuService.UpdateMealMenu(mealMenu);
+
+                return mealMenu;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error choosing next meal menu: {ex.Message}");
+                throw new Exception($"Error choosing next meal menu: {ex.Message}");
+            }
         }
     }
 }

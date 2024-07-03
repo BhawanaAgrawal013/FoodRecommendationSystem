@@ -120,6 +120,7 @@ namespace DataAcessLayer.Service.Service
                 throw new Exception($"Error getting the meal with ID {id}", ex);
             }
         }
+
     }
 
 }

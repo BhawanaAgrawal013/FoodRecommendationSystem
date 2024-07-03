@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Service.IService;
+using Serilog;
 
 namespace DataAcessLayer.Service.Service
 {
@@ -21,6 +22,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error inserting summary rating: {ex.Message}");
                 throw new Exception("Error inserting summary rating", ex);
             }
         }
@@ -34,6 +36,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting all summary ratings: {ex.Message}");
                 throw new Exception("Error getting all summary ratings", ex);
             }
         }
@@ -47,6 +50,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting the summary rating {id}: {ex.Message}");
                 throw new Exception($"Error getting the summary rating {id}", ex);
             }
         }
@@ -55,11 +59,12 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                var summaryRating = _summaryRatingRepository.GetAll().Where(x => x.FoodId == foodId).FirstOrDefault();
+                var summaryRating = _summaryRatingRepository.GetAll().FirstOrDefault(x => x.FoodId == foodId);
                 return (SummaryRatingDTO)summaryRating;
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting the summary rating for food ID {foodId}: {ex.Message}");
                 throw new Exception($"Error getting the summary rating {foodId}", ex);
             }
         }
@@ -74,6 +79,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error updating the summary rating: {ex.Message}");
                 throw new Exception("Error updating the summary rating", ex);
             }
         }
@@ -87,9 +93,11 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error deleting the summary rating {id}: {ex.Message}");
                 throw new Exception($"Error deleting the summary rating {id}", ex);
             }
         }
+
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer.Service.IService;
+using Serilog;
 
 namespace DataAcessLayer.Service.Service
 {
@@ -19,10 +20,11 @@ namespace DataAcessLayer.Service.Service
                 _foodRepository.Save();
 
                 var foods = _foodRepository.GetAll();
-                return foods.Where(x => x.Name == foodDTO.Name).Select(x => x.Id).FirstOrDefault();
+                return foods.FirstOrDefault(x => x.Name == foodDTO.Name)?.Id ?? 0;
             }
             catch (Exception ex)
             {
+                Log.Error($"Error inserting food: {ex.Message}");
                 throw new Exception("Error inserting food", ex);
             }
         }
@@ -36,6 +38,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting all foods: {ex.Message}");
                 throw new Exception("Error getting all foods", ex);
             }
         }
@@ -49,6 +52,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error getting the food {id}: {ex.Message}");
                 throw new Exception($"Error getting the food {id}", ex);
             }
         }
@@ -63,6 +67,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error updating the food: {ex.Message}");
                 throw new Exception("Error updating the food", ex);
             }
         }
@@ -76,6 +81,7 @@ namespace DataAcessLayer.Service.Service
             }
             catch (Exception ex)
             {
+                Log.Error($"Error deleting the food {id}: {ex.Message}");
                 throw new Exception($"Error deleting the food {id}", ex);
             }
         }

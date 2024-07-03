@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Helpers
+﻿using Serilog;
+
+namespace DataAcessLayer.Helpers
 {
     public class RecommendationHelper : IRecommendationHelper
     {
@@ -25,64 +27,139 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Exception sending recommendation for {classification}, {ex.Message}");
+                Log.Error($"Exception sending recommendation for {classification}: {ex.Message}");
+                throw new Exception($"Exception sending recommendation for {classification}", ex);
             }
         }
 
         public List<RecommendedMeal> GetDiscardedMeals()
         {
-            return _recommendationEngineService.GetDiscardedMeals().Take(3).ToList();
+            try
+            {
+                return _recommendationEngineService.GetDiscardedMeals().Take(3).ToList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Exception retrieving discarded meals: {ex.Message}");
+                throw new Exception("Exception retrieving discarded meals", ex);
+            }
         }
 
         public RecommendedMeal AddDiscardedMeal(List<RecommendedMeal> recommendedMeals)
         {
-            var recommendedMeal = recommendedMeals.OrderByDescending(x => x.ShouldBeDiscarded).Where(x => x.SummaryRating.AverageRating < 2).FirstOrDefault();
-            var mealName = _mealNameService.GetAllMeals().Where(x => x.MealName == recommendedMeal.MealName.MealName).FirstOrDefault();
-
-            DiscardedMenuDTO discardedMenuDTO = new DiscardedMenuDTO
+            try
             {
-                MealNameId = mealName.MealNameId,
-            };
+                var recommendedMeal = recommendedMeals
+                    .OrderByDescending(x => x.ShouldBeDiscarded)
+                    .FirstOrDefault(x => x.SummaryRating.AverageRating < 2);
 
-            _discardedMenuService.AddDiscardedMenu(discardedMenuDTO);
+                if (recommendedMeal == null)
+                {
+                    throw new Exception("No suitable meal found for discarding");
+                }
 
-            int discardId = _discardedMenuService.GetDiscardedMenuList().Where(x => x.MealNameId == mealName.MealNameId).LastOrDefault().Id;
-            recommendedMeal.Id = discardId;
+                var mealName = _mealNameService.GetAllMeals()
+                    .FirstOrDefault(x => x.MealName == recommendedMeal.MealName.MealName);
 
-            return recommendedMeal;
+                if (mealName == null)
+                {
+                    throw new Exception("Meal name not found");
+                }
+
+                var discardedMenuDTO = new DiscardedMenuDTO
+                {
+                    MealNameId = mealName.MealNameId
+                };
+
+                _discardedMenuService.AddDiscardedMenu(discardedMenuDTO);
+
+                var discardId = _discardedMenuService.GetDiscardedMenuList()
+                    .LastOrDefault(x => x.MealNameId == mealName.MealNameId)?.Id;
+
+                if (discardId == null)
+                {
+                    throw new Exception("Discarded menu ID not found");
+                }
+
+                recommendedMeal.Id = discardId.Value;
+
+                return recommendedMeal;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Exception adding discarded meal: {ex.Message}");
+                throw new Exception("Exception adding discarded meal", ex);
+            }
         }
 
         public DiscardedMenuDTO GetDiscardedMenu()
         {
-            return _discardedMenuService.GetDiscardedMenuList().Where(x => !x.IsDiscarded).FirstOrDefault();
+            try
+            {
+                return _discardedMenuService.GetDiscardedMenuList().FirstOrDefault(x => !x.IsDiscarded);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Exception getting discarded menu: {ex.Message}");
+                throw new Exception("Exception getting discarded menu", ex);
+            }
         }
 
         public void UpdateDiscardMeal(int discardId, bool isDiscarded)
         {
-            var discardedMeal = _discardedMenuService.GetDiscardedMenuList().Where(x => x.Id == discardId).FirstOrDefault();
-            discardedMeal.IsDiscarded = isDiscarded;
-
-            if(isDiscarded)
+            try
             {
-                DeleteDiscardedMenu(discardedMeal);
-            }
+                var discardedMeal = _discardedMenuService.GetDiscardedMenuList()
+                    .FirstOrDefault(x => x.Id == discardId);
 
-            _discardedMenuService.UpdateDiscardedMenu(discardedMeal);
+                if (discardedMeal == null)
+                {
+                    throw new Exception("Discarded meal not found");
+                }
+
+                discardedMeal.IsDiscarded = isDiscarded;
+
+                if (isDiscarded)
+                {
+                    DeleteDiscardedMenu(discardedMeal);
+                }
+
+                _discardedMenuService.UpdateDiscardedMenu(discardedMeal);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Exception updating discard meal: {ex.Message}");
+                throw new Exception("Exception updating discard meal", ex);
+            }
         }
 
         public void DeleteDiscardedMenu(DiscardedMenu discardedMenu)
         {
-            var mealName = _mealNameService.GetMealName(discardedMenu.MealNameId);
-            mealName.IsDeleted = true;
-
-            _mealNameService.UpdateMealName(mealName);
-
-            var meals = _mealService.GetAllMeals().Where(x => x.MealName.MealNameId == discardedMenu.MealNameId).ToList();
-
-            foreach(var meal in meals)
+            try
             {
-                meal.IsDeleted = true;
-                _mealService.UpdateMeal(meal);
+                var mealName = _mealNameService.GetMealName(discardedMenu.MealNameId);
+                if (mealName == null)
+                {
+                    throw new Exception("Meal name not found");
+                }
+
+                mealName.IsDeleted = true;
+                _mealNameService.UpdateMealName(mealName);
+
+                var meals = _mealService.GetAllMeals()
+                    .Where(x => x.MealName.MealNameId == discardedMenu.MealNameId)
+                    .ToList();
+
+                foreach (var meal in meals)
+                {
+                    meal.IsDeleted = true;
+                    _mealService.UpdateMeal(meal);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Exception deleting discarded menu: {ex.Message}");
+                throw new Exception("Exception deleting discarded menu", ex);
             }
         }
     }

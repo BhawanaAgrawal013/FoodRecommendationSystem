@@ -7,7 +7,6 @@
         {
             _userRepository = userRepository;
         }
-
         public int AddUser(UserDTO userDTO)
         {
             try
@@ -17,11 +16,11 @@
                 _userRepository.Save();
 
                 var users = _userRepository.GetAll();
-                return users.Where(x => x.Name == userDTO.Name).Select(x => x.Id).FirstOrDefault();
+                return users.FirstOrDefault(x => x.Name == userDTO.Name)?.Id ?? 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error inserting food", ex);
+                throw new Exception("Error inserting user", ex);
             }
         }
 
@@ -34,7 +33,7 @@
             }
             catch (Exception ex)
             {
-                throw new Exception("Error getting all foods", ex);
+                throw new Exception("Error getting all users", ex);
             }
         }
 
@@ -47,7 +46,7 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the food {id}", ex);
+                throw new Exception($"Error getting the user {id}", ex);
             }
         }
 
@@ -61,7 +60,7 @@
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating the food", ex);
+                throw new Exception("Error updating the user", ex);
             }
         }
 
@@ -74,8 +73,9 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error deleting the food {id}", ex);
+                throw new Exception($"Error deleting the user {id}", ex);
             }
         }
+
     }
 }

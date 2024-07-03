@@ -1,4 +1,6 @@
-﻿namespace DataAcessLayer.Service.Service
+﻿using Serilog;
+
+namespace DataAcessLayer.Service.Service
 {
     public class ProfileService : IProfileService
     {
@@ -19,7 +21,8 @@
             }
             catch (Exception ex)
             {
-                throw new Exception("Error inserting profile", ex);
+                Log.Error($"Error adding profile: {ex.Message}");
+                throw new Exception("Error adding profile", ex);
             }
         }
 
@@ -32,7 +35,8 @@
             }
             catch (Exception ex)
             {
-                throw new Exception("Error getting all the profiles", ex);
+                Log.Error($"Error getting all profiles: {ex.Message}");
+                throw new Exception("Error getting all profiles", ex);
             }
         }
 
@@ -41,11 +45,16 @@
             try
             {
                 var profile = _profileRepository.GetById(id);
+                if (profile == null)
+                {
+                    throw new Exception($"Profile with id {id} not found");
+                }
                 return (ProfileDTO)profile;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error getting the profile {id}", ex);
+                Log.Error($"Error getting profile with id {id}: {ex.Message}");
+                throw new Exception($"Error getting profile with id {id}", ex);
             }
         }
 
@@ -57,9 +66,10 @@
                 _profileRepository.Update(profile);
                 _profileRepository.Save();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Error updating the Profile");
+                Log.Error($"Error updating profile: {ex.Message}");
+                throw new Exception("Error updating profile", ex);
             }
         }
 
@@ -70,10 +80,12 @@
                 _profileRepository.Delete(id);
                 _profileRepository.Save();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Error deleting the Profile");
+                Log.Error($"Error deleting profile with id {id}: {ex.Message}");
+                throw new Exception($"Error deleting profile with id {id}", ex);
             }
         }
+
     }
 }
