@@ -12,6 +12,13 @@ VALUES ('bhawana123', 'bhawana@gmail.com', 'Bhawana Agrawal', 'Female', 1001, 2)
 	   ('parshvi123', 'parshvi@gmail.com', 'Parshvi Bolya', 'Female', 1006, 2),
 	   ('lavesh123', 'lavesh@gmail.com', 'Lavesh Chhipa', 'Male', 1007, 2);
 
+INSERT INTO [FoodRecommendationSystem].[dbo].[Profiles] ([Id], [DietType], [SpiceLevel], [CuisinePreference], [IsSweet], [UserId])
+VALUES	(1, 'Non-Veg', 'Medium', 'Other', 1, 1),
+		(3, 'Veg', 'High', 'South Indian', 1, 4),
+		(5, 'Veg', 'Low', 'South Indian', 0, 5),
+		(6, 'Veg', 'High', 'Other', 1, 6),
+		(7, 'Non-Veg', 'High', 'North Indian', 0, 7);
+
 INSERT INTO Foods (Name, Description, Price, IsAvailable, IsInMainMenu)
 VALUES ('Upma', 'Veg Upma plate', 49, 1, 1),
        ('Lemonade', 'Tangy sweet lemonade', 29, 1, 1),
@@ -71,68 +78,95 @@ VALUES ('Upma', 'Veg Upma plate', 49, 1, 1),
 	   ('Poha', 'Veg Poha plate', 30, 1, 0),
 	   ('Pav', 'Crispy Pav', 10, 1, 0),
 	   ('Bread Toast', 'Crispy Bread with Butter', 10, 1, 1),  
-	   ('Bhaji', 'Spicy Tangy Bhaji', 30, 1, 0);
+	   ('Bhaji', 'Spicy Tangy Bhaji', 30, 1, 0),
+		('Masala Dosa', 'Crispy rice crepe filled with spicy potato', 50, 1, 1),
+		('Uttapam', 'Thick pancake made with rice flour and lentils', 45, 1, 1),
+		('Poha', 'Flattened rice cooked with onions and spices', 30, 1, 1),
+		('Upma', 'Savory porridge made from semolina', 35, 1, 1),
+		('Pesarattu', 'Green gram crepe served with chutney', 50, 1, 1),
+		('Vada', 'Fried savory doughnut made from lentils', 20, 1, 1),
+		('Scrambled Eggs', 'Fluffy eggs scrambled with spices', 40, 1, 1),
+		('Omelette', 'Eggs beaten and cooked with vegetables', 40, 1, 1),
+		('Pancakes', 'Fluffy cakes made from batter, served with syrup', 60, 1, 1),
+		('French Toast', 'Bread dipped in egg batter and fried', 50, 1, 1),
+		('Payasam', 'Sweet milk pudding with vermicelli', 40, 1, 1),
+		('Chicken Tikka', 'Spicy marinated chicken chunks', 70, 1, 1),
+		('Chole Bhature', 'Spicy chickpeas served with fried bread', 80, 1, 1);
 
-INSERT INTO MealNames (Name, MealType)
-VALUES ('Parantha', 'Breakfast'),
-	   ('Fried Idli', 'Breakfast'),
-	   ('Idli Sambhar', 'Breakfast'),
-	   ('Aloo Puri', 'Breakfast'),
-	   ('Chole Kulche', 'Breakfast'),
-	   ('Pav Bhaji', 'Breakfast'),
-	   ('Rajma - Bhindi Masala', 'Thali'),
-	   ('Rajma - Mix Veg', 'Thali'),
-	   ('Rajma - Baigan Bharta', 'Thali'),
-	   ('Channa Masala - Aloo Gobi', 'Thali'),
-	   ('Channa Masala - Udad Daal', 'Thali'),
-	   ('Channa Masala - Mysore Daal', 'Thali'),
-	   ('Channa Masala - Kadhi', 'Thali'),
-	   ('Channa Masala - Gathe Sabji', 'Thali'),
-	   ('Aloo Masala - Udad Daal', 'Thali'),
-	   ('Aloo Masala - Mysore Daal', 'Thali'),
-	   ('Aloo Masala - Kadhi Daal', 'Thali'),
-	   ('Aloo Masala - Gathe Sabji', 'Thali'),
-	   ('Aloo Masala - Chole', 'Thali'),
-	   ('Aloo Masala - Daal Makhani', 'Thali'),
-	   ('Bhindi Masala - Gathe Sabji', 'Thali'),
-	   ('Bhindi Masala - Udad Daal', 'Thali'),
-	   ('Bhindi Masala - Mysore Daal', 'Thali'),
-	   ('Bhindi Masala - Kadhi', 'Thali'),
-	   ('Paneer Masala - Bhindi', 'Thali'),
-	   ('Mix Veg - Dal Makhani', 'Thali'),
-	   ('Palak Paneer - Dal Makhani', 'Thali'),
-	   ('Palak Paneer - Mix Veg', 'Thali'),
-       ('Rajma Masala - Aloo', 'Thali'),
-	   ('Aloo Gobhi - Gathe Sabji', 'Thali'),
-	   ('Aloo Gobhi - Udad Daal', 'Thali'),
-	   ('Aloo Gobhi - Mysore Daal', 'Thali'),
-	   ('Patta Gobhi - Gathe Sabji', 'Thali'),
-	   ('Patta Gobhi - Udad Daal', 'Thali'),
-	   ('Patta Gobhi - Mysore Daal', 'Thali'),
-	   ('Lauki Masala - Gathe Sabji', 'Thali'),
-	   ('Lauki Masala - Udad Daal', 'Thali'),
-	   ('Lauki Masala - Mysore Daal', 'Thali'),
-	   ('Tinda Masala - Gathe Sabji', 'Thali'),
-	   ('Tinda Masala - Udad Daal', 'Thali'),
-	   ('Tinda Masala - Mysore Daal', 'Thali'),
-       ('Bread Toast', 'Appetizer'),
-       ('Steam Momos', 'Appetizer'),
-       ('Fried Momos', 'Appetizer'),
-       ('Vada Pao', 'Appetizer'),
-       ('Sweet Lassi', 'Beverage'),
-       ('Papaya Shake', 'Beverage'),
-       ('Banana Shake', 'Beverage'),
-       ('Masala Chai', 'Beverage'),
-       ('Hot Coffee', 'Beverage'),
-       ('Cold Coffee', 'Beverage'),
-       ('Fruit Salad', 'Healthy Snack'),
-       ('Paneer Peanut Chaat', 'Healthy Snack'),
-	   ('Chickpea Salad', 'Healthy Snack'),
-	   ('Rajma - Bhindi Masala (Pulao)', 'Thali'),
-	   ('Lauki Masala - Mysore Daal (Pulao)', 'Thali'),
-	   ('Tinda Masala - Gathe Sabji (Pulao)', 'Thali'),
-	   ('Aloo Gobhi - Mysore Daal (Pulao)', 'Thali'),
-	   ('Patta Gobhi - Gathe Sabji (Pulao)', 'Thali')
+INSERT INTO MealNames (Name, MealType, CuisinePreference, DietType, IsSweet, SpiceLevel)
+VALUES 
+    ('Parantha', 'Breakfast', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Fried Idli', 'Breakfast', 'South Indian', 'Veg', 0, 'High'),
+    ('Idli Sambhar', 'Breakfast', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Puri', 'Breakfast', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Chole Kulche', 'Breakfast', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Pav Bhaji', 'Breakfast', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Rajma - Bhindi Masala', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Rajma - Mix Veg', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Rajma - Baigan Bharta', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Channa Masala - Aloo Gobi', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Channa Masala - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Channa Masala - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Channa Masala - Kadhi', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Channa Masala - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Masala - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Masala - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Masala - Kadhi Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Masala - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Masala - Chole', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Masala - Daal Makhani', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Bhindi Masala - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Bhindi Masala - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Bhindi Masala - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Bhindi Masala - Kadhi', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Paneer Masala - Bhindi', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Mix Veg - Dal Makhani', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Palak Paneer - Dal Makhani', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Palak Paneer - Mix Veg', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Rajma Masala - Aloo', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Gobhi - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Gobhi - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Gobhi - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Patta Gobhi - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Patta Gobhi - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Patta Gobhi - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Lauki Masala - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Lauki Masala - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Lauki Masala - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Tinda Masala - Gathe Sabji', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Tinda Masala - Udad Daal', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Tinda Masala - Mysore Daal', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Bread Toast', 'Appetizer', 'Other', 'Veg', 0, 'Low'),
+    ('Steam Momos', 'Appetizer', 'Other', 'Veg', 0, 'Medium'),
+    ('Fried Momos', 'Appetizer', 'Other', 'Veg', 0, 'Medium'),
+    ('Vada Pao', 'Appetizer', 'Other', 'Veg', 0, 'Medium'),
+    ('Sweet Lassi', 'Beverage', 'Other', 'Veg', 1, 'Low'),
+    ('Papaya Shake', 'Beverage', 'Other', 'Veg', 1, 'Low'),
+    ('Banana Shake', 'Beverage', 'Other', 'Veg', 1, 'Low'),
+    ('Masala Chai', 'Beverage', 'Other', 'Veg', 0, 'Low'),
+    ('Hot Coffee', 'Beverage', 'Other', 'Veg', 0, 'Low'),
+    ('Cold Coffee', 'Beverage', 'Other', 'Veg', 0, 'Low'),
+    ('Fruit Salad', 'Healthy Snack', 'Other', 'Veg', 0, 'Low'),
+    ('Paneer Peanut Chaat', 'Healthy Snack', 'Other', 'Veg', 0, 'Medium'),
+    ('Chickpea Salad', 'Healthy Snack', 'Other', 'Veg', 0, 'Medium'),
+    ('Rajma - Bhindi Masala (Pulao)', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Lauki Masala - Mysore Daal (Pulao)', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Tinda Masala - Gathe Sabji (Pulao)', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Aloo Gobhi - Mysore Daal (Pulao)', 'Thali', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Patta Gobhi - Gathe Sabji (Pulao)', 'Thali', 'North Indian', 'Veg', 0, 'Medium'),
+    ('Masala Dosa', 'Breakfast', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Uttapam', 'Breakfast', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Poha', 'Breakfast', 'North Indian', 'Veg', 0, 'Low'),
+    ('Upma', 'Breakfast', 'South Indian', 'Veg', 0, 'Low'),
+    ('Pesarattu', 'Breakfast', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Vada', 'Breakfast', 'South Indian', 'Veg', 0, 'Medium'),
+    ('Scrambled Eggs', 'Breakfast', 'Other', 'Non-Veg', 0, 'Low'),
+    ('Omelette', 'Breakfast', 'Other', 'Non-Veg', 0, 'Low'),
+    ('Pancakes', 'Breakfast', 'Other', 'Veg', 1, 'Low'),
+    ('French Toast', 'Breakfast', 'Other', 'Veg', 1, 'Low'),
+    ('Payasam', 'Dessert', 'South Indian', 'Veg', 1, 'Low'),
+    ('Chicken Tikka', 'Appetizer', 'North Indian', 'Non-Veg', 0, 'Medium'),
+    ('Chole Bhature', 'Breakfast', 'North Indian', 'Veg', 0, 'High');
 
 INSERT INTO Meals (FoodId, MealNameId)
 VALUES (3, 1), (56, 1),
@@ -197,7 +231,20 @@ VALUES (3, 1), (56, 1),
 	   (37, 60), (23, 60), (6, 60), (39,60), (42, 60),
 	   (38, 61), (21, 61), (6, 61), (35,61), (41, 61),
 	   (24, 62), (23, 62), (6, 62), (39,62), (41, 62),
-	   (35, 63), (21, 63), (6, 63), (39,63), (42, 63)
+	   (35, 63), (21, 63), (6, 63), (39,63), (42, 63),
+		(60, 74),  
+		(61, 75),   
+		(62, 76),   
+		(63, 77),   
+		(64, 78),   
+		(65, 79),   
+		(66, 80),   
+		(67, 81),  
+		(68, 82),  
+		(69, 83),   
+		(70, 84),   
+		(71, 85),  
+		(72, 86); 
 
 INSERT INTO Ratings (UserId, FoodId, RatingValue)
 VALUES (1, 1, 4),
@@ -249,10 +296,20 @@ VALUES (1, 1, 4),
 	   (4, 16, 4),
 	   (5, 16, 3),
 	   (6, 16, 4),
-	   (7, 16, 5);
+	   (7, 16, 5),
+		(1, 60, 4),    -- Masala Dosa
+		(1, 61, 4),    -- Uttapam
+		(5, 64, 3),    -- Pesarattu
+		(6, 65, 5),    -- Vada
+		(1, 66, 4),    -- Scrambled Eggs
+		(5, 67, 5),    -- Omelette
+		(6, 68, 4),    -- Pancakes
+		(1, 69, 3),    -- French Toast
+		(1, 70, 4),    -- Payasam
+		(5, 71, 5),    -- Chicken Tikka
+		(6, 72, 3);    
 
-INSERT INTO Reviews (UserId, FoodId, ReviewText, ReviewDate, OverallRating, ValueForMoneyRating, 
-					QuantityRating, QualityRating, AppearanceRating)
+INSERT INTO Reviews (UserId, FoodId, ReviewText, ReviewDate, OverallRating, ValueForMoneyRating, QuantityRating, QualityRating, AppearanceRating)
 VALUES 
 (1, 1, 'Delicious and satisfying meal. Would highly recommend!', '2024-06-16', 4, 3, 3, 4, 2),
 (4, 1, 'Average taste, nothing special.', '2024-06-16', 3, 3, 3, 3, 3),
@@ -312,7 +369,19 @@ VALUES
 (4, 16, 'The meal was well-prepared and delicious.', '2024-06-16', 4, 4, 4, 4, 4),
 (5, 16, 'The meal was decent, had its good and bad points.', '2024-06-16', 3, 3, 3, 3, 3),
 (6, 16, 'The meal was excellent, highly recommended!', '2024-06-16', 4, 4, 4, 4, 4),
-(7, 16, 'The meal was amazing, very satisfying.', '2024-06-16', 5, 5, 5, 5, 5);
+(7, 16, 'The meal was amazing, very satisfying.', '2024-06-16', 5, 5, 5, 5, 5),
+
+(1, 60, 'Delicious dosa, loved the sambar!', '2024-06-30', 5, 4, 5, 5, 4),    -- Masala Dosa
+(1, 61, 'Great taste, perfect texture.', '2024-06-30', 4, 4, 4, 4, 4),    -- Uttapam
+(5, 64, 'Good, but a bit oily.', '2024-06-30', 3, 3, 4, 3, 3),    -- Pesarattu
+(6, 65, 'Excellent vada, crispy outside, soft inside.', '2024-06-30', 5, 5, 5, 5, 4),    -- Vada
+(1, 66, 'Well-cooked eggs, tasty!', '2024-06-30', 4, 4, 4, 4, 4),    -- Scrambled Eggs
+(5, 67, 'Perfectly made omelette, flavorful.', '2024-06-30', 5, 5, 4, 5, 5),    -- Omelette
+(6, 68, 'Good pancakes, fluffy and delicious.', '2024-06-30', 4, 4, 4, 4, 4),    -- Pancakes
+(1, 69, 'Nice toast, could be crispier.', '2024-06-30', 3, 3, 4, 3, 3),    -- French Toast
+(1, 70, 'Creamy and flavorful payasam.', '2024-06-30', 4, 4, 4, 4, 4),    -- Payasam
+(5, 71, 'Fantastic chicken tikka, well-marinated.', '2024-06-30', 5, 5, 5, 5, 5),    -- Chicken Tikka
+(6, 72, 'Decent chole bhature, could use more spice.', '2024-06-30', 3, 3, 3, 3, 4); 
 
 INSERT INTO SummaryRatings (FoodId, SentimentScore, TotalQuantityRating, AverageRating, 
 			TotalAppearanceRating, TotalQualityRating, NumberOfPeople, TotalValueForMoneyRating)
@@ -326,4 +395,15 @@ VALUES (1, 2.6, 3, 3.8, 3, 3.8, 5, 3.6),
 	   (13, -2.6, 1.6, 1.6, 1.6, 1.6, 5, 1.6),
 	   (14, -2.6, 1.6, 1.6, 1.6, 1.6, 5, 1.6),
 	   (15, 1.8, 3.4, 3.4, 5, 3.2, 5, 3.4),
-	   (16, 3.2, 4, 4, 4, 4, 5, 3.8)
+	   (16, 3.2, 4, 4, 4, 4, 5, 3.8),
+		(60, 3, 5, 4, 4, 5, 1, 4),
+	   (61, 3, 4, 4, 4, 4 , 1, 4),
+	   (64, 1, 4, 3, 3, 3, 1, 3),
+	   (65, 4, 5,5, 4, 5, 1, 5),
+	   (66, 3, 4, 4, 4, 4, 1, 4),
+	   (67, 3, 4, 5, 5, 5, 1, 5),
+	   (68, 5, 4, 4, 4, 4, 1, 4),
+	   (69, 2, 4, 3, 3, 3, 1, 3),
+	   (70, 2, 4, 4, 4, 4, 1, 4),
+	   (71, 4, 5, 5, 5, 5, 1, 5),
+	   (72, 3, 3, 3, 4, 3, 1, 3);
