@@ -100,7 +100,7 @@ namespace DataAcessLayer.Helpers
                 }
                 else
                 {
-                    _mealService.DeleteMeal(mealNameId);
+                    _mealNameService.DeleteMealName(mealNameId);
                     return "Meal deleted successfully";
                 }
             }

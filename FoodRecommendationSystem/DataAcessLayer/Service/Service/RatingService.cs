@@ -71,10 +71,6 @@
             try
             {
                 var rating = _ratingRepository.GetAll().FirstOrDefault(x => x.UserId == userId && x.FoodId == foodId);
-                if (rating == null)
-                {
-                    throw new Exception($"Rating for user {userId} and food {foodId} not found");
-                }
                 return (RatingDTO)rating;
             }
             catch (Exception ex)

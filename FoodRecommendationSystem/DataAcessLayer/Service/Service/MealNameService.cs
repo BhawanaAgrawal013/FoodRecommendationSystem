@@ -76,7 +76,13 @@ namespace DataAcessLayer.Service.Service
         {
             try
             {
-                _mealNameRepository.Delete(id);
+                var mealName = _mealNameRepository.GetById(id);
+                if (mealName == null)
+                {
+                    throw new Exception($"Meal name with id {id} not found");
+                }
+                mealName.IsDeleted = true;
+                _mealNameRepository.Update(mealName);
                 _mealNameRepository.Save();
             }
             catch (Exception ex)

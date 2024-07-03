@@ -6,8 +6,8 @@ namespace DataAcessLayer.Helpers
     {
         private IMealMenuService _mealMenuService;
         private readonly IProfileService _profileService;
-        public EmployeeHelper(IMealMenuService mealMenuRepository,  IProfileService profileService) 
-        { 
+        public EmployeeHelper(IMealMenuService mealMenuRepository, IProfileService profileService)
+        {
             _mealMenuService = mealMenuRepository;
             _profileService = profileService;
         }
@@ -87,9 +87,9 @@ namespace DataAcessLayer.Helpers
                 var profile = _profileService.GetAllProfiles()
                     .FirstOrDefault(x => x.User.Email == email);
 
-                if (profile == null)
+                if(profile == null)
                 {
-                    throw new Exception($"Profile not found for email '{email}'.");
+                    return mealMenuDTOs;
                 }
 
                 foreach (var meal in mealMenuDTOs)
@@ -120,4 +120,5 @@ namespace DataAcessLayer.Helpers
                 throw new Exception($"Error sorting the meals based on profile for email '{email}': {ex.Message}");
             }
         }
+    }
 }

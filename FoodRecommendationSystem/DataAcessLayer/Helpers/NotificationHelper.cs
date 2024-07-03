@@ -66,7 +66,7 @@ public class NotificationHelper : INotificationHelper
             }
 
             var userNotifications = _userNotificationService.GetAllUserNotifications()
-                .Where(x => x.User.Email == email && !x.IsRead && x.Notification.DateTime >= DateTime.Now)
+                .Where(x => x.User.Email == email && !x.IsRead && x.Notification.DateTime.Date >= DateTime.Now.Date)
                 .ToList();
 
             if (userNotifications.Any())

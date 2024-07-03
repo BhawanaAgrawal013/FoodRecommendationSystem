@@ -5,6 +5,7 @@ using Server;
 
 class Program
 {
+    private static string UserEmail { get; set; }
     static void Main(string[] args)
     {
         System.Threading.Thread.Sleep(4000);
@@ -23,8 +24,9 @@ class Program
             { "2", () => SelectMealOptions(client) },
             { "3", () => SendNotification(client) },
             { "4", () => SelectMeal(client) },
-            { "6", () => LogOut(client) },
-            { "5", () => GetDiscardedMeal(client)}
+            { "7", () => LogOut(client) },
+            { "5", () => GetDiscardedMeal(client)},
+            { "6", () => DiscardMeal(client) }
         };
 
         while (true)
@@ -34,7 +36,8 @@ class Program
             Console.WriteLine("3. Send Notification");
             Console.WriteLine("4. Select Meal for tomorrow");
             Console.WriteLine("5. Get Discarded Meal");
-            Console.WriteLine("6. To Exit");
+            Console.WriteLine("6. Discard a Meal");
+            Console.WriteLine("7. To Exit");
 
             Console.Write("Select an option: ");
             var option = Console.ReadLine();
@@ -136,7 +139,7 @@ class Program
     {
         string classification = GetClassificationFromUser();
 
-        client.SendMessage($"MEAL_GETOPTIONS|{classification}");
+        client.SendMessage($"MEAL_GETOPTIONS|{classification}|{UserEmail}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
@@ -188,13 +191,14 @@ class Program
         user.Password = Console.ReadLine();
 
         string json = JsonConvert.SerializeObject(user);
-        client.SendMessage($"LOGIN|{json}|{UserRole.Chef.ToString()}}");
+        client.SendMessage($"LOGIN|{json}|{UserRole.Chef.ToString()}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
         if (response == "Login Successful")
         {
+            UserEmail = user.Email;
             return;
         }
 
@@ -219,5 +223,26 @@ class Program
                 Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Thali.");
             }
         }
+    }
+
+    static void DiscardMeal(SocketClient client)
+    {
+        client.SendMessage("DISCARD_MENU");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        Console.WriteLine("\nPress 1: To Get Feedback Again\nPress 2: To Discard");
+        string decision = Console.ReadLine();
+
+        Console.Write("Enter the Meal Id: ");
+        string mealId = Console.ReadLine();
+
+        client.SendMessage($"DISCARD_UPDATE|{mealId}|{decision}");
+
+        response = client.RecieveMessage();
+        Console.WriteLine(response);
+
+        SendNotification(client);
     }
 }
