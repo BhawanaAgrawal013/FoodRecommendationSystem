@@ -45,10 +45,6 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var discardedMenu = _discardedMenuFeedbackRepository.GetById(id);
-                if (discardedMenu == null)
-                {
-                    throw new Exception($"Discarded menu feedback with id {id} not found");
-                }
                 return (DiscardedMenuFeedbackDTO)discardedMenu;
             }
             catch (Exception ex)

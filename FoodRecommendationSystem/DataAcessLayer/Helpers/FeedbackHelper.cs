@@ -32,12 +32,7 @@ namespace DataAcessLayer.Helpers
         {
             try
             {
-                var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == ratingDTO.User.Email);
-                if (user == null)
-                {
-                    throw new ArgumentException("User not found");
-                }
-
+                var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == ratingDTO.User.Email) ?? throw new ArgumentException("User not found");
                 int userId = user.Id;
                 reviewDTO.User = new User { Id = userId };
                 reviewDTO.Food = new Food { Id = ratingDTO.Food.Id };
@@ -184,7 +179,7 @@ namespace DataAcessLayer.Helpers
         }
 
 
-        private double CalculateAverage(double sum, double numberOfPeople, double newRating)
+        private static double CalculateAverage(double sum, double numberOfPeople, double newRating)
         {
             return ((sum * numberOfPeople) + newRating) / (numberOfPeople + 1);
         }

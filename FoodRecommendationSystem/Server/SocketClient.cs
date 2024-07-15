@@ -37,7 +37,7 @@ namespace Server
                     }
                     else
                     {
-                        Console.WriteLine("Max retry attempts reached. Unable to connect to server.");
+                        Console.WriteLine("Max retry attempts reached. Unable to connect to server. Please restart your system");
                         Log.Warning("Max retry attempts reached. Unable to connect to server.");
                     }
                 }

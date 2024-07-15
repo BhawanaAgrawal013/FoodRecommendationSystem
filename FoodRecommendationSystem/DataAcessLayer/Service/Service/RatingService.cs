@@ -41,10 +41,6 @@
             try
             {
                 var rating = _ratingRepository.GetById(id);
-                if (rating == null)
-                {
-                    throw new Exception($"Rating with id {id} not found");
-                }
                 return (RatingDTO)rating;
             }
             catch (Exception ex)

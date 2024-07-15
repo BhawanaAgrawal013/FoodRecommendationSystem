@@ -3,6 +3,7 @@
     public class RecommendedMeal
     {
         public int Id { get; set; }
+
         public string PrimaryFoodName { get; set; }
 
         public int ShouldBeDiscarded { get; set; } = 0;

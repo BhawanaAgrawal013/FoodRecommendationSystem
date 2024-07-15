@@ -46,10 +46,6 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var mealMenu = _mealMenuRepository.GetById(id);
-                if (mealMenu == null)
-                {
-                    throw new Exception($"Meal menu with id {id} not found");
-                }
                 return (MealMenuDTO)mealMenu;
             }
             catch (Exception ex)

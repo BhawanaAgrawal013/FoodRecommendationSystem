@@ -35,7 +35,7 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "";
+            return String.Empty;
         }
 
         private string GetDiscardedMeals(string request)
@@ -44,7 +44,7 @@ namespace Server.RequestHandlers
             {
                 var recommendedMeals = _helper.GetDiscardedMeals();
 
-                string result = "";
+                string result = String.Empty;
 
                 foreach (var meal in recommendedMeals)
                 {
@@ -75,7 +75,7 @@ namespace Server.RequestHandlers
 
                 _helper.UpdateDiscardMeal(Id, isDiscard);
 
-                return "Successfull";
+                return "Successfully Updated Discarded Menu";
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace Server.RequestHandlers
 
                 _feedbackHelper.AddDiscardedFeedback(feedbackDTO);
 
-                return "Added feedback";
+                return "Added feedback for Discarded Meal";
             }
             catch (Exception ex)
             {

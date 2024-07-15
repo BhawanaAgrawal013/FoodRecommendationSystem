@@ -46,10 +46,6 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var notification = _notificationRepository.GetById(id);
-                if (notification == null)
-                {
-                    throw new Exception($"Notification with id {id} not found");
-                }
                 return (NotificationDTO)notification;
             }
             catch (Exception ex)

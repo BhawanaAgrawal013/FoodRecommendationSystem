@@ -1,6 +1,4 @@
-﻿using DataAcessLayer.Service.IService;
-
-namespace DataAcessLayer.Service.Service
+﻿namespace DataAcessLayer.Service.Service
 {
     public class ReviewService : IReviewService
     {

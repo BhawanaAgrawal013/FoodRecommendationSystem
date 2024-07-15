@@ -127,7 +127,7 @@ class Program
 
         var meal = JsonConvert.SerializeObject(meals);
 
-        client.SendMessage($"MEAL_OPTION|{classification}|{meal}");
+        client.SendMessage($"MEAL_SEND_OPTION|{classification}|{meal}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
@@ -139,7 +139,7 @@ class Program
     {
         string classification = GetClassificationFromUser();
 
-        client.SendMessage($"MEAL_GETOPTIONS|{classification}|{UserEmail}");
+        client.SendMessage($"MEAL_GET_OPTIONS|{classification}|{UserEmail}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
@@ -209,7 +209,7 @@ class Program
     {
         while (true)
         {
-            Console.WriteLine("Enter Classification (Breakfast, Thali):");
+            Console.WriteLine("Enter Classification (Breakfast, Lunch, Dinner):");
             string userInput = Console.ReadLine();
 
             string formattedInput = userInput.Replace(" ", string.Empty);

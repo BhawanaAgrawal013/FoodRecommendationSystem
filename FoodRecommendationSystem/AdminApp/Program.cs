@@ -95,6 +95,15 @@ class Program
         mealName.MealName = Console.ReadLine();
         Console.Write("Enter Type: ");
         mealName.MealType = Console.ReadLine();
+        Console.Write("Enter Cusinine: ");
+        mealName.CuisinePreference = Console.ReadLine();
+        Console.Write("Enter Veg/Non-Veg: ");
+        mealName.DietType = Console.ReadLine();
+        Console.Write("Is it Sweet? (Y/N)");
+        var isSweet = Console.ReadLine();
+        mealName.IsSweet = (isSweet == "Y") ? true : false;
+        Console.Write("Enter Spice Level (Low/Medium/High): ");
+        mealName.SpiceLevel = Console.ReadLine();
 
         string jsonMealName = JsonConvert.SerializeObject(mealName);
         client.SendMessage($"MENU_UPDATE|{jsonMealName}");

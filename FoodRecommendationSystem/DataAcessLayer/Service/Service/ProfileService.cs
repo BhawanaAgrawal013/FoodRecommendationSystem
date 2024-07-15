@@ -45,10 +45,6 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var profile = _profileRepository.GetById(id);
-                if (profile == null)
-                {
-                    throw new Exception($"Profile with id {id} not found");
-                }
                 return (ProfileDTO)profile;
             }
             catch (Exception ex)

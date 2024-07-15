@@ -44,10 +44,6 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var mealName = _mealNameRepository.GetById(id);
-                if (mealName == null)
-                {
-                    throw new Exception($"Meal name with id {id} not found");
-                }
                 return (MealNameDTO)mealName;
             }
             catch (Exception ex)
@@ -77,10 +73,6 @@ namespace DataAcessLayer.Service.Service
             try
             {
                 var mealName = _mealNameRepository.GetById(id);
-                if (mealName == null)
-                {
-                    throw new Exception($"Meal name with id {id} not found");
-                }
                 mealName.IsDeleted = true;
                 _mealNameRepository.Update(mealName);
                 _mealNameRepository.Save();

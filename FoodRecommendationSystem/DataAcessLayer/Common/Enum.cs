@@ -1,7 +1,8 @@
 ﻿public enum Classification
 {
     Breakfast,
-    Thali
+    Lunch,
+    Dinner
 }
 
 public enum UserRole
@@ -9,4 +10,14 @@ public enum UserRole
     Chef,
     Admin,
     Employee
+}
+
+public enum RequestType
+{
+    MENU,
+    MEAL,
+    LOGIN,
+    NOTI,
+    FEEDBACK,
+    DISCARD
 }

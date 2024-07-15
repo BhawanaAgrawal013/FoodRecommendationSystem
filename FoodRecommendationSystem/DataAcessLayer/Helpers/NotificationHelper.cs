@@ -28,12 +28,7 @@ public class NotificationHelper : INotificationHelper
 
             _notificationService.AddNotification(notificationDTO);
 
-            var notification = _notificationService.GetAllNotifications().LastOrDefault();
-            if (notification == null)
-            {
-                throw new Exception("Notification was not added successfully.");
-            }
-
+            var notification = _notificationService.GetAllNotifications().LastOrDefault() ?? throw new Exception("Notification was not added successfully.");
             var users = _user.GetAllUsers().Where(x => x.Role.RoleName == UserRole.Employee.ToString());
 
             foreach (var user in users)
@@ -59,12 +54,7 @@ public class NotificationHelper : INotificationHelper
     {
         try
         {
-            var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == email);
-            if (user == null)
-            {
-                throw new ArgumentException("User not found");
-            }
-
+            var user = _user.GetAllUsers().FirstOrDefault(x => x.Email == email) ?? throw new ArgumentException("User not found");
             var userNotifications = _userNotificationService.GetAllUserNotifications()
                 .Where(x => x.User.Email == email && !x.IsRead && x.Notification.DateTime.Date >= DateTime.Now.Date)
                 .ToList();

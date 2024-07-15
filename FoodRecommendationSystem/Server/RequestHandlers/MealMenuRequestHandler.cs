@@ -23,8 +23,8 @@ namespace Server.RequestHandlers
             var requestHandlers = new Dictionary<string, Func<string, string>>
             {
                 {"MEAL_SELECT",  GetRecommendedMeals },
-                {"MEAL_OPTION", SendMealMenuOptions },
-                {"MEAL_GETOPTIONS",  GetMealMenuOptions },
+                {"MEAL_SEND_OPTION", SendMealMenuOptions },
+                {"MEAL_GET_OPTIONS",  GetMealMenuOptions },
                 {"MEAL_VOTE", VoteForMeal },
                 {"MEAL_CHOOSE", ChooseMeal }
             };
@@ -38,7 +38,7 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "";
+            return String.Empty;
         }
 
         private string GetRecommendedMeals(string request)
@@ -53,7 +53,7 @@ namespace Server.RequestHandlers
 
                 var recommendedMeals = _recommendationHelper.GiveRecommendation(classification, numberOfMeals);
 
-                string result = "";
+                string result = String.Empty;
 
                 foreach (var meal in recommendedMeals)
                 {
@@ -90,7 +90,6 @@ namespace Server.RequestHandlers
             }
         }
 
-
         private string GetMealMenuOptions(string request)
         {
             try
@@ -117,7 +116,6 @@ namespace Server.RequestHandlers
             }
         }
 
-
         private string VoteForMeal(string request)
         {
             try
@@ -138,7 +136,6 @@ namespace Server.RequestHandlers
             }
         }
 
-
         private string ChooseMeal(string request)
         {
             try
@@ -157,6 +154,5 @@ namespace Server.RequestHandlers
                 throw new Exception($"Error choosing meal: {ex.Message}");
             }
         }
-
     }
 }

@@ -42,12 +42,9 @@ namespace DataAcessLayer.Helpers
                     .Where(x => x.CreationDate == dateTime && x.Classification == classification && x.WasPrepared)
                     .FirstOrDefault();
 
-                if (mealMenu == null)
-                {
-                    throw new Exception($"No prepared meal menu found for classification '{classification}' on date '{dateTime.ToShortDateString()}'.");
-                }
-
-                return mealMenu;
+                return mealMenu == null
+                    ? throw new Exception($"No prepared meal menu found for classification '{classification}' on date '{dateTime.ToShortDateString()}'.")
+                    : mealMenu;
             }
             catch (Exception ex)
             {
@@ -61,13 +58,7 @@ namespace DataAcessLayer.Helpers
             try
             {
                 var mealMenu = _mealMenuService.GetAllMealMenus()
-                    .FirstOrDefault(x => x.Id == mealMenuId && x.CreationDate == dateTime);
-
-                if (mealMenu == null)
-                {
-                    throw new Exception($"Meal menu not found for ID '{mealMenuId}' on date '{dateTime.ToShortDateString()}'.");
-                }
-
+                    .FirstOrDefault(x => x.Id == mealMenuId && x.CreationDate == dateTime) ?? throw new Exception($"Meal menu not found for ID '{mealMenuId}' on date '{dateTime.ToShortDateString()}'.");
                 mealMenu.NumberOfVotes += 1;
                 _mealMenuService.UpdateMealMenu(mealMenu);
 

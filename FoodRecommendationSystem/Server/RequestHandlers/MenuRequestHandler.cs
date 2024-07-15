@@ -18,11 +18,11 @@ namespace Server.RequestHandlers
         {
             var requestHandlers = new Dictionary<string, Func<string, string>>
             {
-                { "MENU_GET", HandleGetMenuRequest },
-                { "MENU_ADD", HandleAddMenuNameRquest },
-                { "MENU_UPDATE", HandleUpdateMenuNameRequest },
-                { "MENU_DELETE", HandleDeleteMenuRequest },
-                { "MENU_CLASSIFIED", HandleGetMenuClassifiedRequest}
+                { "MENU_GET", GetMenuRequest },
+                { "MENU_ADD", AddMenuNameRquest },
+                { "MENU_UPDATE", UpdateMenuNameRequest },
+                { "MENU_DELETE", DeleteMenuRequest },
+                { "MENU_CLASSIFIED", GetMenuClassifiedRequest}
             };
 
             foreach (var handlerKey in requestHandlers.Keys)
@@ -34,10 +34,10 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "";
+            return String.Empty;
         }
 
-        private string HandleGetMenuRequest(string request)
+        private string GetMenuRequest(string request)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Server.RequestHandlers
             }
         }
 
-        private string HandleGetMenuClassifiedRequest(string request)
+        private string GetMenuClassifiedRequest(string request)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Server.RequestHandlers
             }
         }
 
-        private string HandleAddMenuNameRquest(string request)
+        private string AddMenuNameRquest(string request)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Server.RequestHandlers
             }
         }
 
-        private string HandleUpdateMenuNameRequest(string request)
+        private string UpdateMenuNameRequest(string request)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace Server.RequestHandlers
             }
         }
 
-        private string HandleDeleteMenuRequest(string request)
+        private string DeleteMenuRequest(string request)
         {
             try
             {
@@ -146,5 +146,4 @@ namespace Server.RequestHandlers
             }
         }
     }
-
 }

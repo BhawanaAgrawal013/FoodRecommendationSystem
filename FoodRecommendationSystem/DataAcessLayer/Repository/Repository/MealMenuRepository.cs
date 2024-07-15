@@ -1,6 +1,4 @@
-﻿using DataAcessLayer.Entity;
-
-namespace DataAcessLayer.Repository.Repository
+﻿namespace DataAcessLayer.Repository.Repository
 {
     public class MealMenuRepository : IRepository<MealMenu>
     {

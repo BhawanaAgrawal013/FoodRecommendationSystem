@@ -18,8 +18,8 @@ namespace Server.RequestHandlers
         {
             var requestHandlers = new Dictionary<string, Func<string, string>>
             {
-                {"FEEDBACK_LIST", HandleSendFoodReview},
-                {"FEEDBACK_GIVE", HandleSendingFeedback }
+                {"FEEDBACK_LIST", GetMealsForReview},
+                {"FEEDBACK_GIVE", SendFeedback }
             };
 
             foreach (var handlerKey in requestHandlers.Keys)
@@ -31,10 +31,10 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "";
+            return String.Empty;
         }
 
-        private string HandleSendFoodReview(string request)
+        private string GetMealsForReview(string request)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Server.RequestHandlers
             }
         }
 
-        private string HandleSendingFeedback(string request)
+        private string SendFeedback(string request)
         {
             try
             {

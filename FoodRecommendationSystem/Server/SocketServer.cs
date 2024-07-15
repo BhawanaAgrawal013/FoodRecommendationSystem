@@ -13,7 +13,7 @@ public class SocketServer
     private readonly IRequestHandler<FeedbackRequestHandler> _feedbackRequestHelper;
     private readonly IRequestHandler<DiscardedMenuRequestHandler> _discardedMenuRequestHandler;
 
-    private TcpListener _listener;
+    private TcpListener? _listener;
 
     public SocketServer(IRequestHandler<MenuRequestHandler> menuRequestHandler,
                         IRequestHandler<MealMenuRequestHandler> mealMenuHandler,
@@ -29,6 +29,7 @@ public class SocketServer
         _feedbackRequestHelper = feedbackHandler;
         _discardedMenuRequestHandler = discardRequestHandler;
     }
+
 
     public void Start()
     {
@@ -46,6 +47,7 @@ public class SocketServer
             }
             catch (Exception ex)
             {
+                Log.Error($"Exception occured {ex.Message}");
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
@@ -93,34 +95,33 @@ public class SocketServer
         }
     }
 
-
     private string ProcessRequest(string request)
     {
-        if(request.StartsWith("MENU"))
+        if (request.StartsWith(RequestType.MENU.ToString()))
         {
-            return _menuRequestHandler.HandleRequest(request);   
+            return _menuRequestHandler.HandleRequest(request);
         }
-        if(request.StartsWith("MEAL"))
+        if (request.StartsWith(RequestType.MEAL.ToString()))
         {
             return _mealMenuRequestHandler.HandleRequest(request);
         }
-        if(request.StartsWith("LOGIN"))
+        if (request.StartsWith(RequestType.LOGIN.ToString()))
         {
             return _loginRequestHandler.HandleRequest(request);
         }
-        if(request.StartsWith("NOTI"))
+        if (request.StartsWith(RequestType.NOTI.ToString()))
         {
             return _notificationHandler.HandleRequest(request);
         }
-        if(request.StartsWith("FEEDBACK"))
+        if (request.StartsWith(RequestType.FEEDBACK.ToString()))
         {
             return _feedbackRequestHelper.HandleRequest(request);
         }
-        if(request.StartsWith("DISCARD"))
+        if (request.StartsWith(RequestType.DISCARD.ToString()))
         {
             return _discardedMenuRequestHandler.HandleRequest(request);
         }
 
-        return "";
+        return String.Empty;
     }
 }

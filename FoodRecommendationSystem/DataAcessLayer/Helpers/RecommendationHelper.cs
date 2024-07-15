@@ -53,18 +53,8 @@ namespace DataAcessLayer.Helpers
                     .OrderByDescending(x => x.ShouldBeDiscarded)
                     .FirstOrDefault(x => x.SummaryRating.AverageRating < 2);
 
-                if (recommendedMeal == null)
-                {
-                    throw new Exception("No suitable meal found for discarding");
-                }
-
                 var mealName = _mealNameService.GetAllMeals()
                     .FirstOrDefault(x => x.MealName == recommendedMeal.MealName.MealName);
-
-                if (mealName == null)
-                {
-                    throw new Exception("Meal name not found");
-                }
 
                 var discardedMenuDTO = new DiscardedMenuDTO
                 {
@@ -75,11 +65,6 @@ namespace DataAcessLayer.Helpers
 
                 var discardId = _discardedMenuService.GetDiscardedMenuList()
                     .LastOrDefault(x => x.MealNameId == mealName.MealNameId)?.Id;
-
-                if (discardId == null)
-                {
-                    throw new Exception("Discarded menu ID not found");
-                }
 
                 recommendedMeal.Id = discardId.Value;
 
@@ -110,13 +95,7 @@ namespace DataAcessLayer.Helpers
             try
             {
                 var discardedMeal = _discardedMenuService.GetDiscardedMenuList()
-                    .FirstOrDefault(x => x.Id == discardId);
-
-                if (discardedMeal == null)
-                {
-                    throw new Exception("Discarded meal not found");
-                }
-
+                    .FirstOrDefault(x => x.Id == discardId) ?? throw new Exception("Discarded meal not found");
                 discardedMeal.IsDiscarded = isDiscarded;
 
                 if (isDiscarded)
@@ -137,12 +116,7 @@ namespace DataAcessLayer.Helpers
         {
             try
             {
-                var mealName = _mealNameService.GetMealName(discardedMenu.MealNameId);
-                if (mealName == null)
-                {
-                    throw new Exception("Meal name not found");
-                }
-
+                var mealName = _mealNameService.GetMealName(discardedMenu.MealNameId) ?? throw new Exception("Meal name not found");
                 mealName.IsDeleted = true;
                 _mealNameService.UpdateMealName(mealName);
 

@@ -29,7 +29,7 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "";
+            return String.Empty;
         }
 
         private string SendNotification(string request)

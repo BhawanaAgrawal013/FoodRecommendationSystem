@@ -21,13 +21,7 @@ namespace DataAcessLayer.Helpers
 
                 foreach (var mealName in mealNames)
                 {
-                    var meal = meals.FirstOrDefault(x => x.MealName == mealName);
-
-                    if (meal == null)
-                    {
-                        throw new Exception($"Meal '{mealName}' not found.");
-                    }
-
+                    var meal = meals.FirstOrDefault(x => x.MealName == mealName) ?? throw new Exception($"Meal '{mealName}' not found.");
                     MealMenuDTO mealMenuDTO = new MealMenuDTO()
                     {
                         NumberOfVotes = 0,
@@ -71,13 +65,7 @@ namespace DataAcessLayer.Helpers
         {
             try
             {
-                var mealMenu = _mealMenuService.GetMealMenu(mealMenuId);
-
-                if (mealMenu == null)
-                {
-                    throw new Exception($"Meal menu with ID '{mealMenuId}' not found.");
-                }
-
+                var mealMenu = _mealMenuService.GetMealMenu(mealMenuId) ?? throw new Exception($"Meal menu with ID '{mealMenuId}' not found.");
                 mealMenu.WasPrepared = true;
                 _mealMenuService.UpdateMealMenu(mealMenu);
 

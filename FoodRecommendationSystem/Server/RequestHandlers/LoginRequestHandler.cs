@@ -30,7 +30,7 @@ namespace Server.RequestHandlers
                 }
             }
 
-            return "";
+            return String.Empty;
         }
 
         private string AuthenticateUser(string request)
