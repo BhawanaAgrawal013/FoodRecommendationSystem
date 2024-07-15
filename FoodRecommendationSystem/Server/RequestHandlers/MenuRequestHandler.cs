@@ -135,9 +135,7 @@ namespace Server.RequestHandlers
 
                 var mealNameId = Convert.ToInt32(parts[1]);
 
-                _adminHelper.DeleteMenuItem(mealNameId);
-
-                return ($"Meal id {parts[1]} deleted sucessfully");
+                return _adminHelper.DeleteMenuItem(mealNameId);
             }
             catch (Exception ex)
             {

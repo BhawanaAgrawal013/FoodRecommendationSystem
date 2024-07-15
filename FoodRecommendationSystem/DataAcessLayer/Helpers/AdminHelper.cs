@@ -101,7 +101,7 @@ namespace DataAcessLayer.Helpers
                 else
                 {
                     _mealNameService.DeleteMealName(mealNameId);
-                    return "Meal deleted successfully";
+                    return ($"Meal id {mealNameId} deleted sucessfully");
                 }
             }
             catch (Exception ex)

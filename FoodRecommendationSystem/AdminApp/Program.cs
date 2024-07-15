@@ -20,7 +20,8 @@ class Program
             { "2", () => AddMenuItem(client) },
             { "3", () => UpdateMenuItem(client) },
             { "4", () => DeleteMenuItem(client) },
-            { "5", () => LogOut(client) }
+            { "5", () => SendNotification(client) },
+            { "6", () => LogOut(client) }
         };
 
         while (true)
@@ -29,7 +30,8 @@ class Program
             Console.WriteLine("2. Add Menu Item");
             Console.WriteLine("3. Update Menu Item");
             Console.WriteLine("4. Delete Menu Item");
-            Console.WriteLine("5. To Exit");
+            Console.WriteLine("5. Send Notification");
+            Console.WriteLine("6. To Exit");
 
             Console.Write("Select an option: ");
             var option = Console.ReadLine();
@@ -118,6 +120,17 @@ class Program
         string mealNameId = Console.ReadLine();
 
         client.SendMessage($"MENU_DELETE|{mealNameId}");
+
+        var response = client.RecieveMessage();
+        Console.WriteLine(response);
+    }
+
+    static void SendNotification(SocketClient client)
+    {
+        Console.WriteLine("Enter Notification: ");
+        string message = Console.ReadLine();
+
+        client.SendMessage($"NOTI_SEND|{message}");
 
         var response = client.RecieveMessage();
         Console.WriteLine(response);
