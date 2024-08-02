@@ -99,7 +99,7 @@ namespace DataAcessLayer.Service.Service
                 var meals = _mealService.GetAllMeals();
 
                 var discardedMeals = summaryRatings
-                    .SelectMany(summaryRating => meals.Where(x => x.Food.Id == summaryRating.Food.Id)
+                    .SelectMany(summaryRating => meals.Where(x => x.Food.Id == summaryRating.Food.Id && !x.MealName.IsDeleted)
                         .Select(x => new RecommendedMeal
                         {
                             MealName = x.MealName,

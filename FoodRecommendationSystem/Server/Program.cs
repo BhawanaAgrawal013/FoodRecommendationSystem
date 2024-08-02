@@ -54,6 +54,7 @@ class Program
         services.AddDbContext<FoodRecommendationContext>(options =>
             options.UseSqlServer(@"Server=.;Database=FoodRecommendationSystem;Trusted_Connection=True;")
                    .EnableSensitiveDataLogging());
+        services.AddScoped<FoodRecommendationContext>();
     }
 
     private static void ConfigureRepositories(IServiceCollection services)
