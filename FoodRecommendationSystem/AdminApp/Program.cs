@@ -91,10 +91,10 @@ class Program
 
         mealName.MealName = PromptInput.StringValues("Enter Name: ");
         mealName.MealType = PromptInput.StringValues("Enter Type: ");
-        mealName.CuisinePreference = PromptInput.StringValues("Enter Cuisine (South Indian/North Indian): ");
-        mealName.DietType = PromptInput.StringValues("Enter Diet Type (Veg/Non-Veg/Egg): ");
+        mealName.CuisinePreference = PromptInput.StringValues("Enter Cuisine (South Indian/North Indian/Other): ", new List<string> { "South Indian", "North Indian", "Other" });
+        mealName.DietType = PromptInput.StringValues("Enter Diet Type (Veg/Non-Veg/Egg): ", new List<string> { "Veg", "Non-Veg", "Egg" });
         mealName.IsSweet = PromptInput.BoolValues("Is it Sweet? (Y/N): ");
-        mealName.SpiceLevel = PromptInput.StringValues("Enter Spice Level (Low/Medium/High): ");
+        mealName.SpiceLevel = PromptInput.StringValues("Enter Spice Level (Low/Medium/High): ", new List<string> { "Low", "Medium", "High" });
 
         string jsonMealName = JsonConvert.SerializeObject(mealName);
         client.SendMessage($"MENU_ADD|{jsonMealName}");
@@ -111,10 +111,10 @@ class Program
         mealName.MealNameId = mealNameId;
         mealName.MealName = PromptInput.StringValues("Enter Name: ");
         mealName.MealType = PromptInput.StringValues("Enter Type: ");
-        mealName.CuisinePreference = PromptInput.StringValues("Enter Cuisine: ");
-        mealName.DietType = PromptInput.StringValues("Enter Veg/Non-Veg: ");
+        mealName.CuisinePreference = PromptInput.StringValues("Enter Cuisine (South Indian/North Indian/Other): ", new List<string> { "South Indian", "North Indian", "Other" });
+        mealName.DietType = PromptInput.StringValues("Enter Diet Type (Veg/Non-Veg/Egg): ", new List<string> { "Veg", "Non-Veg", "Egg" });
         mealName.IsSweet = PromptInput.BoolValues("Is it Sweet? (Y/N): ");
-        mealName.SpiceLevel = PromptInput.StringValues("Enter Spice Level (Low/Medium/High): ");
+        mealName.SpiceLevel = PromptInput.StringValues("Enter Spice Level (Low/Medium/High): ", new List<string> { "Low", "Medium", "High" });
 
         string jsonMealName = JsonConvert.SerializeObject(mealName);
         client.SendMessage($"MENU_UPDATE|{jsonMealName}");

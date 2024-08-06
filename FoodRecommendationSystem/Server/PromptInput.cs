@@ -15,6 +15,19 @@
             return input;
         }
 
+        public static string StringValues(string prompt, List<string> validOptions)
+        {
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(input) || !validOptions.Contains(input, StringComparer.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"Invalid input. Please enter one of the following: {string.Join(", ", validOptions)}.");
+                Console.Write(prompt);
+                input = Console.ReadLine();
+            }
+            return input;
+        }
+
         public static bool BoolValues(string prompt)
         {
             Console.Write(prompt);
