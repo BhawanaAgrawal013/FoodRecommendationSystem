@@ -95,11 +95,8 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        Console.WriteLine("\nPress 1: To Get Feedback\nPress 2: To Discard");
-        string decision = Console.ReadLine();
-
-        Console.Write("Enter the Meal Id: ");
-        string mealId = Console.ReadLine();
+        int decision = PromptInput.ChoiceValues("\nPress 1: To Get Feedback\nPress 2: To Discard\nEnter your choice: ", 1, 2);
+        string mealId = PromptInput.StringValues("Enter the Meal Id: ");
 
         client.SendMessage($"DISCARD_UPDATE|{mealId}|{decision}");
 
@@ -113,8 +110,7 @@ class Program
     {
         string classification = GetClassificationFromUser();
 
-        Console.Write("How many Meals do you want?");
-        string numberOfMeals = Console.ReadLine();
+        string numberOfMeals = PromptInput.StringValues("How many Meals do you want? ");
 
         client.SendMessage($"MEAL_SELECT|{classification}|{numberOfMeals}");
 
@@ -141,8 +137,7 @@ class Program
         Console.WriteLine("Enter 3 the meal names you want to add as an option:");
         for(int i = 1; i <= 3; i++)
         {
-            Console.Write(i + " ");
-            meals.Add(Console.ReadLine());        
+            meals.Add(PromptInput.StringValues($"{i}. "));
         }
 
         var meal = JsonConvert.SerializeObject(meals);
@@ -164,7 +159,7 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        Console.WriteLine("Enter the meal you want to make next day: ");
+        Console.WriteLine("Enter the meal Id you want to make next day: ");
         string mealId = Console.ReadLine();
 
         client.SendMessage($"MEAL_CHOOSE|{mealId}");
@@ -177,9 +172,7 @@ class Program
 
     static void SendNotification(SocketClient client)
     {
-        Console.WriteLine("Enter Notification: ");
-        string message = Console.ReadLine();
-
+        string message = PromptInput.StringValues("Enter Notification: ");
         client.SendMessage($"NOTI_SEND|{message}");
 
         var response = client.RecieveMessage();
@@ -204,11 +197,10 @@ class Program
     {
         UserDTO user = new UserDTO();
 
-        Console.WriteLine("Login as Chef");
+        Console.WriteLine("Login as Chef"); 
         Console.WriteLine("Enter Email: ");
         user.Email = Console.ReadLine();
-        Console.WriteLine("Enter Password: ");
-        user.Password = Console.ReadLine();
+        user.Password = PromptInput.StringValues("Enter Password: ");
 
         string json = JsonConvert.SerializeObject(user);
         client.SendMessage($"LOGIN|{json}|{UserRole.Chef.ToString()}");
@@ -229,18 +221,15 @@ class Program
     {
         while (true)
         {
-            Console.WriteLine("Enter Classification (Breakfast, Lunch, Dinner):");
-            string userInput = Console.ReadLine();
+            string userInput = PromptInput.StringValues("Enter Classification (Breakfast, Lunch, Dinner): ").Replace(" ", string.Empty);
 
-            string formattedInput = userInput.Replace(" ", string.Empty);
-
-            if (Enum.TryParse(formattedInput, true, out Classification classification) && Enum.IsDefined(typeof(Classification), classification))
+            if (Enum.TryParse(userInput, true, out Classification classification) && Enum.IsDefined(typeof(Classification), classification))
             {
                 return userInput;
             }
             else
             {
-                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Thali.");
+                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Lunch, Dinner.");
             }
         }
     }
@@ -252,11 +241,8 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        Console.WriteLine("\nPress 1: To Get Feedback Again\nPress 2: To Discard");
-        string decision = Console.ReadLine();
-
-        Console.Write("Enter the Meal Id: ");
-        string mealId = Console.ReadLine();
+        int decision = PromptInput.ChoiceValues("\nPress 1: To Get Feedback Again\nPress 2: To Discard\nEnter your choice: ", 1, 2);
+        string mealId = PromptInput.StringValues("Enter the Meal Id: ");
 
         client.SendMessage($"DISCARD_UPDATE|{mealId}|{decision}");
 

@@ -73,7 +73,7 @@ class Program
         if (!client.isConnected)
         {
             Console.WriteLine("Socket connection is abandoned. Exiting the application.");
-            
+
             Console.ReadLine();
             Environment.Exit(0);
         }
@@ -101,8 +101,7 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        Console.Write("Enter the chosen meal: ");
-        string id = Console.ReadLine();
+        string id = PromptInput.StringValues("Enter the chosen meal: ");
         client.SendMessage($"MEAL_VOTE|{id}");
         response = client.RecieveMessage();
         Console.WriteLine(response);
@@ -116,12 +115,9 @@ class Program
         Console.WriteLine($"We are trying to improve your experience with {mealName}. Please provide your feedback and help us");
 
         DiscardedMenuFeedbackDTO discardedMenuFeedbackDTO = new DiscardedMenuFeedbackDTO();
-        Console.WriteLine($"Q1. What didn’t you like about {mealName}?");
-        discardedMenuFeedbackDTO.DislikeText = Console.ReadLine();
-        Console.WriteLine($"Q2. How would you like {mealName} to taste?");
-        discardedMenuFeedbackDTO.LikeText = Console.ReadLine();
-        Console.WriteLine($"Q3. Share your mom’s recipe.");
-        discardedMenuFeedbackDTO.Recipie = Console.ReadLine();
+        discardedMenuFeedbackDTO.DislikeText = PromptInput.StringValues($"Q1. What didn’t you like about {mealName}? ");
+        discardedMenuFeedbackDTO.LikeText = PromptInput.StringValues($"Q2. How would you like {mealName} to taste? ");
+        discardedMenuFeedbackDTO.Recipie = PromptInput.StringValues($"Q3. Share your mom’s recipe. ");
         discardedMenuFeedbackDTO.DiscardedMenuId = Convert.ToInt32(parts[0]);
 
         string json = JsonConvert.SerializeObject(discardedMenuFeedbackDTO);
@@ -137,8 +133,7 @@ class Program
         var response = client.RecieveMessage();
         Console.WriteLine(response);
 
-        Console.Write("Enter the food Id you want to review: ");
-        int foodId = Convert.ToInt32(Console.ReadLine());
+        int foodId = PromptInput.IntValues("Enter the food Id you want to review: ");
 
         RatingDTO ratingDTO = new RatingDTO()
         {
@@ -176,8 +171,7 @@ class Program
         Console.WriteLine("Login as Employee");
         Console.WriteLine("Enter Email: ");
         user.Email = Console.ReadLine();
-        Console.WriteLine("Enter Password: ");
-        user.Password = Console.ReadLine();
+        user.Password = PromptInput.StringValues("Enter Password: ");
 
         string json = JsonConvert.SerializeObject(user);
         client.SendMessage($"LOGIN|{json}|{UserRole.Employee.ToString()}");
@@ -191,7 +185,6 @@ class Program
         }
 
         EmployeeLogin(client);
-
     }
 
     static ReviewDTO GetReviewDetails()
@@ -199,8 +192,7 @@ class Program
         try
         {
             ReviewDTO review = new ReviewDTO();
-            Console.WriteLine("Enter your review text:");
-            review.ReviewText = Console.ReadLine();
+            review.ReviewText = PromptInput.StringValues("Enter your review text: ");
             review.ReviewDate = DateTime.Now;
             review.QuantityRating = GetRating("Quantity Rating");
             review.QualityRating = GetRating("Quality Rating");
@@ -234,8 +226,7 @@ class Program
     {
         while (true)
         {
-            Console.WriteLine("Enter Classification (Breakfast, Lunch, Dinner):");
-            string userInput = Console.ReadLine();
+            string userInput = PromptInput.StringValues("Enter Classification (Breakfast, Lunch, Dinner): ");
             string formattedInput = userInput.Replace(" ", string.Empty);
 
             if (Enum.TryParse(formattedInput, true, out Classification classification) && Enum.IsDefined(typeof(Classification), classification))
@@ -244,7 +235,7 @@ class Program
             }
             else
             {
-                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Thali.");
+                Console.WriteLine("Invalid classification. Please enter one of the following: Breakfast, Lunch, Dinner.");
             }
         }
     }

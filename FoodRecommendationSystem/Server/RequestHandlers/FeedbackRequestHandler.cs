@@ -39,13 +39,14 @@ namespace Server.RequestHandlers
             try
             {
                 var parts = request.Split('|');
-                var foods = _feedbackHelper.GetMeals(parts[1]);
+                var meals = _feedbackHelper.GetMeals(parts[1]);
+                var foods = meals.Select(m => m.Food).DistinctBy(x => x.Name).ToList();
 
                 string result = String.Empty;
 
                 foreach (var food in foods)
                 {
-                    result += ($"\nFood ID: {food.Food.Id}\tName: {food.Food.Name}");
+                    result += ($"\nFood ID: {food.Id}\tName: {food.Name}");
                 }
 
                 return result;
