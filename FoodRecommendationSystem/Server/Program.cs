@@ -1,4 +1,5 @@
 ﻿using DataAcessLayer;
+using DataAcessLayer.Common;
 using DataAcessLayer.Entity;
 using DataAcessLayer.Helpers;
 using DataAcessLayer.Helpers.IHelpers;
@@ -7,10 +8,12 @@ using DataAcessLayer.Repository.Repository;
 using DataAcessLayer.Service.IService;
 using DataAcessLayer.Service.Service;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Server.RequestHandlers;
+using System.Reflection.Metadata;
 
 class Program
 {
@@ -38,9 +41,15 @@ class Program
 
     static IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((context, config) =>
+        {
+            var basepath = DataAcessLayer.Common.Constant.basePath;
+            config.SetBasePath(basepath);
+            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        })
         .ConfigureServices((context, services) =>
         {
-            ConfigureDatabase(services);
+            ConfigureDatabase(services, configuration: context.Configuration);
             ConfigureRepositories(services);
             ConfigureServices(services);
             ConfigureHelpers(services);
@@ -49,12 +58,15 @@ class Program
             services.AddSingleton<SocketServer>();
         });
 
-    private static void ConfigureDatabase(IServiceCollection services)
+    private static void ConfigureDatabase(IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("FoodRecommendationDatabase");
+
         services.AddDbContext<FoodRecommendationContext>(options =>
-            options.UseSqlServer(@"Server=.;Database=FoodRecommendationSystem;Trusted_Connection=True;")
+            options.UseSqlServer(connectionString)
                    .EnableSensitiveDataLogging());
-        services.AddScoped<FoodRecommendationContext>();
+
+        services.AddSingleton<FoodRecommendationContext>();
     }
 
     private static void ConfigureRepositories(IServiceCollection services)

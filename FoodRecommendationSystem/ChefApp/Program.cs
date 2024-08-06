@@ -1,5 +1,5 @@
 ﻿using DataAcessLayer.ModelDTOs;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Server;
 
@@ -8,10 +8,18 @@ class Program
     private static string UserEmail { get; set; }
     static void Main(string[] args)
     {
-        System.Threading.Thread.Sleep(4000);
+        var basepath = DataAcessLayer.Common.Constant.basePath;
 
-        var client = new SocketClient("127.0.0.1", 5000);
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(basepath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
 
+        var port = configuration.GetValue<int>("SocketServer:Port");
+
+        SocketClient client = new SocketClient("127.0.0.1", port);
+
+        CheckClient(client);
         ChefLogin(client);
 
         Console.WriteLine("-------------------");
@@ -46,6 +54,7 @@ class Program
             {
                 try
                 {
+                    CheckClient(client);
                     action();
                 }
                 catch (Exception ex)
@@ -57,6 +66,17 @@ class Program
             {
                 Console.WriteLine("Invalid option.");
             }
+        }
+    }
+
+    private static void CheckClient(SocketClient client)
+    {
+        if (!client.isConnected)
+        {
+            Console.WriteLine("Socket connection is abandoned. Exiting the application.");
+
+            Console.ReadLine();
+            Environment.Exit(0);
         }
     }
 
