@@ -19,6 +19,11 @@ namespace DataAcessLayer.Helpers
             {
                 var meals = _mealNameService.GetAllMeals();
 
+                var existingOption = _mealMenuService.GetAllMealMenus().Any(x => x.CreationDate == DateTime.Now.Date && x.Classification == classification);
+
+                if (existingOption)
+                    throw new Exception($"Already rolled out the menu for {classification}");
+
                 foreach (var mealName in mealNames)
                 {
                     var meal = meals.FirstOrDefault(x => x.MealName == mealName) ?? throw new Exception($"Meal '{mealName}' not found.");

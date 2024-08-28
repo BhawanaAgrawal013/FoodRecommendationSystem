@@ -7,6 +7,7 @@ namespace Server
     public class SocketClient
     {
         private TcpClient _client;
+        public bool isConnected = true;
         private NetworkStream _stream;
 
         public SocketClient(string ipAddress, int port)
@@ -37,6 +38,7 @@ namespace Server
                     }
                     else
                     {
+                        isConnected = false;
                         Console.WriteLine("Max retry attempts reached. Unable to connect to server. Please restart your system");
                         Log.Warning("Max retry attempts reached. Unable to connect to server.");
                     }

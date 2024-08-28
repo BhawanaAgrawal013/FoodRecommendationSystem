@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Configuration;
+using Serilog;
 using Server.RequestHandlers;
 using System.Net;
 using System.Net.Sockets;
@@ -13,6 +14,7 @@ public class SocketServer
     private readonly IRequestHandler<FeedbackRequestHandler> _feedbackRequestHelper;
     private readonly IRequestHandler<DiscardedMenuRequestHandler> _discardedMenuRequestHandler;
 
+    private readonly IConfiguration _configuration;
     private TcpListener? _listener;
 
     public SocketServer(IRequestHandler<MenuRequestHandler> menuRequestHandler,
@@ -20,7 +22,8 @@ public class SocketServer
                         IRequestHandler<LoginRequestHandler> loginRequestHandler, 
                         IRequestHandler<DiscardedMenuRequestHandler> discardRequestHandler, 
                         IRequestHandler<FeedbackRequestHandler> feedbackHandler,
-                        IRequestHandler<NotificationRequestHandler> notificationHandler)
+                        IRequestHandler<NotificationRequestHandler> notificationHandler,
+                        IConfiguration configuration)
     {
         _notificationHandler = notificationHandler;
         _menuRequestHandler = menuRequestHandler;
@@ -28,12 +31,14 @@ public class SocketServer
         _loginRequestHandler = loginRequestHandler;
         _feedbackRequestHelper = feedbackHandler;
         _discardedMenuRequestHandler = discardRequestHandler;
+        _configuration = configuration;
     }
 
 
     public void Start()
     {
-        _listener = new TcpListener(IPAddress.Any, 5000);
+        var port = _configuration.GetValue<int>("SocketServer:Port");
+        _listener = new TcpListener(IPAddress.Any, port);
         _listener.Start();
         Console.WriteLine("Socket server started on port 5000.");
         Log.Information("Socket server started on port 5000.");

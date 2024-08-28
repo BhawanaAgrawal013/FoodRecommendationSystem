@@ -54,6 +54,11 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Newtonsoft.Json.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Sinks.File.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\System.Diagnostics.EventLog.dll
@@ -90,8 +95,3 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\obj\Debug
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\obj\Debug\net6.0\ChefApp.pdb
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\obj\Debug\net6.0\ChefApp.genruntimeconfig.cache
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\obj\Debug\net6.0\ref\ChefApp.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Sinks.Console.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Sinks.File.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\ChefApp\bin\Debug\net6.0\Serilog.Extensions.Logging.dll

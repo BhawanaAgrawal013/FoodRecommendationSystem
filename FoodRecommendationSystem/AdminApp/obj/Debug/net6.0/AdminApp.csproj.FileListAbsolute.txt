@@ -54,6 +54,11 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debu
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Newtonsoft.Json.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Sinks.File.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\System.Diagnostics.EventLog.dll
@@ -90,8 +95,3 @@ F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\obj\Debu
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\obj\Debug\net6.0\AdminApp.pdb
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\obj\Debug\net6.0\AdminApp.genruntimeconfig.cache
 F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\obj\Debug\net6.0\ref\AdminApp.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Sinks.Console.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Sinks.File.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
-F:\Bhawana\Food Recommendation System\FoodRecommendationSystem\AdminApp\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
